@@ -1,15 +1,19 @@
+import { Route, Switch } from 'react-router-dom';
+
 import './app.css';
-import { getLists } from '../../services/menu-service.js';
-import { useEffect } from 'react';
+import { RecipesPage, BasketPage, AddNewIngredientPage, AddNewRecipePage } from '../pages'
 
-export default function App() {
 
-	useEffect(() => {
-		getLists()
-	}, [])
+const App = () => {
 
 	return (
-		<div> hello </div>
+		<Switch>
+			<Route path = '/' component = {RecipesPage} exact />
+			<Route path = '/add-new-recipe' component = {AddNewRecipePage} />
+			<Route path = '/add-new-ingredient' component = {AddNewIngredientPage} />
+			<Route path = '/basket' component = {BasketPage} />
+		</Switch>
 	);
 }
 
+export default App
