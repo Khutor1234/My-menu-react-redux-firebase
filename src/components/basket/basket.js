@@ -1,17 +1,43 @@
+import { connect } from 'react-redux';
+
 import './basket.sass';
 
-const Basket = () => {
+const Basket = ({items, onDelete}) => {
     return(
         <div className = 'basket'>
             <h2>Day 1</h2>
             <ul>
-                <li>img</li>
-                <li>title</li>
-                <li>text</li>
+                {
+                    items.map((item) => {
+                        const {title, recipeId} = item;
+                        return(
+                            <li key = {recipeId}>
+                                <div>img</div>
+                                <span>{title}</span>
+                                <button
+                                    onClick = {() => onDelete(recipeId)} ><i className="bi bi-x-circle-fill"></i></button>
+                            </li>
+                        )
+                    })    
+                }
             </ul>
-            <button><i class="bi bi-x-circle-fill"></i></button>
         </div>
     )
 }
 
-export default Basket;
+const mapStateToProps = ({cartItems}) => {
+    console.log(cartItems)
+    return{
+        items: cartItems
+    }
+}
+
+const mapDispatchToProps = () => {
+    return {
+        onDelete: (recipeId) => {
+            console.log(recipeId)
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Basket);

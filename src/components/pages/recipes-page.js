@@ -1,9 +1,14 @@
 import RecipeList from "../recipe-list";
+import Basket from "../basket";
 
 const RecipesPage = () => {
 
     return(
-        <RecipeList />
+        <div>
+            <RecipeList />
+            <Basket/>
+        </div>
+        
     )
 }
 

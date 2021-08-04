@@ -3,26 +3,39 @@ import { connect } from 'react-redux';
 
 import RecipeListItem from '../recipe-list-item';
 import { withMenuService } from '../hoc';
-import { recipesLoaded, recipesRequested, recipesError } from '../../actions';
+import { fetchRecipes, recipeAddedToCart } from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import './recipe-list.sass';
 
-class RecipeList extends Component{
+const RecipeList = ({recipes, onAddedToCart}) => {
+    return(
+        <ul className = 'recipe-list'>
+            {
+                recipes.map((recipe) => {
+                    return(
+                        <li key = {recipe.recipeId}>
+                            <RecipeListItem 
+                                recipe = {recipe} 
+                                onAddedToCart = {() => onAddedToCart(recipe.recipeId)} />
+                        </li>
+                    )
+                })
+            }
+        </ul>
+    )
+}
+
+class RecipeListContainer extends Component{
 
     componentDidMount(){
-        const { menuService, recipesLoaded, recipesRequested, recipesError } = this.props;
-        recipesRequested();
-        menuService.getLists()
-            .then((data) => recipesLoaded(data))
-            .catch((error) => recipesError(error))
-
+        this.props.fetchRecipes()
     }
 
     render(){
 
-        const {recipes, loading, error} = this.props;
+        const {recipes, loading, error, onAddedToCart} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -32,17 +45,7 @@ class RecipeList extends Component{
             return <ErrorIndicator/>
         }
 
-        return(
-            <ul className = 'recipe-list'>
-                {
-                    recipes.map((recipe) => {
-                        return(
-                            <li key = {recipe.id}><RecipeListItem recipe = {recipe} /></li>
-                        )
-                    })
-                }
-            </ul>
-        )
+        return <RecipeList recipes = {recipes} onAddedToCart = {onAddedToCart} />
     }
 }
 
@@ -54,13 +57,16 @@ const mapStateToProps = ({recipes, loading, error}) => {
     }
 }
 
-const mapDispatchToProps = {
-    recipesLoaded,
-    recipesRequested,
-    recipesError
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const {menuService} = ownProps;
+
+    return {
+        fetchRecipes: fetchRecipes(menuService, dispatch),
+        onAddedToCart: (recipeId) => dispatch(recipeAddedToCart(recipeId))
+    }
 }
 
 export default compose(
     withMenuService(),
     connect(mapStateToProps, mapDispatchToProps)
-)(RecipeList);
+)(RecipeListContainer);
