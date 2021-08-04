@@ -5,6 +5,21 @@ const recipesLoaded = (newRecipes) => {
     }
 }
 
+const recipesRequested = () => {
+    return{
+        type: 'RECIPES_REQUESTED'
+    }
+}
+
+const recipesError = (error) => {
+    return{
+        type: 'RECIPES_ERROR',
+        payload: error
+    }
+}
+
 export {
-    recipesLoaded
+    recipesLoaded,
+    recipesRequested,
+    recipesError
 }

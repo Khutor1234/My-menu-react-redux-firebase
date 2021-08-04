@@ -1,6 +1,8 @@
+import Basket from "../basket";
+
 const BasketPage = () => {
     return(
-        <div>Basket</div>
+        <Basket/>
     )
 }
 
