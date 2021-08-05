@@ -9,10 +9,35 @@ export default class MenuService {
 				const items = snapshot.docs.map(doc => ({
 					id: doc.id,
 					...doc.data()
-				}));
+				}))
+			//.catch((error) => console.log("Error getting document:", error))
 				
 				return items;
 			});        
+	}
+
+	getMenu(){
+		return db.collection('menu')
+			.get()
+			.then(snapshot => {
+				const items = snapshot.docs.map(doc => ({
+					id: doc.id,
+					...doc.data()
+				}))
+			//.catch((error) => console.log("Error getting document:", error))
+				
+				return items;
+			});
+	}
+
+	createMenu(data){
+		return db.collection("menu").add({
+				...data,
+		})
+		.catch((error) => {
+			console.error("Error adding document: ", error);
+		});
+		
 	}
 		
 }

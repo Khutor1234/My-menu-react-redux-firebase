@@ -1,6 +1,8 @@
 import './recipe-list-item.sass';
+import MenuService from '../../services/menu-service.js';
 
-const RecipeListItem = ({ recipe, onAddedToCart }) => {
+const RecipeListItem = ({ recipe }) => {
+    const db = new MenuService();
 
     const { text, title, ingrid, category } = recipe;
 
@@ -19,30 +21,23 @@ const RecipeListItem = ({ recipe, onAddedToCart }) => {
         });
     };
 
-        let element = [];
-        let id = 1;
+    let elements;
+    let id = 1;
 
-        for (let key in category) {
-            if(category[key]){
-                element.push(key);
-            };
-        };
+    if(category){
+        elements = category.map((item) => {
+            return <option key = {id++} value = {item} >{item}</option>
+        })
+    }
 
-        const elements = element.map((item) => {
-            if(item === 'breakfast'){
-                item = 'Завтрак';
-            } ;
-            if(item === 'lunch'){
-                item = 'Обед';
-            };
-            if(item === 'dinner'){
-                item = 'Ужин';
-            };
 
-            return (
-                <option key = {id++} value = {item} >{item}</option>
-            );
-        });
+    function onAddedToCart(time){
+        db.createMenu({
+            title: title,
+            id: id,
+            time: time
+        })
+    }
 
     return(
         <div className = 'recipe-item'>
@@ -62,7 +57,7 @@ const RecipeListItem = ({ recipe, onAddedToCart }) => {
                     </select>
                     <button className = "btn btn-dark" 
                         type="button"
-                        onClick = {onAddedToCart} >Добавить</button>
+                        onClick = {onAddedToCart('breakfast')}>Добавить</button>
                 </div>
             </div>
             

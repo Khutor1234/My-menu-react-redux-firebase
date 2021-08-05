@@ -2,7 +2,7 @@ const initialState = {
     recipes: [],
     loading: true,
     error: null,
-    cartItems: []
+    menu: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -35,20 +35,12 @@ const reducer = (state = initialState, action) => {
                 error: action.payload
             };
 
-        case 'RECIPE_ADDED_TO_CART':
-            const recipeId = action.payload;
-            const recipe = state.recipes.find((recipe) => recipe.id === recipeId );
-            const newItem = {
-                recipeId: recipe.recipeId,
-                title: recipe.title
-            };
-            console.log(newItem)
-            return{
+        case 'MENU_LOADED':
+            return {
                 ...state,
-                cartItems: [
-                    ...state.cartItems,
-                    newItem
-                ]
+                menu: action.payload,
+                loading: false,
+                error: null
             };
 
         default:

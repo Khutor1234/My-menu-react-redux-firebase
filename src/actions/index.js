@@ -18,6 +18,13 @@ const recipesError = (error) => {
     }
 }
 
+const menuLoaded = (newMenu) => {
+    return {
+        type: 'MENU_LOADED',
+        payload: newMenu
+    }
+}
+
 const fetchRecipes = (menuService, dispatch) => () => {
     dispatch(recipesRequested());
     menuService.getLists()
@@ -25,14 +32,14 @@ const fetchRecipes = (menuService, dispatch) => () => {
         .catch((error) => dispatch(recipesError(error)))
 }
 
-const recipeAddedToCart = (recipeId) => {
-    return{
-        type: 'RECIPE_ADDED_TO_CART',
-        payload: recipeId
-    }
+const fetchMenu = (menuService, dispatch) => () => {
+    menuService.getMenu()
+        .then((data) => dispatch(menuLoaded(data)))
 }
+
+
 
 export {
     fetchRecipes,
-    recipeAddedToCart
+    fetchMenu
 }
