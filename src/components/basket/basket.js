@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { fetchMenu } from '../../actions';
 import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
+import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator';
 
 import './basket.sass';
 
@@ -16,7 +18,15 @@ class Basket extends Component{
     
     render(){
 
-        const {items, onDelete} = this.props;
+        const {items,loading, error, onDelete} = this.props;
+
+        if(loading){
+            return <Spinner/>
+        }
+
+        if(error){
+            return <ErrorIndicator/>
+        }
 
         return(
             <div className = 'basket'>
@@ -47,9 +57,11 @@ class Basket extends Component{
     }
 }
 
-const mapStateToProps = ({menu}) => {
+const mapStateToProps = ({ basket: { menu, loading, error }}) => {
     return{
-        items: menu
+        items: menu,
+        loading, 
+        error
     }
 }
 

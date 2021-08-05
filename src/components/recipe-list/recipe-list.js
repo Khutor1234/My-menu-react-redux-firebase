@@ -50,7 +50,7 @@ class RecipeListContainer extends Component{
     }
 }
 
-const mapStateToProps = ({recipes, loading, error}) => {
+const mapStateToProps = ({ recipeList: {recipes, loading, error }}) => {
     return{
         recipes,
         loading,

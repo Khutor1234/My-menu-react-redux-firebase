@@ -25,6 +25,19 @@ const menuLoaded = (newMenu) => {
     }
 }
 
+const menuRequested = () => {
+    return{
+        type: 'MENU_REQUESTED'
+    }
+}
+
+const menuError = (error) => {
+    return{
+        type: 'MENU_ERROR',
+        payload: error
+    }
+}
+
 const fetchRecipes = (menuService, dispatch) => () => {
     dispatch(recipesRequested());
     menuService.getLists()
@@ -33,12 +46,13 @@ const fetchRecipes = (menuService, dispatch) => () => {
 }
 
 const fetchMenu = (menuService, dispatch) => () => {
+    dispatch(menuRequested())
     menuService.getMenu()
         .then((data) => dispatch(menuLoaded(data)))
+        .catch((error) => dispatch(menuError(error)))
 }
 
 const onAddedToCart = (menuService) => (recipe) =>{
-    console.log(recipe);
     menuService.createMenu(recipe)
 }
 
