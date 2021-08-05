@@ -1,6 +1,6 @@
 import './recipe-list-item.sass';
 
-const RecipeListItem = ({ recipe, onAddedToCart }) => {
+const RecipeListItem = ({ recipe, onAddedToCart, onCategoryChange}) => {
 
     const { text, title, ingrid, category } = recipe;
 
@@ -18,15 +18,8 @@ const RecipeListItem = ({ recipe, onAddedToCart }) => {
             );
         });
     };
-
-    let elements;
+    
     let id = 1;
-
-    if(category){
-        elements = category.map((item) => {
-            return <option key = {id++} value = {item} >{item}</option>
-        })
-    }
 
     return(
         <div className = 'recipe-item'>
@@ -41,8 +34,16 @@ const RecipeListItem = ({ recipe, onAddedToCart }) => {
                 </div>
                 <div className = "recipe-form">
                     <label htmlFor="form-select" className="">Прием еды</label>
-                    <select id = 'form-select' className = "form-select form-select-lg mb-3 recipe-form-select" >
-                        {elements}
+                    <select 
+                        id = 'form-select' 
+                        className = "form-select form-select-lg mb-3 recipe-form-select"
+                        onChange = {e => onCategoryChange(e)} >
+                            <option key = {0} value = '' ></option>
+                        {
+                            category.map((item) => {
+                                return <option key = {id++} value = {item} >{item}</option>
+                            })
+                        }
                     </select>
                     <button className = "btn btn-dark" 
                         type="button"

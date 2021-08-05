@@ -52,8 +52,12 @@ const fetchMenu = (menuService, dispatch) => () => {
         .catch((error) => dispatch(menuError(error)))
 }
 
-const onAddedToCart = (menuService) => (recipe) =>{
-    menuService.createMenu(recipe)
+const onAddedToCart = (menuService) => (recipe, category) =>{
+    menuService.createMenu({
+        title: recipe.title,
+        id: recipe.id,
+        category
+    })
 }
 
 

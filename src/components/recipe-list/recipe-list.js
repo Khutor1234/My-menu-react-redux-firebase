@@ -18,7 +18,7 @@ const RecipeList = ({recipes, onAddedToCart}) => {
                         <li key = {recipe.id}>
                             <RecipeListItem 
                                 recipe = {recipe}
-                                onAddedToCart={() => onAddedToCart(recipe)} />
+                                onAddedToCart={() => onAddedToCart(recipe)}/>
                         </li>
                     )
                 })
@@ -33,6 +33,10 @@ class RecipeListContainer extends Component{
         this.props.fetchRecipes()
     }
 
+    
+    onCategoryChange = (e) => {
+        console.log(e.target.value)
+    }
 
     render(){
 
@@ -46,7 +50,26 @@ class RecipeListContainer extends Component{
             return <ErrorIndicator/>
         }
 
-        return <RecipeList recipes = {recipes} onAddedToCart={onAddedToCart} />
+        // return <RecipeList 
+        //     recipes = {recipes} 
+        //     onAddedToCart={onAddedToCart}  />
+
+        return(
+            <ul className = 'recipe-list'>
+                {
+                    recipes.map((recipe) => {
+                        return(
+                            <li key = {recipe.id}>
+                                <RecipeListItem 
+                                    recipe = {recipe}
+                                    onAddedToCart={() => onAddedToCart(recipe)}
+                                    onCategoryChange = {(e) => this.onCategoryChange(e)} />
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        )
     }
 }
 
@@ -63,7 +86,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchRecipes: fetchRecipes(menuService, dispatch),
-        onAddedToCart: (recipe) => onAddedToCart(menuService)(recipe)
+        onAddedToCart: (recipe) => onAddedToCart(menuService)(recipe, 'jj')
     }
 }
 
