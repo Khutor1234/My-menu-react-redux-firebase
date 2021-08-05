@@ -37,9 +37,14 @@ const fetchMenu = (menuService, dispatch) => () => {
         .then((data) => dispatch(menuLoaded(data)))
 }
 
+const onAddedToCart = (menuService) => (recipe) =>{
+    console.log(recipe);
+    menuService.createMenu(recipe)
+}
 
 
 export {
     fetchRecipes,
-    fetchMenu
+    fetchMenu,
+    onAddedToCart
 }

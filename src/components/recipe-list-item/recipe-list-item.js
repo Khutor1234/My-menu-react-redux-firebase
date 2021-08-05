@@ -1,8 +1,6 @@
 import './recipe-list-item.sass';
-import MenuService from '../../services/menu-service.js';
 
-const RecipeListItem = ({ recipe }) => {
-    const db = new MenuService();
+const RecipeListItem = ({ recipe, onAddedToCart }) => {
 
     const { text, title, ingrid, category } = recipe;
 
@@ -30,15 +28,6 @@ const RecipeListItem = ({ recipe }) => {
         })
     }
 
-
-    function onAddedToCart(time){
-        db.createMenu({
-            title: title,
-            id: id,
-            time: time
-        })
-    }
-
     return(
         <div className = 'recipe-item'>
             <div className="card border-primary mb-3">
@@ -57,7 +46,7 @@ const RecipeListItem = ({ recipe }) => {
                     </select>
                     <button className = "btn btn-dark" 
                         type="button"
-                        onClick = {onAddedToCart('breakfast')}>Добавить</button>
+                        onClick = {onAddedToCart}>Добавить</button>
                 </div>
             </div>
             

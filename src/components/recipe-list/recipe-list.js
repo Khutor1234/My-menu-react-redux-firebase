@@ -3,21 +3,22 @@ import { connect } from 'react-redux';
 
 import RecipeListItem from '../recipe-list-item';
 import { withMenuService } from '../hoc';
-import { fetchRecipes} from '../../actions';
+import { fetchRecipes, onAddedToCart} from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import './recipe-list.sass';
 
-const RecipeList = ({recipes}) => {
+const RecipeList = ({recipes, onAddedToCart}) => {
     return(
         <ul className = 'recipe-list'>
             {
                 recipes.map((recipe) => {
                     return(
-                        <li key = {recipe.recipeId}>
+                        <li key = {recipe.id}>
                             <RecipeListItem 
-                                recipe = {recipe} />
+                                recipe = {recipe}
+                                onAddedToCart={() => onAddedToCart(recipe)} />
                         </li>
                     )
                 })
@@ -32,9 +33,10 @@ class RecipeListContainer extends Component{
         this.props.fetchRecipes()
     }
 
+
     render(){
 
-        const {recipes, loading, error} = this.props;
+        const {recipes, loading, error, onAddedToCart} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -44,7 +46,7 @@ class RecipeListContainer extends Component{
             return <ErrorIndicator/>
         }
 
-        return <RecipeList recipes = {recipes} />
+        return <RecipeList recipes = {recipes} onAddedToCart={onAddedToCart} />
     }
 }
 
@@ -61,6 +63,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchRecipes: fetchRecipes(menuService, dispatch),
+        onAddedToCart: (recipe) => onAddedToCart(menuService)(recipe)
     }
 }
 
