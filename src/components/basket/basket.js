@@ -1,4 +1,3 @@
-
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchMenu } from '../../actions';
@@ -6,6 +5,7 @@ import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
+import { deleteRecipe } from '../../actions';
 
 import './basket.sass';
 
@@ -18,7 +18,7 @@ class Basket extends Component{
     
     render(){
 
-        const {items,loading, error, onDelete} = this.props;
+        const {menu,loading, error, onDelete} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -39,17 +39,19 @@ class Basket extends Component{
                 <h2>Day 7</h2>
                 <ul>
                     {
-                        items.map((item) => {
+                        menu.map((item) => {
                             const {title, id} = item;
                             return(
                                 <li key = {id}>
                                     <div>img</div>
                                     <span>{title}</span>
                                     <button
-                                        onClick = {() => onDelete(id)} ><i className="bi bi-x-circle-fill"></i></button>
+                                        onClick = {() => onDelete(id)} >
+                                            <i className="bi bi-x-circle-fill"></i>
+                                    </button>
                                 </li>
                             )
-                        })    
+                        })  
                     }
                 </ul>
             </div>
@@ -59,7 +61,7 @@ class Basket extends Component{
 
 const mapStateToProps = ({ basket: { menu, loading, error }}) => {
     return{
-        items: menu,
+        menu,
         loading, 
         error
     }
@@ -70,9 +72,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchMenu: fetchMenu(menuService, dispatch),
-        onDelete: (recipeId) => {
-            console.log(recipeId)
-        }
+        onDelete: (id) => deleteRecipe(menuService, dispatch)(id)
     }
 }
 

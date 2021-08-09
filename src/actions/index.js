@@ -38,6 +38,25 @@ const menuError = (error) => {
     }
 }
 
+const recipesDeleteFromMenu  = (recipeId) => {
+    return{
+        type: 'RECIPES_DELETE_FROM_MENU',
+        payload: recipeId
+    }
+}
+
+const deleteRecipe = (menuService, dispatch) => (recipeId) => {
+    menuService.deleteRecipe(recipeId)
+        .then((recipeId) => dispatch(recipesDeleteFromMenu(recipeId)));
+}
+
+const onAddedToCart = (menuService) => (recipe, category) =>{
+    menuService.createMenu({
+        title: recipe.title,
+        category
+    })
+}
+
 const fetchRecipes = (menuService, dispatch) => () => {
     dispatch(recipesRequested());
     menuService.getLists()
@@ -52,17 +71,12 @@ const fetchMenu = (menuService, dispatch) => () => {
         .catch((error) => dispatch(menuError(error)))
 }
 
-const onAddedToCart = (menuService) => (recipe, category) =>{
-    menuService.createMenu({
-        title: recipe.title,
-        id: recipe.id,
-        category
-    })
-}
+
 
 
 export {
     fetchRecipes,
     fetchMenu,
-    onAddedToCart
+    onAddedToCart,
+    deleteRecipe
 }

@@ -86,7 +86,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchRecipes: fetchRecipes(menuService, dispatch),
-        onAddedToCart: (recipe) => onAddedToCart(menuService)(recipe, 'jj')
+        onAddedToCart: (recipe) => onAddedToCart(menuService)(recipe,'fff')
     }
 }
 

@@ -20,18 +20,36 @@ const updateBasket = (state, action) => {
             
         case 'MENU_REQUESTED':
             return{
-                recipes: [],
+                menu: [],
                 loading: true,
                 error: null
             };
 
         case 'MENU_ERROR':
             return {
-                recipes: [],
+                menu: [],
                 loading: false,
                 error: action.payload
             };
-
+        
+        case 'RECIPES_ADDED_TO_MENU':
+            return{
+                ...state.basket,
+                menu: [...state.basket.menu, action.payload]
+            }
+    
+        
+        case 'RECIPES_DELETE_FROM_MENU':
+            const idx = action.payload;
+            const itemIndex = state.basket.menu.findIndex(item => item.id === idx)
+            return {
+                ...state.basket,
+                menu: [
+                    ...state.basket.menu.slice(0, itemIndex),
+                    ...state.basket.menu.slice(itemIndex + 1)
+                ]
+            }
+        
         default:
             return state.basket
     } 

@@ -31,13 +31,35 @@ export default class MenuService {
 	}
 
 	createMenu(data){
-		return db.collection("menu").add({
+		return db.collection("menu")
+			.add({
 				...data,
-		})
+			})
+			.then(docRef => docRef.get())
+			.then(doc => ({
+				id: doc.id,
+				...doc.data()
+			}))
 		.catch((error) => {
 			console.error("Error adding document: ", error);
 		});
 		
+	}
+
+	updateMenu(todoId, data) {
+		return db.collection('todos').doc(todoId).update(data)
+		.then(() => ({
+			id: todoId,
+			...data
+		}));
+	}
+
+	deleteRecipe(recipeId) {
+		return db.collection('menu').doc(recipeId).delete()
+			.then(() => recipeId)
+			.catch((error) => {
+				console.error("Error adding document: ", error);
+			});
 	}
 		
 }
