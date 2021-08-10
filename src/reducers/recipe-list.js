@@ -1,4 +1,5 @@
 const updateRecipeList = (state, action) => {
+    const {type, payload} = action;
 
     if (state === undefined) {
         return {
@@ -6,9 +7,11 @@ const updateRecipeList = (state, action) => {
           loading: true,
           error: null
         };
-      }
+    }
 
-    switch(action.type){
+    console.log(state);
+
+    switch(type){
         case 'RECIPES_REQUESTED':
             return{
                 recipes: [],
@@ -17,8 +20,14 @@ const updateRecipeList = (state, action) => {
             };
 
         case 'RECIPES_LOADED':
+            const itemsRecipesLoaded = payload.map(item => {
+                return{
+                    ...item,
+                    img: true
+                }
+            })
             return {
-                recipes: action.payload,
+                recipes: itemsRecipesLoaded,
                 loading: false,
                 error: null
             };
@@ -27,8 +36,31 @@ const updateRecipeList = (state, action) => {
             return {
                 recipes: [],
                 loading: false,
-                error: action.payload
+                error: payload
             };
+
+        case 'CHANGE_IMG':
+            const itemsChangeImg = state.recipeList.recipes.map(item => {
+                if(item.id === payload && !item.img){
+                    return{ 
+                        ...item,
+                        img: true
+                    }
+                }
+                if(item.id === payload && item.img){
+                    return{ 
+                        ...item,
+                        img: false
+                    }
+                }
+                return item
+            });
+            return {
+                ...state.recipeList,
+                recipes: itemsChangeImg
+              };
+            
+            
 
         default:
             return state.recipeList;

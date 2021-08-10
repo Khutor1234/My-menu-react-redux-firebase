@@ -1,11 +1,10 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMenu } from '../../actions';
+import { fetchMenu, onDeleteRecipe } from '../../actions';
 import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
-import { deleteRecipe } from '../../actions';
 
 import './basket.sass';
 
@@ -72,7 +71,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchMenu: fetchMenu(menuService, dispatch),
-        onDelete: (id) => deleteRecipe(menuService, dispatch)(id)
+        onDelete: (id) =>  onDeleteRecipe(menuService, dispatch)(id)
     }
 }
 

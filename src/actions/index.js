@@ -45,15 +45,22 @@ const recipesDeleteFromMenu  = (recipeId) => {
     }
 }
 
-const deleteRecipe = (menuService, dispatch) => (recipeId) => {
+const changeImg = (recipeId) => {
+    return{
+        type: 'CHANGE_IMG',
+        payload: recipeId
+    }
+}
+
+const onDeleteRecipe = (menuService, dispatch) => (recipeId) => {
     menuService.deleteRecipe(recipeId)
         .then((recipeId) => dispatch(recipesDeleteFromMenu(recipeId)));
 }
 
-const onAddedToCart = (menuService) => (recipe, category) =>{
+const onAddedToMenu = (menuService) => (recipe, category) =>{
     menuService.createMenu({
         title: recipe.title,
-        category
+        category: category
     })
 }
 
@@ -71,12 +78,10 @@ const fetchMenu = (menuService, dispatch) => () => {
         .catch((error) => dispatch(menuError(error)))
 }
 
-
-
-
 export {
     fetchRecipes,
     fetchMenu,
-    onAddedToCart,
-    deleteRecipe
+    onAddedToMenu,
+    onDeleteRecipe,
+    changeImg
 }

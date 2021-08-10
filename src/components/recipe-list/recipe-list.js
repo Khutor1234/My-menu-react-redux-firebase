@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import RecipeListItem from '../recipe-list-item';
 import { withMenuService } from '../hoc';
-import { fetchRecipes, onAddedToCart} from '../../actions';
+import { fetchRecipes, onAddedToMenu, changeImg} from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import './recipe-list.sass';
 
-const RecipeList = ({recipes, onAddedToCart}) => {
+const RecipeList = ({recipes, onAddedToMenu}) => {
     return(
         <ul className = 'recipe-list'>
             {
@@ -18,7 +18,7 @@ const RecipeList = ({recipes, onAddedToCart}) => {
                         <li key = {recipe.id}>
                             <RecipeListItem 
                                 recipe = {recipe}
-                                onAddedToCart={() => onAddedToCart(recipe)}/>
+                                onAddedToMenu={() => onAddedToMenu(recipe)}/>
                         </li>
                     )
                 })
@@ -40,7 +40,7 @@ class RecipeListContainer extends Component{
 
     render(){
 
-        const {recipes, loading, error, onAddedToCart} = this.props;
+        const {recipes, loading, error, onAddedToMenu, onChangeImg} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -62,7 +62,8 @@ class RecipeListContainer extends Component{
                             <li key = {recipe.id}>
                                 <RecipeListItem 
                                     recipe = {recipe}
-                                    onAddedToCart={() => onAddedToCart(recipe)}
+                                    onAddedToMenu={() => onAddedToMenu(recipe)}
+                                    onChangeImg = {() => onChangeImg(recipe.id)}
                                     onCategoryChange = {(e) => this.onCategoryChange(e)} />
                             </li>
                         )
@@ -85,8 +86,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     const {menuService} = ownProps;
 
     return {
+        onChangeImg: (id) => dispatch(changeImg(id)) ,
         fetchRecipes: fetchRecipes(menuService, dispatch),
-        onAddedToCart: (recipe) => onAddedToCart(menuService)(recipe,'fff')
+        onAddedToMenu: (recipe) => onAddedToMenu(menuService)(recipe,'fff'),
     }
 }
 

@@ -1,8 +1,8 @@
 import './recipe-list-item.sass';
 
-const RecipeListItem = ({ recipe, onAddedToCart, onCategoryChange}) => {
+const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg}) => {
 
-    const { text, title, ingrid, category } = recipe;
+    const { text, title, ingrid, category, img } = recipe;
 
     let ingridients;
         
@@ -21,13 +21,27 @@ const RecipeListItem = ({ recipe, onAddedToCart, onCategoryChange}) => {
     
     let id = 1;
 
+    let categoryItem;
+
+    if(category){
+        categoryItem =  category.map((item) => {
+            return <option key = {id++} value = {item} >{item}</option>
+        })
+    }
+
+    const recipeCover = img ? <p className="card-text">img</p> :
+        <p className="card-text">{text}</p>
+
+
     return(
         <div className = 'recipe-item'>
             <div className="card border-primary mb-3">
-                <div className = 'recipe-cover'></div>
+                <div className = 'recipe-cover'
+                    onClick = {onChangeImg} >
+                        {recipeCover}
+                </div>
                     <div className="card-header">{title}</div>
                     <div className="card-body">
-                        <p className="card-text">{text}</p>
                         <ul className = "list-group list-group-flush recipe-ingredients">
                             {ingridients}
                         </ul>
@@ -40,14 +54,13 @@ const RecipeListItem = ({ recipe, onAddedToCart, onCategoryChange}) => {
                         onChange = {e => onCategoryChange(e)} >
                             <option key = {0} value = '' ></option>
                         {
-                            category.map((item) => {
-                                return <option key = {id++} value = {item} >{item}</option>
-                            })
+                           categoryItem
                         }
                     </select>
-                    <button className = "btn btn-dark" 
+                    <button 
+                        className = "btn btn-dark" 
                         type="button"
-                        onClick = {onAddedToCart}>Добавить</button>
+                        onClick = {onAddedToMenu}>Добавить</button>
                 </div>
             </div>
             
