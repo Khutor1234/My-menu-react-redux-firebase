@@ -11,21 +11,21 @@ const updateBasket = (state, action) => {
 
     switch(action.type){
 
-        case 'MENU_LOADED':
+        case 'LOADED':
             return {
                 menu: action.payload,
                 loading: false,
                 error: null
             };
             
-        case 'MENU_REQUESTED':
+        case 'REQUESTED':
             return{
                 menu: [],
                 loading: true,
                 error: null
             };
 
-        case 'MENU_ERROR':
+        case 'ERROR':
             return {
                 menu: [],
                 loading: false,

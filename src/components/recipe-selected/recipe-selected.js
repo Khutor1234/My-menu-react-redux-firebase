@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
-import {selectCategory} from '../../actions';
+import { compose } from '../../utils';
+import { withMenuService } from '../hoc';
+import {selectCategory, fetchRecipes} from '../../actions';
 
 import { Container, Button, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 
 const useStyles = makeStyles((theme) => ({
     recipeSelected: {
@@ -14,23 +15,27 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const RecipeSelected = ({selectCategory}) => {
+const RecipeSelected = ({selectCategory, fetchRecipes}) => {
     const classes = useStyles();
-
+    
     return(
         <Container maxWidth='sm' className={classes.recipeSelected}>
             <Grid container justifyContent='center' spacing={4}>
                 <Grid item >
-                    <Button color="inherit" variant='outlined' className={classes.button} onClick = {() => selectCategory('')}>Все рeцепты</Button>
+                    <Button color="inherit" variant='outlined' className={classes.button}
+                        onClick = {() =>fetchRecipes()}>Все рецепты</Button>
                 </Grid>
                 <Grid item >
-                    <Button color="inherit" variant='outlined' className={classes.button} onClick = {() =>selectCategory('Завтрак')}>Завтраки</Button>
+                    <Button color="inherit" variant='outlined' className={classes.button} 
+                        onClick = {() =>selectCategory('Завтрак')}>Завтраки</Button>
                 </Grid>
                 <Grid item >
-                    <Button color="inherit" variant='outlined' className={classes.button} onClick = {() =>selectCategory('Обед')}>Обеды</Button>
+                    <Button color="inherit" variant='outlined' className={classes.button} 
+                        onClick = {() =>selectCategory('Обед')}>Обеды</Button>
                 </Grid>
                 <Grid item >
-                    <Button color="inherit"  variant='outlined' className={classes.button} onClick = {() =>selectCategory('Ужин')}>Ужины</Button>
+                    <Button color="inherit"  variant='outlined' className={classes.button} 
+                        onClick = {() =>selectCategory('Ужин')}>Ужины</Button>
                 </Grid>
             </Grid>
         </Container>
@@ -45,10 +50,16 @@ const mapStateToProps = ({ recipeList: {recipes, loading, error }}) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const {menuService} = ownProps;
+
     return {
-        selectCategory: (category) => dispatch(selectCategory(category)),
+        fetchRecipes: fetchRecipes(menuService, dispatch),
+        selectCategory: (category) => selectCategory(menuService, dispatch)(category),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeSelected);
+export default compose(
+    withMenuService(),
+    connect(mapStateToProps, mapDispatchToProps)
+)(RecipeSelected );

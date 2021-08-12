@@ -2,32 +2,31 @@ import { db } from "./firebase";
 
 export default class MenuService {
 
-	getRecipes() {
-		return db.collection('recipes')
+	getLists(list) {
+		return db.collection(list)
 			.get()
 			.then(snapshot => {
 				const items = snapshot.docs.map(doc => ({
 					id: doc.id,
 					...doc.data()
-				}))
-			//.catch((error) => console.log("Error getting document:", error))
-				
+				}))	
 				return items;
-			});        
+			})
+			.catch((error) => console.log("Error getting document:", error))
 	}
 
-	getMenu(){
-		return db.collection('menu')
+	getListRecipes(category) {
+		return db.collection('recipes')
+			.where('category', '==', category)
 			.get()
 			.then(snapshot => {
 				const items = snapshot.docs.map(doc => ({
 					id: doc.id,
 					...doc.data()
-				}))
-			//.catch((error) => console.log("Error getting document:", error))
-				
+				}));
 				return items;
-			});
+			})
+			.catch((error) => console.log("Error getting document:", error))       
 	}
 
 	createMenu(data){
@@ -40,18 +39,8 @@ export default class MenuService {
 				id: doc.id,
 				...doc.data()
 			}))
-		.catch((error) => {
-			console.error("Error adding document: ", error);
-		});
-		
-	}
-
-	updateMenu(todoId, data) {
-		return db.collection('todos').doc(todoId).update(data)
-		.then(() => ({
-			id: todoId,
-			...data
-		}));
+			.catch((error) => {console.error("Error adding document: ", error)
+	});
 	}
 
 	deleteRecipe(recipeId) {

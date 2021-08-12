@@ -1,4 +1,8 @@
-import {Card, CardMedia, CardContent, CardActions,FormControl,InputLabel,Typography,Select,Button} from '@material-ui/core';
+import {Card, CardMedia, CardContent, CardActions,
+    FormControl, InputLabel, Typography, Select, Button,
+    ButtonGroup, List, ListItem, ListItemText} from '@material-ui/core';
+
+    import CheckIcon from '@material-ui/icons/Check';
 
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,50 +21,71 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         height: '50px'
     },
+    recipeText:{
+        minHeight: 225,
+        padding: 10
+    },
+    recipeButtons:{
+        backgroundColor: '#000',
+        color: '#fff',
+        borderRadius: '0%'
+    },
+    button:{
+        color: '#fff'
+    }, 
+    ingridList: {
+        minHeight: 234,
+    },
+    recipeItem:{
+        padding: '0 20px',
+        backgroundColor: 'rgda(0,0,0,.9)'
+    }
   }));
 
-const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg}) => {
+const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg, onChangeIngrid, onChangeRecipe}) => {
 
     const classes = useStyles();
-    const { text, title, ingrid, category, img } = recipe;
+    const { text, title, ingrid, showImg, showIngrid, showRecipe } = recipe;
 
-    let ingridients;
-        
-    if(ingrid) {
-        ingridients = ingrid.map((item) => {
-            const {name, weight, id} = item;
+    const recipeImg = showImg ? 
+    <CardMedia 
+        component='img'
+        height='250'
+        image='https://media.istockphoto.com/photos/stack-of-milk-and-dark-chocolate-with-nuts-caramel-and-fruits-and-on-picture-id965487714?k=6&m=965487714&s=612x612&w=0&h=v8epNbu2l-kk4GjK-Wzfjzx-Ui3MlOkw4w7dtrN_lL8='
+        alt='Фото рецепта' /> : null;
 
-            return (
-                <li key = {id}>
-                  	<div>{name}</div> 
-                  	<span>{weight} г</span>
-                </li>
-            );
-        });
-    };
+    const  recipeText = showRecipe ?
+    <Typography className={classes.recipeText} variant="body2" gutterBottom>{text}</Typography> : null;
+
+    const recipeIngrig = showIngrid ?
+    <List className={classes.ingridList}>
+        {
+            ingrid.map((item) => {
+                const {name, weight, id} = item;
     
-    let id = 1;
-
-    let categoryItem;
-
-    if(category){
-        categoryItem =  category.map((item) => {
-            return <option key = {id++} value = {item} >{item}</option>
-        })
-    }
-
-    const recipeCover = img ? <p className="card-text">img</p> :
-        <p className="card-text">{text}</p>
-
+                return (
+                        <ListItem key = {id} className={classes.recipeItem}>
+                            <CheckIcon/>
+                            <ListItemText
+                            primary={name}></ListItemText>
+                            <Typography>{weight}г.</Typography>
+                        </ListItem>
+                );
+            })
+        }
+    </List> : null
 
     return(
         <div>
             <Card >
-                <CardMedia 
-                    component='img'
-                    height='250'
-                    image='https://media.istockphoto.com/photos/stack-of-milk-and-dark-chocolate-with-nuts-caramel-and-fruits-and-on-picture-id965487714?k=6&m=965487714&s=612x612&w=0&h=v8epNbu2l-kk4GjK-Wzfjzx-Ui3MlOkw4w7dtrN_lL8='
-                    alt='Фото рецепта' />
+                {recipeImg}
+                {recipeText}
+                {recipeIngrig}
+                <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
+                    <Button className={classes.button} onClick = {onChangeIngrid}>Ингридиенты</Button>
+                    <Button className={classes.button}  onClick = {onChangeRecipe}>Рецепт</Button>
+                    <Button className={classes.button} onClick = {onChangeImg}>Фото</Button>
+                </ButtonGroup>
                 <CardContent>
                     <Typography variant='h5'>{title}</Typography>
                 </CardContent>
@@ -76,9 +101,9 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg})
                                 id: 'outlined-age-native-simple',
                             }} >
                                 <option aria-label="None" value="" />
-                                    {
-                                        categoryItem
-                                    }
+                                <option value="Завтрак">Завтрак</option>
+                                <option value="Обед" >Обед</option>
+                                <option value="Ужин" >Ужин</option>
                         </Select>
                     </FormControl>
                     <Button 
@@ -88,39 +113,6 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg})
                         onClick = {onAddedToMenu}>Добавить</Button>
                 </CardActions>
             </Card>
-
-
-            {/* <div className = 'recipe-item'>
-            <div className="card border-primary mb-3">
-                <div className = 'recipe-cover'
-                    onClick = {onChangeImg} >
-                        {recipeCover}
-                </div>
-                    <div className="card-header">{title}</div>
-                    <div className="card-body">
-                        <ul className = "list-group list-group-flush recipe-ingredients">
-                            {ingridients}
-                        </ul>
-                </div>
-                <div className = "recipe-form">
-                    <label htmlFor="form-select" className="">Прием еды</label>
-                    <select 
-                        id = 'form-select' 
-                        className = "form-select form-select-lg mb-3 recipe-form-select"
-                        onChange = {e => onCategoryChange(e)} >
-                            <option key = {0} value = '' ></option>
-                        {
-                           categoryItem
-                        }
-                    </select>
-                    <button 
-                        className = "btn btn-dark" 
-                        type="button"
-                        onClick = {onAddedToMenu}>Добавить</button>
-                </div>
-            </div>
-            
-        </div> */}
         </div>
         
     )

@@ -10,18 +10,20 @@ const updateRecipeList = (state, action) => {
     }
 
     switch(type){
-        case 'RECIPES_REQUESTED':
+        case 'REQUESTED':
             return{
                 recipes: [],
                 loading: true,
                 error: null
             };
 
-        case 'RECIPES_LOADED':
+        case 'LOADED':
             const itemsRecipesLoaded = payload.map(item => {
                 return{
                     ...item,
-                    img: true
+                    showImg: true,
+                    showIngrid: false,
+                    showRecipe: false
                 }
             })
             return {
@@ -30,36 +32,21 @@ const updateRecipeList = (state, action) => {
                 error: null
             };
 
-        case 'RECIPES_ERROR':
+        case 'ERROR':
             return {
                 recipes: [],
                 loading: false,
                 error: payload
             };
 
-        case 'SELECT_CATEGORY':
-            let itemsSelected = state.recipeList.recipes.filter(recipe => {
-                return recipe.category.indexOf( payload ) !== -1
-            });
-            return {
-                ...state.recipeList,
-                recipes: itemsSelected
-            };
-            
-            
-
         case 'CHANGE_IMG':
             const itemsChangeImg = state.recipeList.recipes.map(item => {
-                if(item.id === payload && !item.img){
+                if(item.id === payload){
                     return{ 
                         ...item,
-                        img: true
-                    }
-                }
-                if(item.id === payload && item.img){
-                    return{ 
-                        ...item,
-                        img: false
+                        showImg: true,
+                        showIngrid: false,
+                        showRecipe: false
                     }
                 }
                 return item
@@ -69,7 +56,39 @@ const updateRecipeList = (state, action) => {
                 recipes: itemsChangeImg
               };
             
-            
+        case 'CHANGE_INGRID':
+            const itemsChangeIngrid = state.recipeList.recipes.map(item => {
+                if(item.id === payload){
+                    return{ 
+                        ...item,
+                        showImg: false,
+                        showIngrid: true,
+                        showRecipe: false
+                    }
+                }
+                return item
+            });
+            return {
+                ...state.recipeList,
+                recipes: itemsChangeIngrid
+                };
+
+        case 'CHANGE_RECIPE':
+            const itemsChangeRecipe = state.recipeList.recipes.map(item => {
+                if(item.id === payload){
+                    return{ 
+                        ...item,
+                        showImg: false,
+                        showIngrid: false,
+                        showRecipe: true
+                    }
+                }
+                return item
+            });
+            return {
+                ...state.recipeList,
+                recipes: itemsChangeRecipe
+                };
 
         default:
             return state.recipeList;

@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     	color: '#fff',
 		display: 'flex',
 		justifyContent: 'center',
-		height: '100%'
+		height: '1080px'
     },
 }));
 

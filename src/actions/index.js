@@ -1,39 +1,19 @@
-const recipesLoaded = (newRecipes) => {
+const fetchLoaded = (items) => {
     return {
-        type: 'RECIPES_LOADED',
-        payload: newRecipes
+        type: 'LOADED',
+        payload: items
     }
 }
 
-const recipesRequested = () => {
+const fetchRequested = () => {
     return{
-        type: 'RECIPES_REQUESTED'
+        type: 'REQUESTED'
     }
 }
 
-const recipesError = (error) => {
+const fetchError = (error) => {
     return{
-        type: 'RECIPES_ERROR',
-        payload: error
-    }
-}
-
-const menuLoaded = (newMenu) => {
-    return {
-        type: 'MENU_LOADED',
-        payload: newMenu
-    }
-}
-
-const menuRequested = () => {
-    return{
-        type: 'MENU_REQUESTED'
-    }
-}
-
-const menuError = (error) => {
-    return{
-        type: 'MENU_ERROR',
+        type: 'ERROR',
         payload: error
     }
 }
@@ -52,11 +32,22 @@ const changeImg = (recipeId) => {
     }
 }
 
-const selectCategory = (category) => {
+const changeIngrid = (recipeId) => {
     return{
-        type: 'SELECT_CATEGORY',
-        payload: category
+        type: 'CHANGE_INGRID',
+        payload: recipeId
     }
+}
+
+const changeRecipe = (recipeId) => {
+    return{
+        type: 'CHANGE_RECIPE',
+        payload: recipeId
+    }
+}
+
+const onCategoryChange = (e) => {
+    return e
 }
 
 const onDeleteRecipe = (menuService, dispatch) => (recipeId) => {
@@ -71,19 +62,27 @@ const onAddedToMenu = (menuService) => (recipe, category) =>{
     })
 }
 
+
+
 const fetchRecipes = (menuService, dispatch) => () => {
-    dispatch(recipesRequested());
-    menuService.getRecipes()
-        .then((data) => dispatch(recipesLoaded(data)))
-        .catch((error) => dispatch(recipesError(error)))
+    dispatch(fetchRequested());
+    menuService.getLists('recipes')
+        .then((data) => dispatch(fetchLoaded(data)))
+        .catch((error) => dispatch(fetchError(error)))
 }
 
-
 const fetchMenu = (menuService, dispatch) => () => {
-    dispatch(menuRequested())
-    menuService.getMenu()
-        .then((data) => dispatch(menuLoaded(data)))
-        .catch((error) => dispatch(menuError(error)))
+    dispatch(fetchRequested())
+    menuService.getLists('menu')
+        .then((data) => dispatch(fetchLoaded(data)))
+        .catch((error) => dispatch(fetchLoaded(error)))
+}
+
+const selectCategory = (menuService, dispatch) => (category) => {
+    dispatch(fetchRequested())
+    menuService.getListRecipes(category)
+        .then((data) => dispatch(fetchLoaded(data)))
+        .catch((error) => dispatch(fetchError(error)))
 }
 
 
@@ -93,5 +92,8 @@ export {
     onAddedToMenu,
     onDeleteRecipe,
     changeImg,
-    selectCategory
+    selectCategory,
+    changeRecipe,
+    changeIngrid,
+    onCategoryChange
 }

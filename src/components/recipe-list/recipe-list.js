@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import RecipeListItem from '../recipe-list-item';
 import { withMenuService } from '../hoc';
-import { fetchRecipes, onAddedToMenu, changeImg} from '../../actions';
+import { fetchRecipes, onAddedToMenu, changeImg, changeIngrid, changeRecipe, onCategoryChange} from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const RecipeList = ({recipes, onAddedToMenu, onChangeImg, onCategoryChange}) => {
+const RecipeList = ({recipes, onAddedToMenu, onChangeImg, onCategoryChange, onChangeIngrid, onChangeRecipe}) => {
     const classes = useStyles();
 
     return(
@@ -30,8 +30,10 @@ const RecipeList = ({recipes, onAddedToMenu, onChangeImg, onCategoryChange}) => 
                             <Grid item key = {recipe.id} xs={12} sm={6} md={4} className={classes.recipeItem}>
                                 <RecipeListItem 
                                     recipe = {recipe}
-                                    onAddedToMenu={() => onAddedToMenu(recipe)}
+                                    onChangeIngrid = {() => onChangeIngrid(recipe.id)}
+                                    onChangeRecipe = {() => onChangeRecipe(recipe.id)}
                                     onChangeImg = {() => onChangeImg(recipe.id)}
+                                    onAddedToMenu={() => onAddedToMenu(recipe)}
                                     onCategoryChange = {(e) => onCategoryChange(e)} />
                             </Grid>
                         )
@@ -48,14 +50,10 @@ class RecipeListContainer extends Component{
         this.props.fetchRecipes()
     }
 
-    
-    onCategoryChange = (e) => {
-        console.log(e.target.value)
-    }
 
     render(){
         
-        const {recipes, loading, error, onAddedToMenu, onChangeImg} = this.props;
+        const {recipes, loading, error, onAddedToMenu, onChangeImg, onChangeIngrid, onChangeRecipe, onCategoryChange} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -69,7 +67,9 @@ class RecipeListContainer extends Component{
             recipes = {recipes} 
             onAddedToMenu={onAddedToMenu}  
             onChangeImg = {onChangeImg} 
-            onCategoryChange = {this.onCategoryChange}/>
+            onChangeIngrid = {onChangeIngrid}
+            onChangeRecipe = {onChangeRecipe}
+            onCategoryChange = {onCategoryChange}/>
 
     }
 }
@@ -86,8 +86,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     const {menuService} = ownProps;
 
     return {
+        onChangeIngrid: (id) => dispatch(changeIngrid(id)), 
+        onChangeRecipe: (id) => dispatch(changeRecipe(id)),
         onChangeImg: (id) => dispatch(changeImg(id)) ,
         fetchRecipes: fetchRecipes(menuService, dispatch),
+        onCategoryChange: (e) => onCategoryChange(e.target.value),
         onAddedToMenu: (recipe) => onAddedToMenu(menuService)(recipe,'Завтрак'),
     }
 }
