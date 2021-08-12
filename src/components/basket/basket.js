@@ -5,8 +5,9 @@ import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
+import { Container, Grid} from '@material-ui/core';
+import BasketItem from '../basket-item';
 
-import './basket.sass';
 
 class Basket extends Component{
 
@@ -18,9 +19,14 @@ class Basket extends Component{
     render(){
 
         const {menu,loading, error, onDelete} = this.props;
+        const day = [0, 1, 2, 3, 4, 5, 6];
 
         if(loading){
-            return <Spinner/>
+            return (
+                <div style = {{paddingTop: 110}}>
+                    <Spinner/>
+                </div>
+            )
         }
 
         if(error){
@@ -28,32 +34,25 @@ class Basket extends Component{
         }
 
         return(
-            <div className = 'basket'>
-                <h2>Day 1</h2>
-                <h2>Day 2</h2>
-                <h2>Day 3</h2>
-                <h2>Day 4</h2>
-                <h2>Day 5</h2>
-                <h2>Day 6</h2>
-                <h2>Day 7</h2>
-                <ul>
-                    {
-                        menu.map((item) => {
-                            const {title, id} = item;
-                            return(
-                                <li key = {id}>
-                                    <div>img</div>
-                                    <span>{title}</span>
-                                    <button
-                                        onClick = {() => onDelete(id)} >
-                                            <i className="bi bi-x-circle-fill"></i>
-                                    </button>
-                                </li>
-                            )
-                        })  
-                    }
-                </ul>
-            </div>
+            <Container>
+                <Grid container style = {{marginTop: 50}} justifyContent='center'>
+                    <Grid item>
+                        {
+                            day.map((day) => {
+                                return(
+                                    <Grid item key={day}>
+                                        <BasketItem
+                                            menu={menu}
+                                            day={day}
+                                            onDelete = {() => onDelete(menu[day].id)}
+                                        />
+                                    </Grid>
+                                )
+                            })    
+                        }
+                    </Grid>
+                </Grid>
+            </Container>
         )
     }
 }

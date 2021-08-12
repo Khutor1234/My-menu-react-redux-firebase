@@ -1,5 +1,3 @@
-
-import  './error-indicator.sass'
 const ErrorIndicator = () => {
   return <div className = 'error-indicator'>Error!</div>;
 };

@@ -8,6 +8,7 @@ import ErrorBoundry from './components/error-boundry';
 import MenuService from './services/menu-service.js';
 import {MenuServiceProvider} from './components/menu-service-context';
 import store from './store';
+import './style.sass';
 
 const menuService = new MenuService();
 

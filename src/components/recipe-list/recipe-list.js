@@ -7,23 +7,38 @@ import { fetchRecipes, onAddedToMenu, changeImg} from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
-import './recipe-list.sass';
+import { Container, Grid} from '@material-ui/core';
 
-const RecipeList = ({recipes, onAddedToMenu}) => {
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+    recipeWrapper:{
+        flexGrow: 1,
+    },
+  }));
+
+const RecipeList = ({recipes, onAddedToMenu, onChangeImg, onCategoryChange}) => {
+    const classes = useStyles();
+
     return(
-        <ul className = 'recipe-list'>
-            {
-                recipes.map((recipe) => {
-                    return(
-                        <li key = {recipe.id}>
-                            <RecipeListItem 
-                                recipe = {recipe}
-                                onAddedToMenu={() => onAddedToMenu(recipe)}/>
-                        </li>
-                    )
-                })
-            }
-        </ul>
+        <Container>
+            <Grid container className={classes.recipeWrapper} spacing={4}>
+                {
+                    recipes.map((recipe) => {
+                        return(
+                            <Grid item key = {recipe.id} xs={12} sm={6} md={4} className={classes.recipeItem}>
+                                <RecipeListItem 
+                                    recipe = {recipe}
+                                    onAddedToMenu={() => onAddedToMenu(recipe)}
+                                    onChangeImg = {() => onChangeImg(recipe.id)}
+                                    onCategoryChange = {(e) => onCategoryChange(e)} />
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
+        </Container>
     )
 }
 
@@ -39,7 +54,7 @@ class RecipeListContainer extends Component{
     }
 
     render(){
-
+        
         const {recipes, loading, error, onAddedToMenu, onChangeImg} = this.props;
 
         if(loading){
@@ -50,27 +65,12 @@ class RecipeListContainer extends Component{
             return <ErrorIndicator/>
         }
 
-        // return <RecipeList 
-        //     recipes = {recipes} 
-        //     onAddedToCart={onAddedToCart}  />
+        return <RecipeList 
+            recipes = {recipes} 
+            onAddedToMenu={onAddedToMenu}  
+            onChangeImg = {onChangeImg} 
+            onCategoryChange = {this.onCategoryChange}/>
 
-        return(
-            <ul className = 'recipe-list'>
-                {
-                    recipes.map((recipe) => {
-                        return(
-                            <li key = {recipe.id}>
-                                <RecipeListItem 
-                                    recipe = {recipe}
-                                    onAddedToMenu={() => onAddedToMenu(recipe)}
-                                    onChangeImg = {() => onChangeImg(recipe.id)}
-                                    onCategoryChange = {(e) => this.onCategoryChange(e)} />
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        )
     }
 }
 
@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onChangeImg: (id) => dispatch(changeImg(id)) ,
         fetchRecipes: fetchRecipes(menuService, dispatch),
-        onAddedToMenu: (recipe) => onAddedToMenu(menuService)(recipe,'fff'),
+        onAddedToMenu: (recipe) => onAddedToMenu(menuService)(recipe,'Завтрак'),
     }
 }
 

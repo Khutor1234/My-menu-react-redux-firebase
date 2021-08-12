@@ -9,8 +9,6 @@ const updateRecipeList = (state, action) => {
         };
     }
 
-    console.log(state);
-
     switch(type){
         case 'RECIPES_REQUESTED':
             return{
@@ -38,6 +36,17 @@ const updateRecipeList = (state, action) => {
                 loading: false,
                 error: payload
             };
+
+        case 'SELECT_CATEGORY':
+            let itemsSelected = state.recipeList.recipes.filter(recipe => {
+                return recipe.category.indexOf( payload ) !== -1
+            });
+            return {
+                ...state.recipeList,
+                recipes: itemsSelected
+            };
+            
+            
 
         case 'CHANGE_IMG':
             const itemsChangeImg = state.recipeList.recipes.map(item => {

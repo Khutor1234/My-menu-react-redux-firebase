@@ -2,7 +2,7 @@ import { db } from "./firebase";
 
 export default class MenuService {
 
-	getLists() {
+	getRecipes() {
 		return db.collection('recipes')
 			.get()
 			.then(snapshot => {

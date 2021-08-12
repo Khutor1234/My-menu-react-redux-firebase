@@ -52,6 +52,13 @@ const changeImg = (recipeId) => {
     }
 }
 
+const selectCategory = (category) => {
+    return{
+        type: 'SELECT_CATEGORY',
+        payload: category
+    }
+}
+
 const onDeleteRecipe = (menuService, dispatch) => (recipeId) => {
     menuService.deleteRecipe(recipeId)
         .then((recipeId) => dispatch(recipesDeleteFromMenu(recipeId)));
@@ -66,10 +73,11 @@ const onAddedToMenu = (menuService) => (recipe, category) =>{
 
 const fetchRecipes = (menuService, dispatch) => () => {
     dispatch(recipesRequested());
-    menuService.getLists()
+    menuService.getRecipes()
         .then((data) => dispatch(recipesLoaded(data)))
         .catch((error) => dispatch(recipesError(error)))
 }
+
 
 const fetchMenu = (menuService, dispatch) => () => {
     dispatch(menuRequested())
@@ -78,10 +86,12 @@ const fetchMenu = (menuService, dispatch) => () => {
         .catch((error) => dispatch(menuError(error)))
 }
 
+
 export {
     fetchRecipes,
     fetchMenu,
     onAddedToMenu,
     onDeleteRecipe,
-    changeImg
+    changeImg,
+    selectCategory
 }

@@ -1,7 +1,27 @@
-import './recipe-list-item.sass';
+import {Card, CardMedia, CardContent, CardActions,FormControl,InputLabel,Typography,Select,Button} from '@material-ui/core';
+
+
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+    recipeItemForm: {
+        flexGrow: 1,
+        height: '50px'
+    },
+    recipeItemSelect: {
+        height: '50px',
+        color: '#000'
+    },
+    recipeItemButton: {
+        flexGrow: 1,
+        height: '50px'
+    },
+  }));
 
 const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg}) => {
 
+    const classes = useStyles();
     const { text, title, ingrid, category, img } = recipe;
 
     let ingridients;
@@ -34,7 +54,43 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg})
 
 
     return(
-        <div className = 'recipe-item'>
+        <div>
+            <Card >
+                <CardMedia 
+                    component='img'
+                    height='250'
+                    image='https://media.istockphoto.com/photos/stack-of-milk-and-dark-chocolate-with-nuts-caramel-and-fruits-and-on-picture-id965487714?k=6&m=965487714&s=612x612&w=0&h=v8epNbu2l-kk4GjK-Wzfjzx-Ui3MlOkw4w7dtrN_lL8='
+                    alt='Фото рецепта' />
+                <CardContent>
+                    <Typography variant='h5'>{title}</Typography>
+                </CardContent>
+                <CardActions>
+                    <FormControl variant="outlined" className={classes.recipeItemForm}>
+                        <InputLabel htmlFor="outlined-age-native-simple">Прием еды</InputLabel>
+                        <Select 
+                            className={classes.recipeItemSelect}
+                            native
+                            onChange={e => onCategoryChange(e)}
+                            label="Прием еды"
+                            inputProps={{
+                                id: 'outlined-age-native-simple',
+                            }} >
+                                <option aria-label="None" value="" />
+                                    {
+                                        categoryItem
+                                    }
+                        </Select>
+                    </FormControl>
+                    <Button 
+                        size='large' 
+                        variant='outlined' 
+                        className={classes.recipeItemButton} 
+                        onClick = {onAddedToMenu}>Добавить</Button>
+                </CardActions>
+            </Card>
+
+
+            {/* <div className = 'recipe-item'>
             <div className="card border-primary mb-3">
                 <div className = 'recipe-cover'
                     onClick = {onChangeImg} >
@@ -64,6 +120,7 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg})
                 </div>
             </div>
             
+        </div> */}
         </div>
         
     )
