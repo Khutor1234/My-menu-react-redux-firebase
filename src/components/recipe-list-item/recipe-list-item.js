@@ -1,51 +1,19 @@
 import {Card, CardMedia, CardContent, CardActions,
-    FormControl, InputLabel, Typography, Select, Button,
-    ButtonGroup, List, ListItem, ListItemText} from '@material-ui/core';
+    FormControl, InputLabel, Select, Typography,
+    List, ListItem, ListItemText,
+    Button, ButtonGroup} from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
+import useStyles from './style';
 
-    import CheckIcon from '@material-ui/icons/Check';
-
-
-import { makeStyles } from '@material-ui/core/styles';
-
-
-const useStyles = makeStyles((theme) => ({
-    recipeItemForm: {
-        flexGrow: 1,
-        height: '50px'
-    },
-    recipeItemSelect: {
-        height: '50px',
-        color: '#000'
-    },
-    recipeItemButton: {
-        flexGrow: 1,
-        height: '50px'
-    },
-    recipeText:{
-        minHeight: 225,
-        padding: 10
-    },
-    recipeButtons:{
-        backgroundColor: '#000',
-        color: '#fff',
-        borderRadius: '0%'
-    },
-    button:{
-        color: '#fff'
-    }, 
-    ingridList: {
-        minHeight: 234,
-    },
-    recipeItem:{
-        padding: '0 20px',
-        backgroundColor: 'rgda(0,0,0,.9)'
-    }
-  }));
+import { connect } from 'react-redux';
+import { onAddedToMenu, changeImg, changeIngrid, changeRecipe, onCategoryChange} from '../../actions';
+import { withMenuService } from '../hoc';
+import { compose } from '../../utils';
 
 const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg, onChangeIngrid, onChangeRecipe}) => {
 
     const classes = useStyles();
-    const { text, title, ingrid, showImg, showIngrid, showRecipe } = recipe;
+    const { text, id, title, ingrid, showImg, showIngrid, showRecipe } = recipe;
 
     const recipeImg = showImg ? 
     <CardMedia 
@@ -82,9 +50,9 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg, 
                 {recipeText}
                 {recipeIngrig}
                 <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
-                    <Button className={classes.button} onClick = {onChangeIngrid}>Ингридиенты</Button>
-                    <Button className={classes.button}  onClick = {onChangeRecipe}>Рецепт</Button>
-                    <Button className={classes.button} onClick = {onChangeImg}>Фото</Button>
+                    <Button className={classes.button} onClick = {() => onChangeIngrid(id)}>Ингридиенты</Button>
+                    <Button className={classes.button}  onClick = {() => onChangeRecipe(id)}>Рецепт</Button>
+                    <Button className={classes.button} onClick = {() => onChangeImg(id)}>Фото</Button>
                 </ButtonGroup>
                 <CardContent>
                     <Typography variant='h5'>{title}</Typography>
@@ -109,8 +77,8 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg, 
                     <Button 
                         size='large' 
                         variant='outlined' 
-                        className={classes.recipeItemButton} 
-                        onClick = {onAddedToMenu}>Добавить</Button>
+                        className={classes.recipeItemButton}
+                        onClick ={() => onAddedToMenu(recipe)} >Добавить</Button>
                 </CardActions>
             </Card>
         </div>
@@ -118,4 +86,30 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeImg, 
     )
 }
 
-export default RecipeListItem;
+
+const mapStateToProps = ({ recipeList: {recipes, loading, error }}) => {
+    return{
+        recipes,
+        loading,
+        error
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const {menuService} = ownProps;
+
+    return {
+        onChangeIngrid: (id) => dispatch(changeIngrid(id)), 
+        onChangeRecipe: (id) => dispatch(changeRecipe(id)),
+        onChangeImg: (id) => dispatch(changeImg(id)) ,
+        onCategoryChange: (e) => onCategoryChange(e.target.value),
+        onAddedToMenu: (recipe) => onAddedToMenu(menuService)(recipe,'Ужин'),
+    }
+}
+
+
+export default compose(
+    withMenuService(),
+    connect(mapStateToProps, mapDispatchToProps)
+)(RecipeListItem);
+

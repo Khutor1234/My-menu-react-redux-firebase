@@ -1,13 +1,13 @@
+const fetchRequested = () => {
+    return{
+        type: 'REQUESTED'
+    }
+}
+
 const fetchLoaded = (items) => {
     return {
         type: 'LOADED',
         payload: items
-    }
-}
-
-const fetchRequested = () => {
-    return{
-        type: 'REQUESTED'
     }
 }
 
@@ -78,9 +78,9 @@ const fetchMenu = (menuService, dispatch) => () => {
         .catch((error) => dispatch(fetchLoaded(error)))
 }
 
-const selectCategory = (menuService, dispatch) => (category) => {
+const selectCategory = (menuService, dispatch) => (collection, category) => {
     dispatch(fetchRequested())
-    menuService.getListRecipes(category)
+    menuService.getListByCategory(collection, category)
         .then((data) => dispatch(fetchLoaded(data)))
         .catch((error) => dispatch(fetchError(error)))
 }

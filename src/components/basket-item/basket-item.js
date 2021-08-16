@@ -1,37 +1,8 @@
 import {Grid, Typography, Avatar, Badge, IconButton} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import useStyles from './style';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { createTheme } from '@material-ui/core/styles';
-
-
-const useStyles = makeStyles((theme) => ({
-    basket: {
-        marginTop: 40
-    },
-    avatar:{
-        width: theme.spacing(25),
-        height: theme.spacing(25),
-        backgroundColor: 'rgba(0,0,0,.4)'
-    },
-    title:{
-        color: '#fff',
-        fontSize: 27
-    },
-    badge:{
-        color: '#fff',
-        borderRadius: '100%',
-        border: `2px solid #000`,
-    },
-    button: {
-        position: 'absolute',
-        bottom: 3,
-        left: 2,
-        color: '#fff'
-    }
-  }));
-
-const BasketItem = ({menu, day, onDelete}) => {
+const BasketItem = ({menu, day}) => {
     const classes = useStyles();
 
     let breakfast = [];
@@ -59,18 +30,18 @@ const BasketItem = ({menu, day, onDelete}) => {
                     className={classes.title}>День {day + 1}</Typography>
             </Grid>
             <Grid item>
-                <Eating time={breakfast} day={day} onDelete = {() => onDelete()}/>
+                <Eating time={breakfast} day={day} />
             </Grid>
             <Grid item>
-                <Eating time={lunch} day={day} onDelete = {() => onDelete()}/>
+                <Eating time={lunch} day={day} />
             </Grid>
             <Grid item>
-                <Eating time={diner} day={day} onDelete = {() => onDelete()}/>
+                <Eating time={diner} day={day} />
             </Grid>
         </Grid>
 )}
 
-const Eating = ({time, day, onDelete}) => {
+const Eating = ({time, day}) => {
     const classes = useStyles();
 
     if(time[day]){
@@ -85,7 +56,7 @@ const Eating = ({time, day, onDelete}) => {
                 className={classes.badge}
                 badgeContent={time[day].title}>
                 <Avatar className={classes.avatar} alt="Фото рецепта" src="https://media.istockphoto.com/photos/delicious-pizza-with-ingredients-and-spices-picture-id924476838?k=6&m=924476838&s=612x612&w=0&h=ORCMVPZ_h5uZuZWG35jtw2ovGhGTdb-bRh3LW3DQNaE=" />
-                <IconButton aria-label="delete" color="secondary" className={classes.button} onClick = {onDelete}>
+                <IconButton aria-label="delete" color="secondary" className={classes.button} >
                     <DeleteIcon />
                 </IconButton>
             </Badge> 

@@ -15,8 +15,8 @@ export default class MenuService {
 			.catch((error) => console.log("Error getting document:", error))
 	}
 
-	getListRecipes(category) {
-		return db.collection('recipes')
+	getListByCategory(collection, category) {
+		return db.collection(collection)
 			.where('category', '==', category)
 			.get()
 			.then(snapshot => {

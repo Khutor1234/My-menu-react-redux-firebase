@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchRecipes: fetchRecipes(menuService, dispatch),
-        selectCategory: (category) => selectCategory(menuService, dispatch)(category),
+        selectCategory: (category) => selectCategory(menuService, dispatch)('recipes', category),
     }
 }
 

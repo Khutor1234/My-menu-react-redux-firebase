@@ -1,5 +1,5 @@
-
 const updateBasket = (state, action) => {
+    const {type, payload} = action;
 
     if (state === undefined) {
         return {
@@ -9,11 +9,20 @@ const updateBasket = (state, action) => {
         };
       }
 
-    switch(action.type){
+    console.log(payload)
+
+    switch(type){
 
         case 'LOADED':
+            const breakfast = payload.filter(item => item.category === 'Завтрак');
+            const lunch = payload.filter(item => item.category === 'Обед');
+            const diner = payload.filter(item => item.category === 'Ужин');
+            console.log(breakfast, 'Завтрак');
+            console.log(lunch, 'Обед');
+            console.log(diner, 'Ужин');
+            
             return {
-                menu: action.payload,
+                menu: payload,
                 loading: false,
                 error: null
             };
@@ -29,19 +38,11 @@ const updateBasket = (state, action) => {
             return {
                 menu: [],
                 loading: false,
-                error: action.payload
+                error: payload
             };
         
-        case 'RECIPES_ADDED_TO_MENU':
-            return{
-                ...state.basket,
-                menu: [...state.basket.menu, action.payload]
-            }
-    
-        
         case 'RECIPES_DELETE_FROM_MENU':
-            const idx = action.payload;
-            const itemIndex = state.basket.menu.findIndex(item => item.id === idx)
+            const itemIndex = state.basket.menu.findIndex(item => item.id === action)
             return {
                 ...state.basket,
                 menu: [

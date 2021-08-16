@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMenu, onDeleteRecipe } from '../../actions';
+import { fetchMenu} from '../../actions';
 import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
@@ -18,7 +18,7 @@ class Basket extends Component{
     
     render(){
 
-        const {menu,loading, error, onDelete} = this.props;
+        const {menu,loading, error} = this.props;
         const day = [0, 1, 2, 3, 4, 5, 6];
 
         if(loading){
@@ -44,7 +44,6 @@ class Basket extends Component{
                                         <BasketItem
                                             menu={menu}
                                             day={day}
-                                            onDelete = {() => onDelete(menu[day].id)}
                                         />
                                     </Grid>
                                 )
@@ -70,7 +69,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchMenu: fetchMenu(menuService, dispatch),
-        onDelete: (id) =>  onDeleteRecipe(menuService, dispatch)(id)
     }
 }
 
