@@ -7,20 +7,13 @@ const updateBasket = (state, action) => {
           loading: true,
           error: null
         };
-      }
+    }
 
-    console.log(payload)
+    console.log(type)
 
     switch(type){
 
         case 'LOADED':
-            const breakfast = payload.filter(item => item.category === 'Завтрак');
-            const lunch = payload.filter(item => item.category === 'Обед');
-            const diner = payload.filter(item => item.category === 'Ужин');
-            console.log(breakfast, 'Завтрак');
-            console.log(lunch, 'Обед');
-            console.log(diner, 'Ужин');
-            
             return {
                 menu: payload,
                 loading: false,
@@ -42,13 +35,18 @@ const updateBasket = (state, action) => {
             };
         
         case 'RECIPES_DELETE_FROM_MENU':
-            const itemIndex = state.basket.menu.findIndex(item => item.id === action)
+            const itemIndex = state.basket.menu.findIndex(item => item.id === payload);
             return {
                 ...state.basket,
                 menu: [
                     ...state.basket.menu.slice(0, itemIndex),
                     ...state.basket.menu.slice(itemIndex + 1)
                 ]
+            }
+
+        case 'RECIPES_ADDED_TO_MENU':
+            return{
+                ...state.basket
             }
         
         default:

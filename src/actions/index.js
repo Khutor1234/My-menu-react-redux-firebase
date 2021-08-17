@@ -50,19 +50,24 @@ const onCategoryChange = (e) => {
     return e
 }
 
-const onDeleteRecipe = (menuService, dispatch) => (recipeId) => {
-    menuService.deleteRecipe(recipeId)
+const recipesAddedToMenu = () => {
+    return{
+        type: 'RECIPES_ADDED_TO_MENU'
+    }
+}
+
+const onDeleteRecipe = (menuService, dispatch) => (recipe) => {
+    menuService.deleteRecipe(recipe.id)
         .then((recipeId) => dispatch(recipesDeleteFromMenu(recipeId)));
 }
 
-const onAddedToMenu = (menuService) => (recipe, category) =>{
+const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
+    dispatch(recipesAddedToMenu());
     menuService.createMenu({
         title: recipe.title,
         category: category
     })
 }
-
-
 
 const fetchRecipes = (menuService, dispatch) => () => {
     dispatch(fetchRequested());

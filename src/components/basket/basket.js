@@ -18,7 +18,7 @@ class Basket extends Component{
     
     render(){
 
-        const {menu,loading, error} = this.props;
+        const {loading, error} = this.props;
         const day = [0, 1, 2, 3, 4, 5, 6];
 
         if(loading){
@@ -42,7 +42,6 @@ class Basket extends Component{
                                 return(
                                     <Grid item key={day}>
                                         <BasketItem
-                                            menu={menu}
                                             day={day}
                                         />
                                     </Grid>
@@ -56,9 +55,8 @@ class Basket extends Component{
     }
 }
 
-const mapStateToProps = ({ basket: { menu, loading, error }}) => {
+const mapStateToProps = ({ basket: { loading, error }}) => {
     return{
-        menu,
         loading, 
         error
     }
