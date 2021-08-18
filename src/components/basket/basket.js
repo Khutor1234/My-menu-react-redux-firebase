@@ -5,7 +5,8 @@ import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
-import { Container, Grid} from '@material-ui/core';
+import { Container, Grid, Button} from '@material-ui/core';
+import Icon from '@material-ui/core/Icon';
 import BasketItem from '../basket-item';
 
 
@@ -50,6 +51,13 @@ class Basket extends Component{
                         }
                     </Grid>
                 </Grid>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    endIcon={<Icon>send</Icon>}
+                >
+                    Send
+                </Button>
             </Container>
         )
     }

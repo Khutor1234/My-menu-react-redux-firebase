@@ -50,9 +50,10 @@ const onCategoryChange = (e) => {
     return e
 }
 
-const recipesAddedToMenu = () => {
+const recipesAddedToMenu = (menu) => {
     return{
-        type: 'RECIPES_ADDED_TO_MENU'
+        type: 'RECIPES_ADDED_TO_MENU',
+        payload: menu
     }
 }
 
@@ -62,7 +63,9 @@ const onDeleteRecipe = (menuService, dispatch) => (recipe) => {
 }
 
 const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
-    dispatch(recipesAddedToMenu());
+    menuService.getLists('menu')
+        .then((data) => dispatch(recipesAddedToMenu(data)))
+        
     menuService.createMenu({
         title: recipe.title,
         category: category

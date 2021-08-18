@@ -9,6 +9,7 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { Container, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Warning } from '../modal';
 
 
 const useStyles = makeStyles(() => ({
@@ -47,7 +48,7 @@ class RecipeListContainer extends Component{
 
     render(){
         
-        const {recipes, loading, error} = this.props;
+        const {recipes, loading, error, basketIsFul} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -57,17 +58,23 @@ class RecipeListContainer extends Component{
             return <ErrorIndicator/>
         }
 
-        return <RecipeList 
-            recipes = {recipes} />
-
+        return(
+            <>
+                <RecipeList 
+                    recipes = {recipes} />
+                <Warning
+                    basketIsFul = {basketIsFul} />
+            </>
+        )
     }
 }
 
-const mapStateToProps = ({ recipeList: {recipes, loading, error }}) => {
+const mapStateToProps = ({ recipeList: {recipes, loading, error, basketIsFul }}) => {
     return{
         recipes,
         loading,
-        error
+        error,
+        basketIsFul
     }
 }
 

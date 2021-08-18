@@ -29,7 +29,8 @@ const updateRecipeList = (state, action) => {
             return {
                 recipes: itemsRecipesLoaded,
                 loading: false,
-                error: null
+                error: null,
+                basketIsFul: false
             };
 
         case 'ERROR':
@@ -89,6 +90,22 @@ const updateRecipeList = (state, action) => {
                 ...state.recipeList,
                 recipes: itemsChangeRecipe
                 };
+
+        case 'RECIPES_ADDED_TO_MENU':
+            const breakfast = payload.filter(item => item.category === 'Завтрак');
+            const lunch = payload.filter(item => item.category === 'Обед');
+            const diner = payload.filter(item => item.category === 'Ужин');
+            let done;
+
+            if(breakfast.length > 7 || lunch.length > 7 || diner.length > 7){
+                done = true
+            } else {
+                done = false
+            }
+            return{
+                ...state.recipeList,
+                basketIsFul: done
+            }
 
         default:
             return state.recipeList;

@@ -43,11 +43,6 @@ const updateBasket = (state, action) => {
                     ...state.basket.menu.slice(itemIndex + 1)
                 ]
             }
-
-        case 'RECIPES_ADDED_TO_MENU':
-            return{
-                ...state.basket
-            }
         
         default:
             return state.basket
