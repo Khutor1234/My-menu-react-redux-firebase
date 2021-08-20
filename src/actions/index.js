@@ -1,3 +1,5 @@
+import { MenuList } from "@material-ui/core"
+
 const fetchRequested = () => {
     return{
         type: 'REQUESTED'
@@ -50,10 +52,15 @@ const onCategoryChange = (e) => {
     return e
 }
 
-const recipesAddedToMenu = (menu) => {
+const recipesAddedToMenu = () => {
     return{
         type: 'RECIPES_ADDED_TO_MENU',
-        payload: menu
+    }
+}
+
+const onCountIngrid = () => {
+    return{
+        type: 'COUNT_INGREDIENTS',
     }
 }
 
@@ -64,12 +71,35 @@ const onDeleteRecipe = (menuService, dispatch) => (recipe) => {
 
 const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
     menuService.getLists('menu')
-        .then((data) => dispatch(recipesAddedToMenu(data)))
-        
-    menuService.createMenu({
-        title: recipe.title,
-        category: category
-    })
+        .then((data) => {
+            const menu ={
+                breakfast: data.filter(item => item.category === 'Завтрак'),
+                lunch: data.filter(item => item.category === 'Обед'),
+                diner: data.filter(item => item.category === 'Ужин')
+            }
+            if(category === 'Завтрак' && menu.breakfast.length < 7){
+                menuService.createMenu({
+                    title: recipe.title,
+                    ingrid: recipe.ingrid,
+                    category: category
+                })
+            } else if(category === 'Обед' && menu.lunch.length < 7){
+                menuService.createMenu({
+                    title: recipe.title,
+                    ingrid: recipe.ingrid,
+                    category: category
+                })
+            }
+            else if(category === 'Ужин' && menu.diner.length < 7){
+                menuService.createMenu({
+                    title: recipe.title,
+                    ingrid: recipe.ingrid,
+                    category: category
+                })
+            } else {
+                dispatch(recipesAddedToMenu())
+            }
+        })
 }
 
 const fetchRecipes = (menuService, dispatch) => () => {
@@ -103,5 +133,6 @@ export {
     selectCategory,
     changeRecipe,
     changeIngrid,
-    onCategoryChange
+    onCategoryChange,
+    onCountIngrid
 }

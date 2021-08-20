@@ -5,9 +5,9 @@ import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
-import { Container, Grid, Button} from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
+import { Container, Grid} from '@material-ui/core';
 import BasketItem from '../basket-item';
+import ButtonCountIngredients from '../buttonCountIngredients';
 
 
 class Basket extends Component{
@@ -19,7 +19,7 @@ class Basket extends Component{
     
     render(){
 
-        const {loading, error} = this.props;
+        const {loading, error, menu} = this.props;
         const day = [0, 1, 2, 3, 4, 5, 6];
 
         if(loading){
@@ -51,22 +51,17 @@ class Basket extends Component{
                         }
                     </Grid>
                 </Grid>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    endIcon={<Icon>send</Icon>}
-                >
-                    Send
-                </Button>
+                <ButtonCountIngredients menu ={menu}/>
             </Container>
         )
     }
 }
 
-const mapStateToProps = ({ basket: { loading, error }}) => {
+const mapStateToProps = ({ basket: { loading, error, menu}}) => {
     return{
         loading, 
-        error
+        error,
+        menu
     }
 }
 

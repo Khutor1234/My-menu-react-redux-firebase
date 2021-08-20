@@ -44,7 +44,6 @@ const BasketItemContainer = ({menu, day, onDeleteRecipe}) => {
     const lunch = menu.filter(item => item.category === 'Обед');
     const diner = menu.filter(item => item.category === 'Ужин');
 
-    console.log(menu)
     return(
         <Grid container className={classes.basket} spacing={4} alignItems='center'>
             <Grid item>

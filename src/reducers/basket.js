@@ -8,7 +8,6 @@ const updateBasket = (state, action) => {
           error: null
         };
     }
-
     console.log(type)
 
     switch(type){
@@ -38,10 +37,25 @@ const updateBasket = (state, action) => {
             const itemIndex = state.basket.menu.findIndex(item => item.id === payload);
             return {
                 ...state.basket,
+                ingredients: [],
                 menu: [
                     ...state.basket.menu.slice(0, itemIndex),
                     ...state.basket.menu.slice(itemIndex + 1)
                 ]
+            }
+
+        case 'COUNT_INGREDIENTS':
+            const menu = state.basket.menu;
+            const ingredients = []; 
+            for(let i = 0; i < menu.length; i++){
+                ingredients.push(...menu[i].ingrid)
+            }
+
+            const unique = ingredients.filter((set => item => !set.has(item.name) && set.add(item.name))(new Set()));
+            console.log(unique )
+            return{
+                ...state.basket,
+                ingredients: unique
             }
         
         default:

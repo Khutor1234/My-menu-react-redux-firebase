@@ -92,19 +92,9 @@ const updateRecipeList = (state, action) => {
                 };
 
         case 'RECIPES_ADDED_TO_MENU':
-            const breakfast = payload.filter(item => item.category === 'Завтрак');
-            const lunch = payload.filter(item => item.category === 'Обед');
-            const diner = payload.filter(item => item.category === 'Ужин');
-            let done;
-
-            if(breakfast.length > 7 || lunch.length > 7 || diner.length > 7){
-                done = true
-            } else {
-                done = false
-            }
             return{
                 ...state.recipeList,
-                basketIsFul: done
+                basketIsFul: true
             }
 
         default:
