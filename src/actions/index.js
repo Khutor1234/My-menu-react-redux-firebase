@@ -25,24 +25,13 @@ const recipesDeleteFromMenu  = (recipeId) => {
     }
 }
 
-const changeImg = (recipeId) => {
+const onChangeItem = (recipeId, variant) => {
     return{
-        type: 'CHANGE_IMG',
-        payload: recipeId
-    }
-}
-
-const changeIngrid = (recipeId) => {
-    return{
-        type: 'CHANGE_INGRID',
-        payload: recipeId
-    }
-}
-
-const changeRecipe = (recipeId) => {
-    return{
-        type: 'CHANGE_RECIPE',
-        payload: recipeId
+        type: 'CHANGE_ITEM',
+        payload: {
+            recipeId,
+            variant
+        }
     }
 }
 
@@ -127,10 +116,8 @@ export {
     fetchMenu,
     onAddedToMenu,
     onDeleteRecipe,
-    changeImg,
     selectCategory,
-    changeRecipe,
-    changeIngrid,
+    onChangeItem,
     onCategoryChange,
     onCountIngrid
 }

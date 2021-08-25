@@ -21,9 +21,7 @@ const updateRecipeList = (state, action) => {
             const itemsRecipesLoaded = payload.map(item => {
                 return{
                     ...item,
-                    showImg: true,
-                    showIngrid: false,
-                    showRecipe: false
+                    show: 'img'
                 }
             })
             return {
@@ -40,57 +38,21 @@ const updateRecipeList = (state, action) => {
                 error: payload
             };
 
-        case 'CHANGE_IMG':
-            const itemsChangeImg = state.recipeList.recipes.map(item => {
-                if(item.id === payload){
+        case 'CHANGE_ITEM':
+            const itemsChange = state.recipeList.recipes.map(item => {
+                if(item.id === payload.recipeId){
                     return{ 
                         ...item,
-                        showImg: true,
-                        showIngrid: false,
-                        showRecipe: false
+                        show: payload.variant
                     }
                 }
                 return item
             });
             return {
                 ...state.recipeList,
-                recipes: itemsChangeImg
+                recipes: itemsChange
               };
             
-        case 'CHANGE_INGRID':
-            const itemsChangeIngrid = state.recipeList.recipes.map(item => {
-                if(item.id === payload){
-                    return{ 
-                        ...item,
-                        showImg: false,
-                        showIngrid: true,
-                        showRecipe: false
-                    }
-                }
-                return item
-            });
-            return {
-                ...state.recipeList,
-                recipes: itemsChangeIngrid
-                };
-
-        case 'CHANGE_RECIPE':
-            const itemsChangeRecipe = state.recipeList.recipes.map(item => {
-                if(item.id === payload){
-                    return{ 
-                        ...item,
-                        showImg: false,
-                        showIngrid: false,
-                        showRecipe: true
-                    }
-                }
-                return item
-            });
-            return {
-                ...state.recipeList,
-                recipes: itemsChangeRecipe
-                };
-
         case 'RECIPES_ADDED_TO_MENU':
             return{
                 ...state.recipeList,
