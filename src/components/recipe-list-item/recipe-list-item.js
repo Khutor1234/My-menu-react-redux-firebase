@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onChangeRecipe: (id) => dispatch(changeRecipe(id)),
         onChangeImg: (id) => dispatch(changeImg(id)) ,
         onCategoryChange: (e) => onCategoryChange(e.target.value),
-        onAddedToMenu: (recipe) => onAddedToMenu(menuService, dispatch)(recipe,'Завтрак'),
+        onAddedToMenu: (recipe) => onAddedToMenu(menuService, dispatch)(recipe,'Ужин'),
     }
 }
 
