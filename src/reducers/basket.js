@@ -8,7 +8,6 @@ const updateBasket = (state, action) => {
           error: null
         };
     }
-    console.log(type)
 
     switch(type){
 
@@ -37,7 +36,7 @@ const updateBasket = (state, action) => {
             const itemIndex = state.basket.menu.findIndex(item => item.id === payload);
             return {
                 ...state.basket,
-                ingredients: [],
+                ingredients: null,
                 menu: [
                     ...state.basket.menu.slice(0, itemIndex),
                     ...state.basket.menu.slice(itemIndex + 1)

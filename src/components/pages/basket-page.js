@@ -1,8 +1,8 @@
-import Basket from "../basket";
+import BasketList from "../basket-list";
 
 const BasketPage = () => {
     return(
-        <Basket/>
+        <BasketList/>
     )
 }
 

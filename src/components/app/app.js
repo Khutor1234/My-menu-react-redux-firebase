@@ -3,9 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { RecipesPage, BasketPage } from '../pages';
 import Header from '../header';
 
-
 const App = () => {
-
 	return (
 		<div>
 			<Header/>

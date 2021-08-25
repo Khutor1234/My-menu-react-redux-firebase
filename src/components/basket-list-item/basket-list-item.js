@@ -7,7 +7,7 @@ import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 
 
-const BasketItem = ({time, day, onDeleteRecipe}) => {
+const BasketListItem = ({time, day, onDeleteRecipe}) => {
     const classes = useStyles();
     const menuItem = time[day];
 
@@ -37,7 +37,7 @@ const BasketItem = ({time, day, onDeleteRecipe}) => {
     }
 }
 
-const BasketItemContainer = ({menu, day, onDeleteRecipe}) => {
+const BasketListItemContainer = ({menu, day, onDeleteRecipe}) => {
     const classes = useStyles();
 
     const breakfast = menu.filter(item => item.category === 'Завтрак');
@@ -52,13 +52,13 @@ const BasketItemContainer = ({menu, day, onDeleteRecipe}) => {
                     className={classes.title}>День {day + 1}</Typography>
             </Grid>
             <Grid item>
-                <BasketItem time={breakfast} day={day} onDeleteRecipe ={() => onDeleteRecipe(breakfast[day])} />
+                <BasketListItem time={breakfast} day={day} onDeleteRecipe ={() => onDeleteRecipe(breakfast[day])} />
             </Grid>
             <Grid item>
-                <BasketItem time={lunch} day={day} onDeleteRecipe ={() => onDeleteRecipe(lunch[day])}/>
+                <BasketListItem time={lunch} day={day} onDeleteRecipe ={() => onDeleteRecipe(lunch[day])}/>
             </Grid>
             <Grid item>
-                <BasketItem time={diner} day={day} onDeleteRecipe ={() => onDeleteRecipe(diner[day])}/>
+                <BasketListItem time={diner} day={day} onDeleteRecipe ={() => onDeleteRecipe(diner[day])}/>
             </Grid>
         </Grid>
 )}
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default compose(
     withMenuService(),
     connect(mapStateToProps, mapDispatchToProps)
-)(BasketItemContainer);
+)(BasketListItemContainer);

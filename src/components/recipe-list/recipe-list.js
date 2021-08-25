@@ -8,15 +8,8 @@ import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { Container, Grid} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Warning } from '../modal';
-
-
-const useStyles = makeStyles(() => ({
-    recipeWrapper:{
-        flexGrow: 1,
-    },
-  }));
+import useStyles from './style';
 
 const RecipeList = ({recipes}) => {
     const classes = useStyles();

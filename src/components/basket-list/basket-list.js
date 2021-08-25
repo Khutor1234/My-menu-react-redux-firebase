@@ -6,11 +6,34 @@ import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { Container, Grid} from '@material-ui/core';
-import BasketItem from '../basket-item';
-import ButtonCountIngredients from '../buttonCountIngredients';
+import BasketListItem from '../basket-list-item';
+import ButtonCountIngredients from '../button-count-ingredients';
 
+const BasketList = ({menu}) => {
+    const day = [0, 1, 2, 3, 4, 5, 6];
+    return(
+        <Container>
+            <Grid container style = {{marginTop: 50}} justifyContent='center'>
+                <Grid item>
+                    {
+                        day.map((day) => {
+                            return(
+                                <Grid item key={day}>
+                                    <BasketListItem
+                                        day={day}
+                                    />
+                                </Grid>
+                            )
+                        })    
+                    }
+                </Grid>
+            </Grid>
+            <ButtonCountIngredients menu ={menu}/>
+        </Container>
+    )
+}
 
-class Basket extends Component{
+class BasketListContainer extends Component{
 
     componentDidMount(){
         this.props.fetchMenu()
@@ -18,9 +41,7 @@ class Basket extends Component{
 
     
     render(){
-
         const {loading, error, menu} = this.props;
-        const day = [0, 1, 2, 3, 4, 5, 6];
 
         if(loading){
             return (
@@ -35,24 +56,7 @@ class Basket extends Component{
         }
 
         return(
-            <Container>
-                <Grid container style = {{marginTop: 50}} justifyContent='center'>
-                    <Grid item>
-                        {
-                            day.map((day) => {
-                                return(
-                                    <Grid item key={day}>
-                                        <BasketItem
-                                            day={day}
-                                        />
-                                    </Grid>
-                                )
-                            })    
-                        }
-                    </Grid>
-                </Grid>
-                <ButtonCountIngredients menu ={menu}/>
-            </Container>
+            <BasketList menu = {menu}/>
         )
     }
 }
@@ -76,4 +80,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default compose(
     withMenuService(),
     connect(mapStateToProps, mapDispatchToProps)
-)(Basket);
+)(BasketListContainer);

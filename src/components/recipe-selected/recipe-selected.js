@@ -2,18 +2,9 @@ import { connect } from 'react-redux';
 import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import {selectCategory, fetchRecipes} from '../../actions';
+import useStyles from './style';
 
 import { Container, Button, Grid} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    recipeSelected: {
-        marginBottom: theme.spacing(5),
-    },
-    button:{
-        color: '#fff'
-    }
-  }));
 
 const RecipeSelected = ({selectCategory, fetchRecipes}) => {
     const classes = useStyles();

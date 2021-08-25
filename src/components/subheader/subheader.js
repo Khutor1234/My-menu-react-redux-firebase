@@ -1,34 +1,6 @@
 import { Container, Typography, Paper, Grid} from '@material-ui/core';
-import {AddNewRecipeModal, AddNewIngredientModal } from '../modal';
-import { makeStyles } from '@material-ui/core/styles';
-
-
-const useStyles = makeStyles((theme) => ({
-    subheader:{
-        position: 'relative',
-        color: '#fff',
-        marginBottom: theme.spacing(4),
-        marginTop: theme.spacing(7),
-
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-    },
-    subheaderContent:{
-        position: 'relative',
-        padding: theme.spacing(3)
-
-    },
-    overlay:{
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'rgba(0,0,0,0.3)'
-    }
-    
-  }));
+import {AddNewRecipeModal} from '../modal';
+import useStyles from './style';
 
 const Subheader = () => {
     const classes = useStyles();
@@ -62,11 +34,8 @@ const Subheader = () => {
                             </Typography>
                             <Grid container>
                                 <Grid item>
-                                    <AddNewIngredientModal/>
-                                </Grid>
-                                {/* <Grid item>
                                     <AddNewRecipeModal/>
-                                </Grid> */}
+                                </Grid>
                             </Grid>
                         </div>
                     </Grid>

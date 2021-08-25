@@ -1,5 +1,3 @@
-import { MenuList } from "@material-ui/core"
-
 const fetchRequested = () => {
     return{
         type: 'REQUESTED'
@@ -78,20 +76,20 @@ const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
                 diner: data.filter(item => item.category === 'Ужин')
             }
             if(category === 'Завтрак' && menu.breakfast.length < 7){
-                menuService.createMenu({
+                menuService.createItem('menu', {
                     title: recipe.title,
                     ingrid: recipe.ingrid,
                     category: category
                 })
             } else if(category === 'Обед' && menu.lunch.length < 7){
-                menuService.createMenu({
+                menuService.createItem('menu', {
                     title: recipe.title,
                     ingrid: recipe.ingrid,
                     category: category
                 })
             }
             else if(category === 'Ужин' && menu.diner.length < 7){
-                menuService.createMenu({
+                menuService.createItem('menu', {
                     title: recipe.title,
                     ingrid: recipe.ingrid,
                     category: category

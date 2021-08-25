@@ -29,8 +29,8 @@ export default class MenuService {
 			.catch((error) => console.log("Error getting document:", error))       
 	}
 
-	createMenu(data){
-		return db.collection("menu")
+	createItem(collection, data){
+		return db.collection(collection)
 			.add({
 				...data,
 			})

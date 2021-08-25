@@ -4,7 +4,6 @@ import {Card, CardMedia, CardContent, CardActions,
     Button, ButtonGroup} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import useStyles from './style';
-
 import { connect } from 'react-redux';
 import { onAddedToMenu, changeImg, changeIngrid, changeRecipe, onCategoryChange} from '../../actions';
 import { withMenuService } from '../hoc';

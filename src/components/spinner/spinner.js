@@ -1,14 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-const useStyles = makeStyles((theme) => ({
-	spinner: {
-    	color: '#fff',
-		display: 'flex',
-		justifyContent: 'center',
-		height: '1080px'
-    },
-}));
+import useStyles from './style';
 
 const Spinner = () => {
     const classes = useStyles();
