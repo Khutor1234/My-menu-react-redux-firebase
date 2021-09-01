@@ -1,8 +1,8 @@
-import Modal from '@material-ui/core/Modal';
+import {Modal} from '@material-ui/core';
 import {Button} from '@material-ui/core';
 import { useState } from 'react';
 import useStyles from './style';
-
+import RecipeForm from '../recipe-form';
 
 const AddNewRecipeModal = () => {
 	const classes = useStyles();
@@ -16,25 +16,18 @@ const AddNewRecipeModal = () => {
 		setOpen(false);
 	};
 
-	const body = (
-		<div className={classes.paper}>
-			<h2 id="simple-modal-title">Text in a modal</h2>
-			<p id="simple-modal-description">
-				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-			</p>
-		</div>
-	);
-
 	return (
 		<div>
 			<Button  variant='contained' className={classes.button} onClick={handleOpen}>Добавить новый рецепт</Button>
-			<Modal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="simple-modal-title"
-				aria-describedby="simple-modal-description"
-			>
-				{body}
+				<Modal
+					open={open}
+					onClose={handleClose}
+					aria-labelledby="simple-modal-title"
+					aria-describedby="simple-modal-description"
+				>
+				<div className={classes.paper}>
+					<RecipeForm/>
+				</div>
 			</Modal>
 		</div>
 	);

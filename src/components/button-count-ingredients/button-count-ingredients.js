@@ -1,13 +1,13 @@
 import {Button, Container,List, ListItem, ListItemText, Typography} from '@material-ui/core';
 import { connect } from 'react-redux';
-import { onCountIngrid} from '../../actions';
+import { onCountIngredients} from '../../actions';
 import CheckIcon from '@material-ui/icons/Check';
 import useStyles from './style';
 
-const ButtonCountIngredients = ({ingredients , onCountIngrid}) => {
+const ButtonCountIngredients = ({ingredients , onCountIngredients}) => {
     const classes = useStyles();
 
-    const ingred = ingredients ?
+    const allIngredients = ingredients ?
     <List className={classes.list}>
         {
             ingredients.map((item) => {
@@ -33,10 +33,10 @@ const ButtonCountIngredients = ({ingredients , onCountIngrid}) => {
             <Button
                 variant="contained"
                 className={classes.button}
-                onClick = {() => onCountIngrid()}>
+                onClick = {() => onCountIngredients()}>
                     Расчитать продуктовую корзину
             </Button>
-            {ingred}
+            {allIngredients}
         </Container>
     );
 }
@@ -49,7 +49,7 @@ const mapStateToProps = ({ basket: {ingredients}}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onCountIngrid: () => dispatch(onCountIngrid())
+        onCountIngredients: () => dispatch(onCountIngredients())
     }
 }
 

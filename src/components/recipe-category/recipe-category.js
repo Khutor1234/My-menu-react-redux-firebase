@@ -6,7 +6,7 @@ import useStyles from './style';
 
 import { Container, Button, Grid} from '@material-ui/core';
 
-const RecipeSelected = ({selectCategory, fetchRecipes}) => {
+const RecipeCategory = ({selectCategory, fetchRecipes}) => {
     const classes = useStyles();
     
     return(
@@ -53,4 +53,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default compose(
     withMenuService(),
     connect(mapStateToProps, mapDispatchToProps)
-)(RecipeSelected );
+)(RecipeCategory );

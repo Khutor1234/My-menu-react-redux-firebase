@@ -45,10 +45,9 @@ const updateBasket = (state, action) => {
 
         case 'COUNT_INGREDIENTS':
             const menu = state.basket.menu;
-
             const allIngredients = []; 
             for(let i = 0; i < menu.length; i++){
-                allIngredients.push(...menu[i].ingrid)
+                allIngredients.push(...menu[i].ingredients)
             }
 
             const uniqueIngredients = allIngredients.filter((set => item => !set.has(item.name) && set.add(item.name))(new Set()));
@@ -60,6 +59,7 @@ const updateBasket = (state, action) => {
                         weight += allIngredients[i].weight
                     }
                 }
+                
                 return {
                     id: item.id,
                     name: item.name,

@@ -35,17 +35,24 @@ const onChangeItem = (recipeId, variant) => {
     }
 }
 
-const onCategoryChange = (e) => {
-    return e
-}
-
-const recipesAddedToMenu = () => {
-    return{
-        type: 'RECIPES_ADDED_TO_MENU',
+const onCategoryChange = (value, recipeId) => {
+    return {
+        type: 'RECIPE_CATEGORY_SELECTED',
+        payload: {
+            value: value,
+            recipeId: recipeId
+        }
     }
 }
 
-const onCountIngrid = () => {
+const errorAddingRecipe = (text) => {
+    return{
+        type: 'ERROR_ADDIND_RECIPE',
+        payload: text
+    }
+}
+
+const onCountIngredients = () => {
     return{
         type: 'COUNT_INGREDIENTS',
     }
@@ -58,35 +65,7 @@ const onDeleteRecipe = (menuService, dispatch) => (recipe) => {
 
 const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
     menuService.getLists('menu')
-        .then((data) => {
-            const menu ={
-                breakfast: data.filter(item => item.category === 'Завтрак'),
-                lunch: data.filter(item => item.category === 'Обед'),
-                diner: data.filter(item => item.category === 'Ужин')
-            }
-            if(category === 'Завтрак' && menu.breakfast.length < 7){
-                menuService.createItem('menu', {
-                    title: recipe.title,
-                    ingrid: recipe.ingrid,
-                    category: category
-                })
-            } else if(category === 'Обед' && menu.lunch.length < 7){
-                menuService.createItem('menu', {
-                    title: recipe.title,
-                    ingrid: recipe.ingrid,
-                    category: category
-                })
-            }
-            else if(category === 'Ужин' && menu.diner.length < 7){
-                menuService.createItem('menu', {
-                    title: recipe.title,
-                    ingrid: recipe.ingrid,
-                    category: category
-                })
-            } else {
-                dispatch(recipesAddedToMenu())
-            }
-        })
+        .then((data) => addedToMenu(menuService, dispatch, data, recipe, category))
 }
 
 const fetchRecipes = (menuService, dispatch) => () => {
@@ -110,7 +89,6 @@ const selectCategory = (menuService, dispatch) => (collection, category) => {
         .catch((error) => dispatch(fetchError(error)))
 }
 
-
 export {
     fetchRecipes,
     fetchMenu,
@@ -119,5 +97,40 @@ export {
     selectCategory,
     onChangeItem,
     onCategoryChange,
-    onCountIngrid
+    onCountIngredients
 }
+
+const addedToMenu = (menuService, dispatch, data, recipe, category) => {
+    const menu ={
+        breakfast: data.filter(item => item.category === 'Завтрак'),
+        lunch: data.filter(item => item.category === 'Обед'),
+        diner: data.filter(item => item.category === 'Ужин')
+    }
+    if(category === 'Завтрак' && menu.breakfast.length < 7){
+        menuService.createItem('menu', {
+            title: recipe.title,
+            ingredients: recipe.ingredients,
+            category: category
+        })
+    } else if(category === 'Обед' && menu.lunch.length < 7){
+        menuService.createItem('menu', {
+            title: recipe.title,
+            ingredients: recipe.ingredients,
+            category: category
+        })
+    }
+    else if(category === 'Ужин' && menu.diner.length < 7){
+        menuService.createItem('menu', {
+            title: recipe.title,
+            ingredients: recipe.ingredients,
+            category: category
+        })
+    } 
+    else if(!category){
+        dispatch(errorAddingRecipe('Вы не выбрали время приема еды'))
+    }
+    else {
+        dispatch(errorAddingRecipe(`Попробуй посмотреть корзину. ${category}ы уже выбраны`))
+    }
+}
+

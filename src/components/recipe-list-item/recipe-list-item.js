@@ -9,7 +9,7 @@ import { onAddedToMenu, onChangeItem, onCategoryChange} from '../../actions';
 import { withMenuService } from '../hoc';
 import { compose } from '../../utils';
 
-const RecipeInfo = ({show, text, ingrid}) => {
+const RecipeInfo = ({show, text, ingredients}) => {
     const classes = useStyles();
     if (show === 'img'){
         return( 
@@ -27,11 +27,11 @@ const RecipeInfo = ({show, text, ingrid}) => {
         )
     }
 
-    if(show === 'ingred'){
+    if(show === 'ingredients'){
         return (
             <List className={classes.ingridList}>
                 {
-                    ingrid.map((item) => {
+                    ingredients.map((item) => {
                         const {name, weight, id} = item;
             
                         return (
@@ -52,14 +52,14 @@ const RecipeInfo = ({show, text, ingrid}) => {
 const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}) => {
 
     const classes = useStyles();
-    const { text, id, title, ingrid, show } = recipe;
+    const { text, id, title, ingredients, show, addCategory} = recipe;
 
     return(
         <div>
             <Card >
-                <RecipeInfo show = {show} text = {text} ingrid = {ingrid}/>
+                <RecipeInfo show = {show} text = {text} ingredients = {ingredients}/>
                 <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
-                    <Button className={classes.button} onClick = {() => onChangeItem(id, 'ingred')}>Ингридиенты</Button>
+                    <Button className={classes.button} onClick = {() => onChangeItem(id, 'ingredients')}>Ингридиенты</Button>
                     <Button className={classes.button}  onClick = {() => onChangeItem(id, 'recipe')}>Рецепт</Button>
                     <Button className={classes.button} onClick = {() => onChangeItem(id, 'img')}>Фото</Button>
                 </ButtonGroup>
@@ -72,7 +72,7 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}
                         <Select 
                             className={classes.recipeItemSelect}
                             native
-                            onChange={e => onCategoryChange(e)}
+                            onChange={e => onCategoryChange(e, id)}
                             label="Прием еды"
                             inputProps={{
                                 id: 'outlined-age-native-simple',
@@ -87,7 +87,7 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}
                         size='large' 
                         variant='outlined' 
                         className={classes.recipeItemButton}
-                        onClick ={() => onAddedToMenu(recipe)} >Добавить</Button>
+                        onClick ={() => onAddedToMenu(recipe, addCategory)} >Добавить</Button>
                 </CardActions>
             </Card>
         </div>
@@ -109,8 +109,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         onChangeItem: (id, variableItem) => dispatch(onChangeItem(id, variableItem)), 
-        onCategoryChange: (e) => onCategoryChange(e.target.value),
-        onAddedToMenu: (recipe) => onAddedToMenu(menuService, dispatch)(recipe,'Ужин'),
+        onCategoryChange: (e, id) => dispatch(onCategoryChange(e.target.value, id)),
+        onAddedToMenu: (recipe, addCategory) => onAddedToMenu(menuService, dispatch)(recipe, addCategory),
     }
 }
 

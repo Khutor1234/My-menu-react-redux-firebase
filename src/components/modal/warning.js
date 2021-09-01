@@ -4,20 +4,22 @@ import useStyles from './style';
 
 
 
-const Warning = ({basketIsFul}) => {
+const Warning = ({warning}) => {
   const classes = useStyles();
     const [open, setOpen] = useState(false);
-
+    
     useEffect(() => {
-        setOpen(basketIsFul);
+        if(warning){
+            setOpen(true);
+        }
 
-    }, [basketIsFul]);
+    }, [warning]);
 
     const body = (
         <div className={classes.paper}>
         <h2 id="simple-modal-title">Упс, что-то пошло не так </h2>
         <p id="simple-modal-description">
-            Попробуй посмотреть в корзину, она переполнена
+            {warning}
         </p>
         </div>
     );

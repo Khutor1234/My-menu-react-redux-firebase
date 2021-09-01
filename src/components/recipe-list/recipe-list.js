@@ -41,7 +41,7 @@ class RecipeListContainer extends Component{
 
     render(){
         
-        const {recipes, loading, error, basketIsFul} = this.props;
+        const {recipes, loading, error, warning} = this.props;
 
         if(loading){
             return <Spinner/>
@@ -56,18 +56,18 @@ class RecipeListContainer extends Component{
                 <RecipeList 
                     recipes = {recipes} />
                 <Warning
-                    basketIsFul = {basketIsFul} />
+                    warning = {warning} />
             </>
         )
     }
 }
 
-const mapStateToProps = ({ recipeList: {recipes, loading, error, basketIsFul }}) => {
+const mapStateToProps = ({ recipeList: {recipes, loading, error, warning }}) => {
     return{
         recipes,
         loading,
         error,
-        basketIsFul
+        warning
     }
 }
 

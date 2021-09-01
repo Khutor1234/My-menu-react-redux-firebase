@@ -1,13 +1,13 @@
 import RecipeList from "../recipe-list";
 import Subheader from "../subheader";
-import RecipeSelected from "../recipe-selected";
+import RecipeCategory from "../recipe-category";
 
 const RecipesPage = () => {
 
     return(
         <div>
             <Subheader/>
-            <RecipeSelected/>
+            <RecipeCategory/>
             <RecipeList />
         </div>
         

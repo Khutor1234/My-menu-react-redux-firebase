@@ -21,14 +21,15 @@ const updateRecipeList = (state, action) => {
             const itemsRecipesLoaded = payload.map(item => {
                 return{
                     ...item,
-                    show: 'img'
+                    show: 'img',
+                    addCategory: false
                 }
             })
             return {
                 recipes: itemsRecipesLoaded,
                 loading: false,
                 error: null,
-                basketIsFul: false
+                warning: false
             };
 
         case 'ERROR':
@@ -52,11 +53,26 @@ const updateRecipeList = (state, action) => {
                 ...state.recipeList,
                 recipes: itemsChange
               };
-            
-        case 'RECIPES_ADDED_TO_MENU':
+
+        case 'RECIPE_CATEGORY_SELECTED':
+            const recipesChange = state.recipeList.recipes.map(item => {
+                if(item.id === payload.recipeId){
+                    return{ 
+                        ...item,
+                        addCategory: payload.value
+                    }
+                }
+                return item
+            });
             return{
                 ...state.recipeList,
-                basketIsFul: true
+                recipes: recipesChange
+            };
+            
+        case 'ERROR_ADDIND_RECIPE':
+            return{
+                ...state.recipeList,
+                warning: payload
             }
 
         default:
