@@ -35,6 +35,47 @@ const onChangeItem = (recipeId, variant) => {
     }
 }
 
+const onTitleChange = (e) => {
+    return{
+        type: 'TITLE_CHANGE',
+        payload: e
+    }
+}
+
+const onIngredientNameChange = (e) => {
+    return{
+        type: 'INGREDIENT_NAME_CHANGE',
+        payload: e
+    }
+}
+
+const onIngredientWeightChange = (e) => {
+    return{
+        type: 'INGREDIENT_WEIGHT_CHANGE',
+        payload: e
+    }
+}
+
+const onAddedIngredient = () => {
+    return{
+        type: 'ADDED_INGRIDIENT',
+    }
+}
+
+const onTextChange = (e) => {
+    return{
+        type: 'TEXT_CHANGE',
+        payload: e
+    }
+}
+
+const onCategoryFormChange = (e) => {
+    return{
+        type: 'CATEGORY_CHANGE',
+        payload: e
+    }
+}
+
 const onCategoryChange = (value, recipeId) => {
     return {
         type: 'RECIPE_CATEGORY_SELECTED',
@@ -89,6 +130,10 @@ const selectCategory = (menuService, dispatch) => (collection, category) => {
         .catch((error) => dispatch(fetchError(error)))
 }
 
+const onAddedToRecipes = (menuService, dispatch) => (newRecipe) => {
+    menuService.createItem('recipes', newRecipe)
+}
+
 export {
     fetchRecipes,
     fetchMenu,
@@ -97,7 +142,14 @@ export {
     selectCategory,
     onChangeItem,
     onCategoryChange,
-    onCountIngredients
+    onCountIngredients,
+    onTitleChange, 
+    onIngredientNameChange,
+    onIngredientWeightChange,
+    onTextChange,
+    onCategoryFormChange,
+    onAddedIngredient,
+    onAddedToRecipes
 }
 
 const addedToMenu = (menuService, dispatch, data, recipe, category) => {

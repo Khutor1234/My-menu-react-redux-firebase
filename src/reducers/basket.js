@@ -1,4 +1,4 @@
-const updateBasket = (state, action) => {
+const updateBasket = (state , action) => {
     const {type, payload} = action;
 
     if (state === undefined) {
@@ -56,7 +56,7 @@ const updateBasket = (state, action) => {
                 let weight = 0;
                 for(let i = 0; i < allIngredients.length; i++){
                     if(allIngredients[i].name === item.name){
-                        weight += allIngredients[i].weight
+                        weight += Number(allIngredients[i].weight)
                     }
                 }
                 
