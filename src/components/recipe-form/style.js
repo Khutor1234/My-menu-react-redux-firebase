@@ -4,14 +4,15 @@ const useStyles = makeStyles((theme) => ({
     button: {
         backgroundColor: 'rgba(0,0,0,.3)',
         width: '200px',
-        margin: '0 auto',
+        marginLeft: 100,
         marginTop: 10
     },
     form: {
         width: '100%'
     },
     field: {
-        marginTop: 5
+        marginTop: 5,
+        width: '100%'
     },
     ingred: {
         marginTop: 10
@@ -20,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20
     },
     text: {
-        marginTop: 10
+        marginTop: 10,
+        maxWidth: '100%',
+        minWidth: '100%'
     },
     name: {
         width: 200,
@@ -30,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
         width: 100,
         marginRight: 30
     },
+    img:{
+        width: '100%'
+    },
     icon: {
         marginTop: 15,
     },
@@ -37,6 +43,33 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 10,
         fontSize: 12,
         color: 'rgba(0, 0, 0, 0.87)'
+    },
+    error: {
+        color: 'red',
+        textAlign: 'center'
+    },
+    deleteIcon: {
+        marginBottom: -5,
+        marginLeft: 3
+    },
+    ingrid: {
+        margin: 0,
+        padding: 0,
+    },
+    ingridItem: {
+        marginRight: 10,
+        display: 'inline',
+        listStyleType: 'none',
+        
+    },
+    ingridText: {
+        display: 'inline',
+        fontSize: 12,
+        margin: 0
+    },
+    ingridIcon: {
+        display: 'inline',
+
     }
 }));
 

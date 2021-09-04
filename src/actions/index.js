@@ -69,6 +69,13 @@ const onTextChange = (e) => {
     }
 }
 
+const onImgChange = (e) => {
+    return{
+        type: 'IMAGE_CHANGE',
+        payload: e
+    }
+}
+
 const onCategoryFormChange = (e) => {
     return{
         type: 'CATEGORY_CHANGE',
@@ -96,6 +103,31 @@ const errorAddingRecipe = (text) => {
 const onCountIngredients = () => {
     return{
         type: 'COUNT_INGREDIENTS',
+    }
+}
+
+const errorAddingNewRecipe = () => {
+    return{
+        type: 'ERROR_ADDIND_NEW_RECIPE',
+    }
+}
+
+const successfulAddingNewRecipe = () => {
+    return{
+        type: 'SUCCESSFUL_ADDIND_NEW_RECIPE',
+    }
+}
+
+const onDeleteIngredient = (id) => {
+    return{
+        type: 'DELETE_INGREDIENT',
+        payload: id
+    }
+}
+
+const deleteMenu = () => {
+    return{
+        type: 'DELETE_MENU'
     }
 }
 
@@ -130,9 +162,21 @@ const selectCategory = (menuService, dispatch) => (collection, category) => {
         .catch((error) => dispatch(fetchError(error)))
 }
 
-const onAddedToRecipes = (menuService, dispatch) => (newRecipe) => {
-    menuService.createItem('recipes', newRecipe)
+const onAddedToRecipes = (menuService, dispatch) => (e, newRecipe) => {
+    if(newRecipe.title && newRecipe.ingredients && newRecipe.text && newRecipe.category){
+        menuService.createItem('recipes', newRecipe);
+        dispatch(successfulAddingNewRecipe())
+    } else {
+        e.preventDefault();
+        dispatch(errorAddingNewRecipe())
+    }
+    
 }
+
+const onDeleteMenu = (menuService, dispatch) => () => {
+    dispatch(deleteMenu())
+}
+
 
 export {
     fetchRecipes,
@@ -149,7 +193,10 @@ export {
     onTextChange,
     onCategoryFormChange,
     onAddedIngredient,
-    onAddedToRecipes
+    onAddedToRecipes,
+    onDeleteIngredient,
+    onImgChange,
+    onDeleteMenu
 }
 
 const addedToMenu = (menuService, dispatch, data, recipe, category) => {
@@ -159,24 +206,12 @@ const addedToMenu = (menuService, dispatch, data, recipe, category) => {
         diner: data.filter(item => item.category === 'Ужин')
     }
     if(category === 'Завтрак' && menu.breakfast.length < 7){
-        menuService.createItem('menu', {
-            title: recipe.title,
-            ingredients: recipe.ingredients,
-            category: category
-        })
+        menuService.createItem('menu', recipe)
     } else if(category === 'Обед' && menu.lunch.length < 7){
-        menuService.createItem('menu', {
-            title: recipe.title,
-            ingredients: recipe.ingredients,
-            category: category
-        })
+        menuService.createItem('menu', recipe)
     }
     else if(category === 'Ужин' && menu.diner.length < 7){
-        menuService.createItem('menu', {
-            title: recipe.title,
-            ingredients: recipe.ingredients,
-            category: category
-        })
+        menuService.createItem('menu', recipe)
     } 
     else if(!category){
         dispatch(errorAddingRecipe('Вы не выбрали время приема еды'))

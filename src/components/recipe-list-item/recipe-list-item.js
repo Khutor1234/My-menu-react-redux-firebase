@@ -9,17 +9,19 @@ import { onAddedToMenu, onChangeItem, onCategoryChange} from '../../actions';
 import { withMenuService } from '../hoc';
 import { compose } from '../../utils';
 
-const RecipeInfo = ({show, text, ingredients}) => {
+const RecipeInfo = ({show, text, ingredients, img}) => {
     const classes = useStyles();
     if (show === 'img'){
         return( 
             <CardMedia 
                 component='img'
                 height='250'
-                image='https://media.istockphoto.com/photos/stack-of-milk-and-dark-chocolate-with-nuts-caramel-and-fruits-and-on-picture-id965487714?k=6&m=965487714&s=612x612&w=0&h=v8epNbu2l-kk4GjK-Wzfjzx-Ui3MlOkw4w7dtrN_lL8='
+                image = {img}
                 alt='Фото рецепта' /> 
         )
     }
+
+    
 
     if(show === 'recipe'){
         return(
@@ -52,12 +54,12 @@ const RecipeInfo = ({show, text, ingredients}) => {
 const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}) => {
 
     const classes = useStyles();
-    const { text, id, title, ingredients, show, addCategory} = recipe;
+    const { text, id, title, ingredients, show, addCategory, img} = recipe;
 
     return(
         <div>
             <Card >
-                <RecipeInfo show = {show} text = {text} ingredients = {ingredients}/>
+                <RecipeInfo show = {show} text = {text} ingredients = {ingredients} img = {img}/>
                 <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
                     <Button className={classes.button} onClick = {() => onChangeItem(id, 'ingredients')}>Ингридиенты</Button>
                     <Button className={classes.button}  onClick = {() => onChangeItem(id, 'recipe')}>Рецепт</Button>

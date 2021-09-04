@@ -9,6 +9,8 @@ const updateBasket = (state , action) => {
         };
     }
 
+    console.log(type)
+
     switch(type){
 
         case 'LOADED':
@@ -41,6 +43,12 @@ const updateBasket = (state , action) => {
                     ...state.basket.menu.slice(0, itemIndex),
                     ...state.basket.menu.slice(itemIndex + 1)
                 ]
+            }
+
+        case 'DELETE_MENU':
+            return{
+                ...state.basket,
+                menu: []
             }
 
         case 'COUNT_INGREDIENTS':

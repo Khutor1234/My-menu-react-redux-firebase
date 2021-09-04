@@ -1,15 +1,29 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMenu} from '../../actions';
+import { fetchMenu, onDeleteMenu} from '../../actions';
 import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
-import { Container, Grid} from '@material-ui/core';
+import { Container, Grid, Button} from '@material-ui/core';
 import BasketListItem from '../basket-list-item';
 import ButtonCountIngredients from '../button-count-ingredients';
+import { makeStyles } from '@material-ui/core/styles';
 
-const BasketList = ({menu}) => {
+const useStyles = makeStyles((theme) => ({
+    button: {
+        display: 'block',
+        margin: '0 auto',
+        minWidth: 300,
+        height: 50,
+        fontSize: 15,
+        backgroundColor: 'rgba(0,0,0,.8)',
+        color: '#fff',
+    }
+}));
+
+const BasketList = ({menu, onDeleteMenu}) => {
+    const classes = useStyles();
     const day = [0, 1, 2, 3, 4, 5, 6];
     return(
         <Container>
@@ -29,6 +43,7 @@ const BasketList = ({menu}) => {
                 </Grid>
             </Grid>
             <ButtonCountIngredients menu ={menu}/>
+            <Button variant="contained" className={classes.button} onClick = {() => onDeleteMenu()}>Удалить это меню</Button>
         </Container>
     )
 }
@@ -41,7 +56,7 @@ class BasketListContainer extends Component{
 
     
     render(){
-        const {loading, error, menu} = this.props;
+        const {loading, error, menu, onDeleteMenu} = this.props;
 
         if(loading){
             return (
@@ -56,7 +71,7 @@ class BasketListContainer extends Component{
         }
 
         return(
-            <BasketList menu = {menu}/>
+            <BasketList menu = {menu} onDeleteMenu = {() => onDeleteMenu()}/>
         )
     }
 }
@@ -74,6 +89,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchMenu: fetchMenu(menuService, dispatch),
+        onDeleteMenu:  onDeleteMenu(menuService, dispatch)
     }
 }
 

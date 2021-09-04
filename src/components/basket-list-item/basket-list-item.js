@@ -22,7 +22,7 @@ const BasketListItem = ({time, day, onDeleteRecipe}) => {
                 color="primary"
                 className={classes.badge}
                 badgeContent={menuItem.title}>
-                <Avatar className={classes.avatar} alt="Фото рецепта" src="https://media.istockphoto.com/photos/delicious-pizza-with-ingredients-and-spices-picture-id924476838?k=6&m=924476838&s=612x612&w=0&h=ORCMVPZ_h5uZuZWG35jtw2ovGhGTdb-bRh3LW3DQNaE=" />
+                <Avatar className={classes.avatar} alt="Фото рецепта" src={menuItem.img} />
                 <IconButton aria-label="delete" color="secondary" className={classes.button} onClick ={() => onDeleteRecipe(menuItem)}>
                     <DeleteIcon />
                 </IconButton>
