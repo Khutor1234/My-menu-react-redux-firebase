@@ -92,6 +92,7 @@ const updateRecipeList = (state, action) => {
                 ...state.recipeList,
                 foundRecipes: filteredRecipes
             }
+            
 
         default:
             return state.recipeList;
