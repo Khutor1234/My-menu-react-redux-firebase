@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         display: 'block',
         margin: '0 auto',
+        marginTop: 20,
         minWidth: 300,
         height: 50,
         fontSize: 15,
@@ -42,8 +43,8 @@ const BasketList = ({menu, onDeleteMenu}) => {
                     }
                 </Grid>
             </Grid>
-            <ButtonCountIngredients menu ={menu}/>
             <Button variant="contained" className={classes.button} onClick = {() => onDeleteMenu()}>Удалить это меню</Button>
+            <ButtonCountIngredients/>
         </Container>
     )
 }
@@ -71,7 +72,7 @@ class BasketListContainer extends Component{
         }
 
         return(
-            <BasketList menu = {menu} onDeleteMenu = {() => onDeleteMenu()}/>
+            <BasketList menu = {menu} onDeleteMenu = {() => onDeleteMenu(menu)}/>
         )
     }
 }
@@ -89,7 +90,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchMenu: fetchMenu(menuService, dispatch),
-        onDeleteMenu:  onDeleteMenu(menuService, dispatch)
+        onDeleteMenu:  (menu) => onDeleteMenu(menuService, dispatch)(menu)
     }
 }
 

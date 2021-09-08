@@ -38,11 +38,10 @@ const updateRecipeForm = (state , action) => {
 
         case 'ADDED_INGRIDIENT':
             const {ingredientName, ingredientWeight} = state.form;
-            const id = Date.now();
             const newIngredient = {
                 name: ingredientName, 
                 weight: ingredientWeight,
-                id
+                id: Date.now()
             }
             if(ingredientName && ingredientWeight){
                 return {
@@ -76,6 +75,7 @@ const updateRecipeForm = (state , action) => {
                     img: payload
                 }
             }
+
         case 'CATEGORY_CHANGE': 
         return {
             newRecipe: {
@@ -88,12 +88,6 @@ const updateRecipeForm = (state , action) => {
             return{
                 ...state.form,
                 errorAdding: true
-            }
-
-        case 'SUCCESSFUL_ADDIND_NEW_RECIPE':
-            return{
-                ...state.form,
-                successufulAdding: true
             }
 
         case 'DELETE_INGREDIENT':

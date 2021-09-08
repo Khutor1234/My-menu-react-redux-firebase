@@ -50,5 +50,4 @@ export default class MenuService {
 				console.error("Error adding document: ", error);
 			});
 	}
-		
 }

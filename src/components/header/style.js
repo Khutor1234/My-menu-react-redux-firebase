@@ -11,7 +11,9 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         display: 'flex',
-        fontSize: 20
+        fontSize: 20,
+        alignItems: 'center'
+        
     },
     icon: {
         marginRight: theme.spacing(0.5),
@@ -20,8 +22,17 @@ const useStyles = makeStyles((theme) => ({
     },
     button:{
         backgroundColor: '#fff'
+    },
+    search: {
+        color: '#fff',
+        marginRight: 30,
+        backgroundColor: '#fff',
+        height: 37
+
+    },
+    searchText:{
+        margin: '2px 10px 2px 10px'
     }
 }));
 
 export default useStyles;
-

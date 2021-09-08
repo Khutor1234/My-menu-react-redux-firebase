@@ -4,7 +4,7 @@ import useStyles from './style';
 
 
 
-const Warning = ({warning}) => {
+const Warning = ({warning, errorAdding}) => {
   const classes = useStyles();
     const [open, setOpen] = useState(false);
     
@@ -15,9 +15,11 @@ const Warning = ({warning}) => {
 
     }, [warning]);
 
+    const header = errorAdding ? 'Упс, что-то пошло не так ': 'Поздравляю'
+
     const body = (
         <div className={classes.paper}>
-        <h2 id="simple-modal-title">Упс, что-то пошло не так </h2>
+        <h2 id="simple-modal-title">{header}</h2>
         <p id="simple-modal-description">
             {warning}
         </p>

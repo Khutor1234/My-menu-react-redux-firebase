@@ -72,7 +72,25 @@ const updateRecipeList = (state, action) => {
         case 'ERROR_ADDIND_RECIPE':
             return{
                 ...state.recipeList,
-                warning: payload
+                warning: payload,
+                errorAdding: true
+            }
+
+        case 'SUCCESS_ADDIND_RECIPE':
+            return{
+                ...state.recipeList,
+                warning: payload,
+                errorAdding: false
+            }
+
+        case 'SEARCH':
+            const recipes = state.recipeList.recipes
+            const filteredRecipes = recipes.filter(element => {
+                return element.title.toLowerCase().indexOf(payload.toLowerCase()) !== -1
+            })
+            return{
+                ...state.recipeList,
+                foundRecipes: filteredRecipes
             }
 
         default:

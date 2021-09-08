@@ -1,9 +1,12 @@
-import {AppBar, Container, Toolbar, Breadcrumbs,Link, Box, Button} from '@material-ui/core';
+import {AppBar, Container, Toolbar, Breadcrumbs,Link, Box, Button, InputBase, Paper} from '@material-ui/core';
+import React from 'react';
 import HomeIcon from '@material-ui/icons/Home';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
 import useStyles from './style';
+import { connect } from 'react-redux';
+import { onSearch} from '../../actions';
 
-const Header = () => {
+const Header = ({onSearch, foundRecipes}) => {
     const classes = useStyles();
 
     return(
@@ -20,6 +23,12 @@ const Header = () => {
                             Корзина
                         </Link>
                     </Breadcrumbs>
+                    <Paper component="form" className={classes.search}>
+                        <InputBase
+                            onChange={e => onSearch(e)}
+                            className={classes.searchText}
+                            placeholder="Найти"/>
+                    </Paper>
                     <Box mr={3}>
                         <Button color="inherit"  variant='outlined'>Log In</Button>
                     </Box>
@@ -30,4 +39,16 @@ const Header = () => {
     )
 }
 
-export default Header;
+const mapStateToProps = ({ recipeList: {foundRecipes}}) => {
+    return{
+        foundRecipes
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearch: (e) => dispatch(onSearch(e.target.value)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

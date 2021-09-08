@@ -17,14 +17,14 @@ const updateBasket = (state , action) => {
             return {
                 menu: payload,
                 loading: false,
-                error: null
+                error: null,
             };
             
         case 'REQUESTED':
             return{
                 menu: [],
                 loading: true,
-                error: null
+                error: null,
             };
 
         case 'ERROR':
@@ -48,23 +48,31 @@ const updateBasket = (state , action) => {
         case 'DELETE_MENU':
             return{
                 ...state.basket,
-                menu: []
+                menu: [],
+                ingredients: null,
             }
 
+        case 'COUNT_PEOPLE':
+            return{
+                ...state.basket,
+                people: payload
+            }
         case 'COUNT_INGREDIENTS':
             const menu = state.basket.menu;
             const allIngredients = []; 
+            const people = state.basket.people ? state.basket.people : 1
             for(let i = 0; i < menu.length; i++){
                 allIngredients.push(...menu[i].ingredients)
             }
 
             const uniqueIngredients = allIngredients.filter((set => item => !set.has(item.name) && set.add(item.name))(new Set()));
 
+            console.log(state.basket.people)
             const ingridients= uniqueIngredients.map((item) => {
                 let weight = 0;
                 for(let i = 0; i < allIngredients.length; i++){
                     if(allIngredients[i].name === item.name){
-                        weight += Number(allIngredients[i].weight)
+                        weight += people * Number(allIngredients[i].weight)
                     }
                 }
                 

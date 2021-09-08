@@ -24,6 +24,14 @@ const useStyles = makeStyles({
   },
   container: {
     paddingBottom: 50
+  },
+  input: {
+    color: '#fff',
+    width: 40,
+  },
+  typography:{
+    margin: '5px 10px 0 10px',
+    color: '#fff'
   }
 });
 

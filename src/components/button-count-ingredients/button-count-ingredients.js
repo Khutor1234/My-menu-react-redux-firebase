@@ -1,10 +1,10 @@
-import {Button, Container,List, ListItem, ListItemText, Typography} from '@material-ui/core';
+import {Button, Container,List, ListItem, ListItemText, Typography, TextField, Grid} from '@material-ui/core';
 import { connect } from 'react-redux';
-import { onCountIngredients} from '../../actions';
+import { onCountIngredients, onCountPeople} from '../../actions';
 import CheckIcon from '@material-ui/icons/Check';
 import useStyles from './style';
 
-const ButtonCountIngredients = ({ingredients , onCountIngredients}) => {
+const ButtonCountIngredients = ({ingredients , onCountIngredients, onCountPeople}) => {
     const classes = useStyles();
 
     const allIngredients = ingredients ?
@@ -36,6 +36,11 @@ const ButtonCountIngredients = ({ingredients , onCountIngredients}) => {
                 onClick = {() => onCountIngredients()}>
                     Расчитать продуктовую корзину
             </Button>
+            <Grid container justifyContent='center'>
+                <Grid item> <Typography className={classes.typography}>на</Typography> </Grid>
+                <Grid item> <TextField type = 'number'  defaultValue="1" className={classes.input} onChange={e => onCountPeople(e)}/> </Grid>
+                <Grid item> <Typography className={classes.typography}>человек</Typography> </Grid>
+            </Grid>
             {allIngredients}
         </Container>
     );
@@ -49,7 +54,8 @@ const mapStateToProps = ({ basket: {ingredients}}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onCountIngredients: () => dispatch(onCountIngredients())
+        onCountIngredients: () => dispatch(onCountIngredients()),
+        onCountPeople: (e) => dispatch(onCountPeople(e.target.value)),
     }
 }
 
