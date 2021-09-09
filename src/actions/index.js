@@ -18,6 +18,20 @@ const fetchError = (error) => {
     }
 }
 
+const onEmailChange = (e) => {
+    return{
+        type: 'EMAIL_CHANGE',
+        payload: e
+    }
+}
+
+const onPasswordChange = (e) => {
+    return{
+        type: 'PASSWORD_CHANGE',
+        payload: e
+    }
+}
+
 const onSearch = (e) => {
     return{
         type: 'SEARCH',
@@ -146,6 +160,12 @@ const onCategoryFormChange = (e) => {
     }
 }
 
+const onLogIn  = (menuService, dispatch) => (e, email, password) => {
+    console.log(email, password)
+    menuService.logInUser(email, password)
+        .then((data) => console.log(data))
+}
+
 const fetchRecipes = (menuService, dispatch) => () => {
     dispatch(fetchRequested());
     menuService.getLists('recipes')
@@ -245,5 +265,8 @@ export {
     onImgChange,
     onDeleteMenu,
     onCountPeople,
-    onSearch
+    onSearch,
+    onEmailChange,
+    onPasswordChange,
+    onLogIn
 }

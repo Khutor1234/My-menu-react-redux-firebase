@@ -6,7 +6,7 @@ import useStyles from './style';
 import { connect } from 'react-redux';
 import { onSearch} from '../../actions';
 
-const Header = ({onSearch, foundRecipes}) => {
+const Header = ({onSearch}) => {
     const classes = useStyles();
 
     return(
@@ -30,19 +30,18 @@ const Header = ({onSearch, foundRecipes}) => {
                             placeholder="Найти"/>
                     </Paper>
                     <Box mr={3}>
-                        <Button color="inherit"  variant='outlined'>Log In</Button>
+                        <Link className={classes.link} color="inherit" href="/login" >
+                            <Button color="inherit"  variant='outlined'>Log In</Button>
+                        </Link>
+                        
                     </Box>
-                    <Button  variant='contained' className={classes.button}>Sign Up</Button>
+                        <Link className={classes.link} color="inherit" href="/login" >
+                            <Button  variant='contained' className={classes.button}>Sign Up</Button>
+                        </Link>
                 </Toolbar>
             </Container>
         </AppBar>
     )
-}
-
-const mapStateToProps = ({ recipeList: {foundRecipes}}) => {
-    return{
-        foundRecipes
-    }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -51,4 +50,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(null, mapDispatchToProps)(Header);
