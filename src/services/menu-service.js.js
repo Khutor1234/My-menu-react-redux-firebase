@@ -1,6 +1,22 @@
-import { db } from "./firebase";
+import { db,auth } from "./firebase";
 
 export default class MenuService {
+
+	logInUser(email, password){
+		return auth.signInWithEmailAndPassword(email, password);
+	}
+	
+	signOutUser() {
+		return auth.signOut();
+	}
+	
+	registerUser(email, password) {
+		return auth.createUserWithEmailAndPassword(email, password);
+	}
+	
+	initAuth(onAuth) {
+		auth.onAuthStateChanged(onAuth);
+	}
 
 	getLists(list) {
 		return db.collection(list)

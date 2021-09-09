@@ -1,15 +1,12 @@
 import { Route, Switch } from 'react-router-dom';
-
-import { RecipesPage, BasketPage } from '../pages';
-import Header from '../header';
-
+import { RecipesPage, BasketPage, LoginPage } from '../pages';
 const App = () => {
 	return (
 		<div>
-			<Header/>
 			<Switch>
 				<Route path = '/' component = {RecipesPage} exact />
 				<Route path = '/basket' component = {BasketPage} />
+				<Route path = '/login' component = {LoginPage} />
 			</Switch>
 		</div>
 	);

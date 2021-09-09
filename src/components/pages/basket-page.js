@@ -1,8 +1,13 @@
 import BasketList from "../basket-list";
+import Header from '../header'
 
 const BasketPage = () => {
     return(
-        <BasketList/>
+        <>
+            <Header/>
+            <BasketList/>
+        </>
+       
     )
 }
 

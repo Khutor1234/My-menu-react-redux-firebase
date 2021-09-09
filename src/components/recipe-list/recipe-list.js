@@ -37,8 +37,6 @@ class RecipeListContainer extends Component{
 
     render(){
         const {recipes, foundRecipes, loading, error, warning, errorAdding} = this.props;
-        // console.log(recipes, 'recipes')
-        // console.log(foundRecipes, 'found')
 
         if(loading){
             return <Spinner/>
