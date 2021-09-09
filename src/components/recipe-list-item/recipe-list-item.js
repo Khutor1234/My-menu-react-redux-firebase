@@ -1,7 +1,4 @@
-import {Card, CardMedia, CardContent, CardActions,
-    FormControl, InputLabel, Select, Typography,
-    List, ListItem, ListItemText,
-    Button, ButtonGroup} from '@material-ui/core';
+import {Card, CardMedia, CardContent, CardActions, FormControl, InputLabel, Select, Typography, List, ListItem, ListItemText, Button, ButtonGroup} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import useStyles from './style';
 import { connect } from 'react-redux';
@@ -11,22 +8,13 @@ import { compose } from '../../utils';
 
 const RecipeInfo = ({show, text, ingredients, img}) => {
     const classes = useStyles();
+
     if (show === 'img'){
-        return( 
-            <CardMedia 
-                component='img'
-                height='250'
-                image = {img}
-                alt='Фото рецепта' /> 
-        )
+        return <CardMedia component='img' height='250' image = {img} alt='Фото рецепта' /> 
     }
 
-    
-
     if(show === 'recipe'){
-        return(
-            <Typography className={classes.recipeText} variant="body2" gutterBottom>{text}</Typography> 
-        )
+        return<Typography className={classes.recipeText} variant="body2" gutterBottom>{text}</Typography> 
     }
 
     if(show === 'ingredients'){
@@ -39,8 +27,7 @@ const RecipeInfo = ({show, text, ingredients, img}) => {
                         return (
                                 <ListItem key = {id} className={classes.recipeItem}>
                                     <CheckIcon/>
-                                    <ListItemText
-                                    primary={name}></ListItemText>
+                                    <ListItemText primary={name}/>
                                     <Typography>{weight}г.</Typography>
                                 </ListItem>
                         );
@@ -52,58 +39,46 @@ const RecipeInfo = ({show, text, ingredients, img}) => {
 }
 
 const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}) => {
-
     const classes = useStyles();
-    const { text, id, title, ingredients, show, addCategory, img} = recipe;
+    const { text, id, title, img, ingredients, show, addCategory} = recipe;
+    //console.log(recipe)
 
     return(
-        <div>
-            <Card >
-                <RecipeInfo show = {show} text = {text} ingredients = {ingredients} img = {img}/>
-                <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
-                    <Button className={classes.button} onClick = {() => onChangeItem(id, 'ingredients')}>Ингридиенты</Button>
-                    <Button className={classes.button}  onClick = {() => onChangeItem(id, 'recipe')}>Рецепт</Button>
-                    <Button className={classes.button} onClick = {() => onChangeItem(id, 'img')}>Фото</Button>
-                </ButtonGroup>
-                <CardContent>
-                    <Typography variant='h5'>{title}</Typography>
-                </CardContent>
-                <CardActions>
-                    <FormControl variant="outlined" className={classes.recipeItemForm}>
-                        <InputLabel htmlFor="outlined-age-native-simple">Прием еды</InputLabel>
-                        <Select 
-                            className={classes.recipeItemSelect}
-                            native
-                            onChange={e => onCategoryChange(e, id)}
-                            label="Прием еды"
-                            inputProps={{
-                                id: 'outlined-age-native-simple',
-                            }} >
-                                <option aria-label="None" value="" />
-                                <option value="Завтрак">Завтрак</option>
-                                <option value="Обед" >Обед</option>
-                                <option value="Ужин" >Ужин</option>
-                        </Select>
-                    </FormControl>
-                    <Button 
-                        size='large' 
-                        variant='outlined' 
-                        className={classes.recipeItemButton}
-                        onClick ={() => onAddedToMenu(recipe, addCategory)} >Добавить</Button>
-                </CardActions>
-            </Card>
-        </div>
-        
+        <Card>
+            <RecipeInfo show = {show} text = {text} ingredients = {ingredients} img = {img}/>
+            <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
+                <Button className={classes.button} onClick = {() => onChangeItem(id, 'ingredients')}>Ингридиенты</Button>
+                <Button className={classes.button}  onClick = {() => onChangeItem(id, 'recipe')}>Рецепт</Button>
+                <Button className={classes.button} onClick = {() => onChangeItem(id, 'img')}>Фото</Button>
+            </ButtonGroup>
+            <CardContent>
+                <Typography variant='h5'>{title}</Typography>
+            </CardContent>
+            <CardActions>
+                <FormControl variant="outlined" className={classes.recipeItemForm}>
+                    <InputLabel>Прием еды</InputLabel>
+                    <Select 
+                        className={classes.recipeItemSelect}
+                        native
+                        onChange={e => onCategoryChange(e, id)}
+                        label="Прием еды"
+                        inputProps={{
+                            id: 'outlined-age-native-simple',
+                        }} >
+                            <option aria-label="None" value="" />
+                            <option value="Завтрак">Завтрак</option>
+                            <option value="Обед" >Обед</option>
+                            <option value="Ужин" >Ужин</option>
+                    </Select>
+                </FormControl>
+                <Button 
+                    size='large' 
+                    variant='outlined' 
+                    className={classes.recipeItemButton}
+                    onClick ={() => onAddedToMenu(recipe, addCategory)} >Добавить</Button>
+            </CardActions>
+        </Card>      
     )
-}
-
-
-const mapStateToProps = ({ recipeList: {recipes, loading, error }}) => {
-    return{
-        recipes,
-        loading,
-        error
-    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -119,6 +94,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default compose(
     withMenuService(),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(null, mapDispatchToProps)
 )(RecipeListItem);
 

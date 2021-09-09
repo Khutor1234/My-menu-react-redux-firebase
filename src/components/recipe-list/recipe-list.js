@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-
 import RecipeListItem from '../recipe-list-item';
 import { withMenuService } from '../hoc';
 import { fetchRecipes} from '../../actions';
@@ -21,8 +20,7 @@ const RecipeList = ({recipes}) => {
                     recipes.map((recipe) => {
                         return(
                             <Grid item key = {recipe.id} xs={12} sm={6} md={4} className={classes.recipeItem}>
-                                <RecipeListItem 
-                                    recipe = {recipe} />
+                                <RecipeListItem recipe = {recipe} />
                             </Grid>
                         )
                     })
@@ -33,15 +31,14 @@ const RecipeList = ({recipes}) => {
 }
 
 class RecipeListContainer extends Component{
-
     componentDidMount(){
         this.props.fetchRecipes()
     }
 
-
     render(){
-        
-        const {recipes, loading, error, warning, errorAdding, foundRecipes} = this.props;
+        const {recipes, foundRecipes, loading, error, warning, errorAdding} = this.props;
+        // console.log(recipes, 'recipes')
+        // console.log(foundRecipes, 'found')
 
         if(loading){
             return <Spinner/>
@@ -52,7 +49,14 @@ class RecipeListContainer extends Component{
         }
 
         if(foundRecipes){
-            return <RecipeList recipes = {foundRecipes} />
+            return( 
+                <>
+                    <RecipeList 
+                        recipes = {foundRecipes} />
+                    <Warning
+                        warning = {warning} errorAdding = {errorAdding}/>
+                </>
+            )
         }
 
         return(
@@ -67,13 +71,13 @@ class RecipeListContainer extends Component{
 }
 
 const mapStateToProps = ({ recipeList: {recipes, loading, error, warning, errorAdding, foundRecipes }}) => {
-    return{
-        foundRecipes,
-        errorAdding,
-        recipes,
-        loading,
-        error,
-        warning
+    return{ 
+        foundRecipes, 
+        errorAdding, 
+        recipes, 
+        loading, 
+        error, 
+        warning 
     }
 }
 

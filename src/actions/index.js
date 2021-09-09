@@ -171,6 +171,7 @@ const onAddedToRecipes = (menuService, dispatch) => (e, newRecipe) => {
 }
 
 const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
+    console.log(recipe)
     menuService.getLists('menu')
         .then((data) => {
             const menu ={
