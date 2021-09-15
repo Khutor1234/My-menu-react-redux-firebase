@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         onSearch: (e) => dispatch(onSearch(e.target.value)),
-        onLogOut: onLogOut(menuService),
+        onLogOut: onLogOut(menuService, dispatch),
     }
 }
 

@@ -35,11 +35,11 @@ const mapStateToProps = ({user: {user}}) => {
     }
 }
 
-const mapDispatchToProps = ( ownProps) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     const {menuService} = ownProps;
 
     return {
-        onLogIn: (provider) => onLogIn(menuService)(provider),
+        onLogIn: (provider) => onLogIn(menuService, dispatch)(provider),
     }
 }
 

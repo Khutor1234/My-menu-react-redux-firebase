@@ -159,11 +159,11 @@ const logOut = () => {
     }
 }
 
-const onLogIn  = (menuService) => (provider) => {
+const onLogIn  = (menuService, dispatch) => (provider) => {
     menuService.logIn(provider)
 }
 
-const onLogOut  = (menuService) => () => {
+const onLogOut  = (menuService, dispatch) => () => {
     menuService.logOut()
 }
 
