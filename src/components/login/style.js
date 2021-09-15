@@ -1,31 +1,30 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     mainPaper:{
         position: 'fixed',
         minWidth: '100vw',
         minHeight: '100vh',
-        backgroundImage: 'url(https://thumbs.dreamstime.com/b/%D0%B1%D0%B5%D0%B7%D1%88%D0%BE%D0%B2%D0%BD%D0%B0%D1%8F-%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%B0-%D0%BF%D1%80%D0%B5%D0%B4%D0%BC%D0%B5%D1%82%D0%BE%D0%B2-%D0%BD%D0%B0-%D1%87%D0%B5%D1%80%D0%BD%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D0%B1%D1%8B%D1%81%D1%82%D1%80%D0%BE%D0%B3%D0%BE-%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D1%8F-%D1%84%D0%B0%D1%81%D1%82%D1%84%D1%83%D0%B4-200598354.jpg)',
-    },
-    paper: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        padding: 20,
-        height: 80,
-        width: 350,
+        backgroundImage: 'url(https://cdn.pixabay.com/photo/2017/12/28/12/32/set-3045129_960_720.jpg)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: '20% 20%'
     },
     input:{
         width: '100%',
         marginBottom: 10
     },
     button: {
-        width: '100%',
-        marginTop: 20,
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '350px',
+        height: 100,
         backgroundColor: '#000',
-        color: '#fff'
-    }
+        color: '#fff',
+        '&:hover': { background: "rgb(50,50,50)"},
+    },
   }));
 
 export default useStyles

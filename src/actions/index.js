@@ -185,7 +185,6 @@ const fetchRecipes = (menuService, dispatch) => () => {
 }
 
 const fetchMenu = (menuService, dispatch) => (user) => {
-    console.log(user)
     dispatch(fetchRequested())
     menuService.getMenuByUser(user)
         .then((data) => dispatch(fetchLoaded(data)))
