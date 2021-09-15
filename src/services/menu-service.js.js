@@ -31,6 +31,20 @@ export default class MenuService {
 			.catch((error) => console.log("Error getting document:", error))
 	}
 
+	getMenuByUser( user ) {
+		return db.collection('menu')
+			.where('user', '==', user)
+			.get()
+			.then(snapshot => {
+				const items = snapshot.docs.map(doc => ({
+					id: doc.id,
+					...doc.data()
+				}));
+				return items;
+			})
+			.catch((error) => console.log("Error getting document:", error))       
+	}
+
 	getListByCategory(collection, category) {
 		return db.collection(collection)
 			.where('category', '==', category)

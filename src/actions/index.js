@@ -184,9 +184,10 @@ const fetchRecipes = (menuService, dispatch) => () => {
         .catch((error) => dispatch(fetchError(error)))
 }
 
-const fetchMenu = (menuService, dispatch) => () => {
+const fetchMenu = (menuService, dispatch) => (user) => {
+    console.log(user)
     dispatch(fetchRequested())
-    menuService.getLists('menu')
+    menuService.getMenuByUser(user)
         .then((data) => dispatch(fetchLoaded(data)))
         .catch((error) => dispatch(fetchLoaded(error)))
 }
@@ -206,9 +207,9 @@ const onAddedToMenu = (menuService, dispatch) => (recipe, category, user) =>{
     menuService.getLists('menu')
         .then((data) => {
             const menu ={
-                breakfast: data.filter(item => item.category === 'Завтрак'),
-                lunch: data.filter(item => item.category === 'Обед'),
-                diner: data.filter(item => item.category === 'Ужин')
+                breakfast: data.filter(item => item.category === 'Завтрак' && item.user === user),
+                lunch: data.filter(item => item.category === 'Обед' && item.user === user),
+                diner: data.filter(item => item.category === 'Ужин' && item.user === user)
             }
             const addRecipe = () => {
                 menuService.createItem('menu', {

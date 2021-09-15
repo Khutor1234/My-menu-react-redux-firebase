@@ -10,6 +10,7 @@ import BasketListItem from '../basket-list-item';
 import ButtonCountIngredients from '../button-count-ingredients';
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router';
+import { useState, useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -50,36 +51,31 @@ const BasketList = ({onDeleteMenu}) => {
     )
 }
 
-class BasketListContainer extends Component{
+const  BasketListContainer = ({user, loading, error, menu, onDeleteMenu, fetchMenu}) => {
 
-    componentDidMount(){
-        this.props.fetchMenu()
-    }
+    useEffect(() => {
+        fetchMenu(user)
+    }, [user]);
 
-    
-    render(){
-        const {user, loading, error, menu, onDeleteMenu} = this.props;
-
-        if(loading){
-            return (
-                <div style = {{paddingTop: 110}}>
-                    <Spinner/>
-                </div>
-            )
-        }
-
-        if(error){
-            return <ErrorIndicator/>
-        }
-
-        if(!user){
-            return <Redirect to="/"/>
-        }
-
-        return(
-            <BasketList onDeleteMenu = {() => onDeleteMenu(menu)}/>
+    if(loading){
+        return (
+            <div style = {{paddingTop: 110}}>
+                <Spinner/>
+            </div>
         )
     }
+
+    if(error){
+        return <ErrorIndicator/>
+    }
+
+    if(!user){
+        return <Redirect to="/"/>
+    }
+
+    return(
+        <BasketList onDeleteMenu = {() => onDeleteMenu(menu)}/>
+    )
 }
 
 const mapStateToProps = ({ basket: { loading, error, menu}, user: {user}}) => {
@@ -95,7 +91,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     const {menuService} = ownProps;
 
     return {
-        fetchMenu: fetchMenu(menuService, dispatch),
+        fetchMenu: (user) => fetchMenu(menuService, dispatch)(user),
         onDeleteMenu:  (menu) => onDeleteMenu(menuService, dispatch)(menu)
     }
 }
