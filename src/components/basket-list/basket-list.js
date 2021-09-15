@@ -41,7 +41,7 @@ const  BasketListContainer = ({user, loading, error, menu, onDeleteMenu, fetchMe
 
     useEffect(() => {
         fetchMenu(user)
-    }, [user]);
+    }, [fetchMenu, user]);
 
     if(loading){
         return (
