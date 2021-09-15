@@ -3,7 +3,6 @@ import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 import {selectCategory, fetchRecipes} from '../../actions';
 import useStyles from './style';
-
 import { Container, Button, Grid} from '@material-ui/core';
 
 const RecipeCategory = ({selectCategory, fetchRecipes}) => {
@@ -30,16 +29,7 @@ const RecipeCategory = ({selectCategory, fetchRecipes}) => {
                 </Grid>
             </Grid>
         </Container>
-)
-}
-
-const mapStateToProps = ({ recipeList: {recipes, loading, error }}) => {
-    return{
-        recipes,
-        loading,
-        error
-    }
-}
+)}
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     const {menuService} = ownProps;
@@ -52,5 +42,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default compose(
     withMenuService(),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(null, mapDispatchToProps)
 )(RecipeCategory );

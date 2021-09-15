@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import useStyles from './style';
 
-
-
 const Warning = ({warning, errorAdding}) => {
   const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -12,7 +10,6 @@ const Warning = ({warning, errorAdding}) => {
         if(warning){
             setOpen(true);
         }
-
     }, [warning]);
 
     const header = errorAdding ? 'Упс, что-то пошло не так ': 'Поздравляю'
@@ -32,9 +29,8 @@ const Warning = ({warning, errorAdding}) => {
             open={open}
             onClose = {() => setOpen(false)}
             aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-        >
-            {body}
+            aria-describedby="simple-modal-description">
+                {body}
         </Modal>
         </div>
     );

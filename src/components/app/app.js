@@ -5,19 +5,13 @@ import { connect } from 'react-redux';
 import { withMenuService } from '../hoc';
 import { fetchAuth} from '../../actions';
 import { compose } from '../../utils';
-import { Redirect } from 'react-router'
 
 class App extends Component{
-
 	componentDidMount(){
         this.props.fetchAuth();
     }
 
 	render(){
-		const {user} = this.props;
-		console.log(user)
-		
-
 		return (
 			<div>
 				<Switch>
@@ -30,12 +24,6 @@ class App extends Component{
 	}	
 }
 
-const mapStateToProps = ({user: {user}}) => {
-    return { 
-        user
-    }
-}
-
 const mapDispatchToProps = (dispatch, ownProps) => {
     const {menuService} = ownProps;
 
@@ -46,5 +34,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default compose(
     withMenuService(),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(null, mapDispatchToProps)
 )(App);

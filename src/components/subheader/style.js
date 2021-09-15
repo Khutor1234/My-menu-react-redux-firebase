@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)'
     }
-    
 }));
 
 export default useStyles;

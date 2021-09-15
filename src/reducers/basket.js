@@ -9,8 +9,6 @@ const updateBasket = (state , action) => {
         };
     }
 
-    console.log(type)
-
     switch(type){
 
         case 'LOADED':

@@ -1,4 +1,4 @@
-import {AppBar, Container, Toolbar, Breadcrumbs,Link, Box, Button, InputBase, Paper} from '@material-ui/core';
+import {AppBar, Container, Toolbar, Breadcrumbs,Link, Button, InputBase, Paper} from '@material-ui/core';
 import React from 'react';
 import HomeIcon from '@material-ui/icons/Home';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         onSearch: (e) => dispatch(onSearch(e.target.value)),
-        onLogOut: onLogOut(menuService, dispatch),
+        onLogOut: onLogOut(menuService),
     }
 }
 

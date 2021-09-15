@@ -6,7 +6,6 @@ import {onDeleteRecipe} from '../../actions';
 import { compose } from '../../utils';
 import { withMenuService } from '../hoc';
 
-
 const BasketListItem = ({time, day, onDeleteRecipe}) => {
     const classes = useStyles();
     const menuItem = time[day];
