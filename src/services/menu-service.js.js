@@ -1,21 +1,21 @@
-import { db,auth } from "./firebase";
+import { db, auth } from "./firebase";
 
 export default class MenuService {
 
-	logInUser(email, password){
-		return auth.signInWithEmailAndPassword(email, password);
+	logIn(provider){
+		return auth.signInWithPopup(provider)
+			.then((res) => {
+				return res.user
+			})
+			.catch((err) => console.log(err))
 	}
-	
-	signOutUser() {
-		return auth.signOut();
+
+	logOut(){
+		return auth.signOut()
 	}
-	
-	registerUser(email, password) {
-		return auth.createUserWithEmailAndPassword(email, password);
-	}
-	
-	initAuth(onAuth) {
-		auth.onAuthStateChanged(onAuth);
+
+	getUser(onAuth){
+		return auth.onAuthStateChanged(onAuth)
 	}
 
 	getLists(list) {

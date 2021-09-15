@@ -4,9 +4,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
 import useStyles from './style';
 import { connect } from 'react-redux';
-import { onSearch} from '../../actions';
+import { onSearch, onLogOut} from '../../actions';
+import { withMenuService } from '../hoc';
+import { compose } from '../../utils';
 
-const Header = ({onSearch}) => {
+const Header = ({onSearch, onLogOut}) => {
     const classes = useStyles();
 
     return(
@@ -14,7 +16,7 @@ const Header = ({onSearch}) => {
             <Container fixed>
                 <Toolbar>
                     <Breadcrumbs className={classes.label}>
-                        <Link className={classes.link} color="inherit" href="/" >
+                        <Link className={classes.link} color="inherit" href="/recipes" >
                             <HomeIcon className={classes.icon}/>
                             Рецепты
                         </Link>
@@ -29,25 +31,25 @@ const Header = ({onSearch}) => {
                             className={classes.searchText}
                             placeholder="Найти"/>
                     </Paper>
-                    <Box mr={3}>
-                        <Link className={classes.link} color="inherit" href="/login" >
-                            <Button color="inherit"  variant='outlined'>Log In</Button>
-                        </Link>
-                        
-                    </Box>
-                        <Link className={classes.link} color="inherit" href="/login" >
-                            <Button  variant='contained' className={classes.button}>Sign Up</Button>
-                        </Link>
+                    <Link className={classes.link} color="inherit" href="/" >
+                        <Button color="inherit" variant='outlined' onClick ={() => onLogOut()}>Выйти</Button>
+                    </Link> 
                 </Toolbar>
             </Container>
         </AppBar>
     )
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const {menuService} = ownProps;
+
     return {
         onSearch: (e) => dispatch(onSearch(e.target.value)),
+        onLogOut: onLogOut(menuService, dispatch),
     }
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+export default compose(
+    withMenuService(),
+    connect(null, mapDispatchToProps)
+)(Header);;

@@ -9,6 +9,7 @@ import { Container, Grid, Button} from '@material-ui/core';
 import BasketListItem from '../basket-list-item';
 import ButtonCountIngredients from '../button-count-ingredients';
 import { makeStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const BasketList = ({menu, onDeleteMenu}) => {
+const BasketList = ({onDeleteMenu}) => {
     const classes = useStyles();
     const day = [0, 1, 2, 3, 4, 5, 6];
     return(
@@ -57,7 +58,7 @@ class BasketListContainer extends Component{
 
     
     render(){
-        const {loading, error, menu, onDeleteMenu} = this.props;
+        const {user, loading, error, menu, onDeleteMenu} = this.props;
 
         if(loading){
             return (
@@ -71,17 +72,22 @@ class BasketListContainer extends Component{
             return <ErrorIndicator/>
         }
 
+        if(!user){
+            return <Redirect to="/"/>
+        }
+
         return(
-            <BasketList menu = {menu} onDeleteMenu = {() => onDeleteMenu(menu)}/>
+            <BasketList onDeleteMenu = {() => onDeleteMenu(menu)}/>
         )
     }
 }
 
-const mapStateToProps = ({ basket: { loading, error, menu}}) => {
+const mapStateToProps = ({ basket: { loading, error, menu}, user: {user}}) => {
     return{
         loading, 
         error,
-        menu
+        menu,
+        user
     }
 }
 

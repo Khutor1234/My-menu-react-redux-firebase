@@ -18,20 +18,6 @@ const fetchError = (error) => {
     }
 }
 
-const onEmailChange = (e) => {
-    return{
-        type: 'EMAIL_CHANGE',
-        payload: e
-    }
-}
-
-const onPasswordChange = (e) => {
-    return{
-        type: 'PASSWORD_CHANGE',
-        payload: e
-    }
-}
-
 const onSearch = (e) => {
     return{
         type: 'SEARCH',
@@ -160,10 +146,35 @@ const onCategoryFormChange = (e) => {
     }
 }
 
-const onLogIn  = (menuService, dispatch) => (e, email, password) => {
-    console.log(email, password)
-    menuService.logInUser(email, password)
-        .then((data) => console.log(data))
+const logIn = (user) => {
+    return{
+        type: 'LOG_IN',
+        payload: user
+    }
+}
+
+const logOut = () => {
+    return{
+        type: 'LOG_OUT',
+    }
+}
+
+const onLogIn  = (menuService, dispatch) => (provider) => {
+    menuService.logIn(provider)
+}
+
+const onLogOut  = (menuService, dispatch) => () => {
+    menuService.logOut()
+}
+
+const fetchAuth = (menuService, dispatch) => () => {
+    menuService.getUser(user => {  
+        if(user){
+            dispatch(logIn(user))
+        } else {
+            dispatch(logOut())
+        }
+    })       
 }
 
 const fetchRecipes = (menuService, dispatch) => () => {
@@ -190,8 +201,8 @@ const onAddedToRecipes = (menuService, dispatch) => (e, newRecipe) => {
     
 }
 
-const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
-    console.log(recipe)
+const onAddedToMenu = (menuService, dispatch) => (recipe, category, user) =>{
+    console.log(user)
     menuService.getLists('menu')
         .then((data) => {
             const menu ={
@@ -205,7 +216,8 @@ const onAddedToMenu = (menuService, dispatch) => (recipe, category) =>{
                     ingredients: recipe.ingredients,
                     img: recipe.img,
                     title: recipe.title,
-                    text: recipe.text
+                    text: recipe.text,
+                    user: user
                 });
                 dispatch(successAddingRecipe(`Вы добавили ${category}(${recipe.title}).`))
             }
@@ -248,6 +260,7 @@ const selectCategory = (menuService, dispatch) => (collection, category) => {
 export {
     fetchRecipes,
     fetchMenu,
+    fetchAuth,
     onAddedToMenu,
     onDeleteRecipe,
     selectCategory,
@@ -266,7 +279,6 @@ export {
     onDeleteMenu,
     onCountPeople,
     onSearch,
-    onEmailChange,
-    onPasswordChange,
-    onLogIn
+    onLogIn,
+    onLogOut
 }

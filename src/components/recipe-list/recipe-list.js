@@ -2,13 +2,14 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import RecipeListItem from '../recipe-list-item';
 import { withMenuService } from '../hoc';
-import { fetchRecipes} from '../../actions';
+import { fetchRecipes, fetchAuth} from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { Container, Grid} from '@material-ui/core';
 import { Warning } from '../modal';
 import useStyles from './style';
+import { Redirect } from 'react-router';
 
 const RecipeList = ({recipes}) => {
     const classes = useStyles();
@@ -32,18 +33,22 @@ const RecipeList = ({recipes}) => {
 
 class RecipeListContainer extends Component{
     componentDidMount(){
-        this.props.fetchRecipes()
+        this.props.fetchRecipes();
     }
 
     render(){
-        const {recipes, foundRecipes, loading, error, warning, errorAdding} = this.props;
-
+        const { user, recipes, foundRecipes, loading, error, warning, errorAdding} = this.props;
+        
         if(loading){
             return <Spinner/>
         }
 
         if(error){
             return <ErrorIndicator/>
+        }
+
+        if(!user){
+            return <Redirect to="/"/>
         }
 
         if(foundRecipes){
@@ -68,14 +73,15 @@ class RecipeListContainer extends Component{
     }
 }
 
-const mapStateToProps = ({ recipeList: {recipes, loading, error, warning, errorAdding, foundRecipes }}) => {
+const mapStateToProps = ({ recipeList: {recipes, loading, error, warning, errorAdding, foundRecipes }, user: {user}}) => {
     return{ 
         foundRecipes, 
         errorAdding, 
         recipes, 
         loading, 
         error, 
-        warning 
+        warning,
+        user
     }
 }
 
@@ -84,6 +90,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         fetchRecipes: fetchRecipes(menuService, dispatch),
+        fetchAuth: fetchAuth(menuService, dispatch)
     }
 }
 

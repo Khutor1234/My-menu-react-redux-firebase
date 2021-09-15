@@ -8,17 +8,16 @@ const updateUser = (state , action) => {
     }
 
     switch(type){
-        case 'EMAIL_CHANGE':
-            return {
-                ...state.user,
-                email: payload
-            }
-
-        case 'PASSWORD_CHANGE':
-            return {
-                ...state.user,
-                password: payload
-            }
+        case 'LOG_IN':
+            const email = payload.email
+            return{
+                user: email
+            };
+        
+        case 'LOG_OUT':
+            return{
+                user: null
+            };
 
         default:
             return state.user

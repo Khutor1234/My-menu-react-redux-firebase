@@ -35,9 +35,9 @@ const updateRecipeList = (state, action) => {
 
     if (state === undefined) {
         return {
-          recipes: [],
-          loading: true,
-          error: null
+            recipes: [],
+            loading: true,
+            error: null
         };
     }
 

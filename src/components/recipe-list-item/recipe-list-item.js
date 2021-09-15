@@ -38,10 +38,9 @@ const RecipeInfo = ({show, text, ingredients, img}) => {
     }
 }
 
-const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}) => {
+const RecipeListItem = ({ user, recipe, onAddedToMenu, onCategoryChange, onChangeItem}) => {
     const classes = useStyles();
     const { text, id, title, img, ingredients, show, addCategory} = recipe;
-    //console.log(recipe)
 
     return(
         <Card>
@@ -75,10 +74,16 @@ const RecipeListItem = ({ recipe, onAddedToMenu, onCategoryChange, onChangeItem}
                     size='large' 
                     variant='outlined' 
                     className={classes.recipeItemButton}
-                    onClick ={() => onAddedToMenu(recipe, addCategory)} >Добавить</Button>
+                    onClick ={() => onAddedToMenu(recipe, addCategory, user)} >Добавить</Button>
             </CardActions>
         </Card>      
     )
+}
+
+const mapStateToProps = ( {user: {user}}) => {
+    return { 
+        user
+    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -87,13 +92,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onChangeItem: (id, variableItem) => dispatch(onChangeItem(id, variableItem)), 
         onCategoryChange: (e, id) => dispatch(onCategoryChange(e.target.value, id)),
-        onAddedToMenu: (recipe, addCategory) => onAddedToMenu(menuService, dispatch)(recipe, addCategory),
+        onAddedToMenu: (recipe, addCategory, user) => onAddedToMenu(menuService, dispatch)(recipe, addCategory, user),
     }
 }
 
 
 export default compose(
     withMenuService(),
-    connect(null, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(RecipeListItem);
 
