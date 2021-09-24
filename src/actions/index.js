@@ -192,17 +192,16 @@ const fetchMenu = (menuService, dispatch) => (user) => {
 }
 
 const onAddedToRecipes = (menuService, dispatch) => (e, newRecipe) => {
-    if(newRecipe.title && newRecipe.ingredients && newRecipe.text && newRecipe.category){
-        menuService.createItem('recipes', newRecipe);
-    } else {
+    console.log(newRecipe)
+    if(!newRecipe.title || !newRecipe.text || !newRecipe.category){
         e.preventDefault();
         dispatch(errorAddingNewRecipe())
+    } else {
+        menuService.createItem('recipes', newRecipe);
     }
-    
 }
 
 const onAddedToMenu = (menuService, dispatch) => (recipe, category, user) =>{
-    console.log(user)
     menuService.getLists('menu')
         .then((data) => {
             const menu ={
