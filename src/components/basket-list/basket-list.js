@@ -7,7 +7,6 @@ import ErrorIndicator from '../error-indicator';
 import { Container, Grid, Button} from '@material-ui/core';
 import BasketListItem from '../basket-list-item';
 import ButtonCountIngredients from '../button-count-ingredients';
-import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 import useStyles from './style';
 
@@ -42,7 +41,7 @@ const  BasketListContainer = ({user, loading, error, menu, onDeleteMenu, fetchMe
     useEffect(() => {
         fetchMenu(user)
     }, [fetchMenu, user]);
-
+    
     if(loading){
         return (
             <div style = {{paddingTop: 110}}>
@@ -53,10 +52,6 @@ const  BasketListContainer = ({user, loading, error, menu, onDeleteMenu, fetchMe
 
     if(error){
         return <ErrorIndicator/>
-    }
-
-    if(!user){
-        return <Redirect to="/"/>
     }
 
     return(

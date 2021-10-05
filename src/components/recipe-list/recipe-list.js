@@ -38,17 +38,18 @@ class RecipeListContainer extends Component{
 
     render(){
         const { user, recipes, foundRecipes, loading, error, warning, errorAdding} = this.props;
+        console.log(user)
         
         if(loading){
             return <Spinner/>
         }
+        
+        if(!user){
+            return <Redirect to="/"/>
+        }
 
         if(error){
             return <ErrorIndicator/>
-        }
-
-        if(!user){
-            return <Redirect to="/"/>
         }
 
         if(foundRecipes){
