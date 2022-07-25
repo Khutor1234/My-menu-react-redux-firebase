@@ -1,27 +1,22 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import App from './components/app';
-import ErrorBoundry from './components/error-boundry';
-import MenuService from './services/menu-service.js';
-import {MenuServiceProvider} from './components/menu-service-context';
-import store from './store';
+import { ErrorBoundry } from './components/organisms';
+import { store, persistor } from './store/index';
 import './style.sass';
 
-const menuService = new MenuService();
-
 ReactDOM.render(
-    <Provider store = {store}>
-		<ErrorBoundry>
-			<MenuServiceProvider value = {menuService}>
-				<Router>
-					<App/>
-				</Router>
-			</MenuServiceProvider>
-		</ErrorBoundry>
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ErrorBoundry>
+        <Router>
+          <App />
+        </Router>
+      </ErrorBoundry>
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root')
 );
-

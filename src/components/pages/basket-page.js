@@ -1,14 +1,12 @@
-import BasketList from "../basket-list";
-import Header from '../header'
+import { Header, BasketList } from '../organisms';
 
 const BasketPage = () => {
-    return(
-        <>
-            <Header/>
-            <BasketList/>
-        </>
-       
-    )
-}
+  return (
+    <>
+      <Header />
+      <BasketList />
+    </>
+  );
+};
 
 export default BasketPage;

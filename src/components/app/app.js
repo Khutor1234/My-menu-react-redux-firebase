@@ -1,38 +1,30 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { RecipesPage, BasketPage, LoginPage } from '../pages';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withMenuService } from '../hoc';
-import { fetchAuth} from '../../actions';
-import { compose } from '../../utils';
+import { getUser } from '../../store/actions/user';
 
-class App extends Component{
-	componentDidMount(){
-        this.props.fetchAuth();
-    }
+const App = ({ getUser }) => {
+  useEffect(() => {
+    getUser();
+  });
 
-	render(){
-		return (
-			<div>
-				<Switch>
-					<Route path = '/recipes' component = {RecipesPage} exact />
-					<Route path = '/basket' component = {BasketPage} />
-					<Route path = '/' component = {LoginPage} />
-				</Switch>
-			</div>
-		);
-	}	
-}
+  return (
+    <Switch>
+      <Route path="/recipes" component={RecipesPage} exact />
+      <Route path="/basket" component={BasketPage} />
+      <Route path="/" component={LoginPage} />
+    </Switch>
+  );
+};
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    const {menuService} = ownProps;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getUser,
+    },
+    dispatch
+  );
 
-    return {
-        fetchAuth: fetchAuth(menuService, dispatch)
-    }
-}
-
-export default compose(
-    withMenuService(),
-    connect(null, mapDispatchToProps)
-)(App);
+export default connect(null, mapDispatchToProps)(App);

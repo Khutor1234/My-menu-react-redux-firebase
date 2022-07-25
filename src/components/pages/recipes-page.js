@@ -1,19 +1,14 @@
-import RecipeList from "../recipe-list";
-import Subheader from "../subheader";
-import RecipeCategory from "../recipe-category";
-import Header from '../header'
+import { Header, RecipeCategories, RecipeList, Subheader } from '../organisms';
 
 const RecipesPage = () => {
-
-    return(
-        <div>
-            <Header/>
-            <Subheader/>
-            <RecipeCategory/>
-            <RecipeList />
-        </div>
-        
-    )
-}
+  return (
+    <>
+      <Header search />
+      <Subheader />
+      <RecipeCategories />
+      <RecipeList />
+    </>
+  );
+};
 
 export default RecipesPage;
