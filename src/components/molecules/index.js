@@ -1,4 +1,4 @@
-export { default as DefaultButton } from './DefaultButton';
-export { default as DefaultLink } from './DefaultLink';
-export { default as ErrorIndicator } from './ErrorIndicator';
-export { default as Spinner } from './Spinner';
+export { default as Counter } from './Counter';
+export { default as BasketItem } from './BasketItem';
+export { default as RecipeItem } from './RecipeItem';
+export { default as IngredientsList } from './IngredientsList';

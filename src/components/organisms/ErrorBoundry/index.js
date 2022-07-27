@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { ErrorIndicator } from '../../molecules';
+
+import { ErrorIndicator } from '../../atoms';
 
 export default class ErrorBoundry extends Component {
   state = {

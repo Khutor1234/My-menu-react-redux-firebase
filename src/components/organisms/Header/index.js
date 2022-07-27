@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { logOut } from '../../../store/actions/user';
-import { DefaultLink, DefaultButton } from '../../molecules';
+import { DefaultLink, DefaultButton } from '../../atoms';
 import useStyles from './style';
 
 const Header = ({ onSearch, logOut, search }) => {

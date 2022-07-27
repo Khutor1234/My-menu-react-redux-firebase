@@ -6,8 +6,8 @@ import {
   recipesSelector,
   isRequestSelector,
 } from '../../../store/selectors/recipes';
-import { ErrorIndicator, Spinner } from '../../molecules';
-import { RecipeItem } from '../../organisms';
+import { ErrorIndicator, Spinner } from '../../atoms';
+import { RecipeItem } from '../../molecules';
 import { Warning } from '../../modal';
 import useStyles from './style';
 

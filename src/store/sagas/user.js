@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import { all, takeLatest, take, call, put } from 'redux-saga/effects';
 
 import {

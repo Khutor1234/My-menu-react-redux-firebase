@@ -21,6 +21,7 @@ const configStore = () => {
     persistedReducer,
     composeEnhancer(applyMiddleware(...middleware))
   );
+
   const persistor = persistStore(store);
 
   sagaMiddleware.run(rootSaga);

@@ -6,6 +6,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import App from './components/app';
 import { ErrorBoundry } from './components/organisms';
 import { store, persistor } from './store/index';
+import reportWebVitals from './reportWebVitals';
+
 import './style.sass';
 
 ReactDOM.render(
@@ -20,3 +22,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+reportWebVitals();

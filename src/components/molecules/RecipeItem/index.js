@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { useState } from 'react';
 import { bindActionCreators } from 'redux';
 
+import { DefaultButton } from '../../atoms';
 import { addMenuItem } from '../../../store/actions/menu';
 import useStyles from './style';
 
@@ -45,22 +46,18 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
         );
       case 'recipe':
         return (
-          <Typography
-            className={classes.recipeText}
-            variant="body2"
-            gutterBottom
-          >
+          <Typography className={classes.text} variant="body2" gutterBottom>
             {text}
           </Typography>
         );
       case 'ingred':
         return (
-          <List className={classes.ingridList}>
+          <List className={classes.ingredList}>
             {ingredients.map((item) => {
               const { name, weight, id } = item;
 
               return (
-                <ListItem key={id} className={classes.recipeItem}>
+                <ListItem key={id} className={classes.ingred}>
                   <CheckIcon />
                   <ListItemText primary={name} />
                   <Typography>{weight}г.</Typography>
@@ -77,7 +74,7 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
   return (
     <Card>
       {renderHeader()}
-      <ButtonGroup fullWidth size="small" className={classes.recipeButtons}>
+      <ButtonGroup fullWidth size="small" className={classes.buttons}>
         <Button
           className={classes.button}
           onClick={() => setCondition('ingred')}
@@ -98,10 +95,10 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
         <Typography variant="h5">{title}</Typography>
       </CardContent>
       <CardActions>
-        <FormControl variant="outlined" className={classes.recipeItemForm}>
+        <FormControl variant="outlined" className={classes.form}>
           <InputLabel>Прием еды</InputLabel>
           <Select
-            className={classes.recipeItemSelect}
+            className={classes.select}
             native
             onChange={(e) => changeCategory(e.target.value)}
             label="Прием еды"
@@ -115,22 +112,19 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
             <option value="Ужин">Ужин</option>
           </Select>
         </FormControl>
-        <Button
-          size="large"
-          variant="outlined"
-          className={classes.recipeItemButton}
+        <DefaultButton
+          text="Добавить"
+          appearance="white"
           onClick={() =>
             addMenuItem({
-              category: category,
+              category,
               ingredients,
               img,
               title,
               text,
             })
           }
-        >
-          Добавить
-        </Button>
+        />
       </CardActions>
     </Card>
   );

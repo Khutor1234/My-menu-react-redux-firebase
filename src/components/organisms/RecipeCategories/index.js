@@ -5,7 +5,7 @@ import { Container, Grid } from '@material-ui/core';
 
 import { recipeСategoriesSelector } from '../../../store/selectors/recipes';
 import { getRecipes } from '../../../store/actions/recipes';
-import { DefaultButton } from '../../molecules';
+import { DefaultButton } from '../../atoms';
 import useStyles from './style';
 
 const data = [

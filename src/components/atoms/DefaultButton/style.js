@@ -1,10 +1,20 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: 50,
-  },
   button: {
+    color: '#fff',
+    backgroundColor: 'rgba(0,0,0,.2)',
+  },
+  dark: {
+    backgroundColor: 'rgb(0,0,0)',
+  },
+  white: {
+    flexGrow: 1,
+    height: '50px',
+    color: '#000',
+    backgroundColor: '#fff',
+  },
+  black: {
     display: 'block',
     margin: '0 auto',
     marginTop: 20,
@@ -13,16 +23,7 @@ const useStyles = makeStyles(() => ({
     fontSize: 15,
     backgroundColor: 'rgba(0,0,0,.8)',
     color: '#fff',
-  },
-  basket: {
-    marginTop: 40,
-  },
-  title: {
-    color: '#fff',
-    fontSize: 27,
-  },
-  spinner: {
-    paddingTop: 110,
+    border: '1px solid #000',
   },
 }));
 

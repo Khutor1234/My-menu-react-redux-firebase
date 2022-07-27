@@ -1,7 +1,7 @@
 import { Modal } from '@material-ui/core';
 import { useState } from 'react';
 
-import { DefaultButton } from '../molecules';
+import { DefaultButton } from '../atoms';
 import RecipeForm from '../recipe-form';
 import useStyles from './style';
 

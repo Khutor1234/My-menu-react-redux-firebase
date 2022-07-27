@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import { all, takeLatest, call, put, select } from 'redux-saga/effects';
 
 import { reduxSagaFirebase as rsf, db } from '../../services/firebase';
