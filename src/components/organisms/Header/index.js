@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   AppBar,
   Container,
@@ -11,12 +12,19 @@ import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutline
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { searchRecipes } from '../../../store/actions/recipes';
 import { logOut } from '../../../store/actions/user';
 import { DefaultLink, DefaultButton } from '../../atoms';
 import useStyles from './style';
 
-const Header = ({ onSearch, logOut, search }) => {
+const Header = ({ searchRecipes, logOut, search }) => {
   const classes = useStyles();
+  const [value, setValue] = useState('');
+
+  console.log(value, 'val');
+  useEffect(() => {
+    searchRecipes(value);
+  }, [value]);
 
   return (
     <AppBar position="fixed" className={classes.header}>
@@ -35,15 +43,15 @@ const Header = ({ onSearch, logOut, search }) => {
           {search && (
             <Paper component="form" className={classes.search}>
               <InputBase
-                onChange={(e) => onSearch(e)}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
                 className={classes.searchText}
                 placeholder="Найти"
               />
             </Paper>
           )}
-          <DefaultLink href="/">
-            <DefaultButton onClick={() => logOut()} text="Выйти" />
-          </DefaultLink>
+
+          <DefaultButton onClick={() => logOut()} text="Выйти" />
         </Toolbar>
       </Container>
     </AppBar>
@@ -54,6 +62,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       logOut,
+      searchRecipes,
     },
     dispatch
   );

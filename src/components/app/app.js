@@ -4,21 +4,29 @@ import { RecipesPage, BasketPage, LoginPage } from '../pages';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { userSelector } from '../../store/selectors/user';
 import { getUser } from '../../store/actions/user';
 
-const App = ({ getUser }) => {
+const App = ({ getUser, user }) => {
   useEffect(() => {
     getUser();
   });
 
-  return (
-    <Switch>
-      <Route path="/recipes" component={RecipesPage} exact />
+  const routes = !user ? (
+    <Route path="/" component={LoginPage} />
+  ) : (
+    <>
+      <Route path="/" component={RecipesPage} exact />
       <Route path="/basket" component={BasketPage} />
-      <Route path="/" component={LoginPage} />
-    </Switch>
+    </>
   );
+
+  return <Switch>{routes}</Switch>;
 };
+
+const mapStateToProps = (state) => ({
+  user: userSelector(state),
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -28,4 +36,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

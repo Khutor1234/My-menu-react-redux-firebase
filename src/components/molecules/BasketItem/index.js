@@ -1,11 +1,9 @@
 import { Avatar, Badge, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import useStyles from './style';
 
-const BasketItem = ({ item, onDeleteRecipe }) => {
+const BasketItem = ({ item, removeMenuItem }) => {
   const classes = useStyles();
 
   return (
@@ -30,7 +28,7 @@ const BasketItem = ({ item, onDeleteRecipe }) => {
             className={classes.button}
             aria-label="delete"
             color="secondary"
-            // onClick={() => onDeleteRecipe(item)}
+            onClick={() => removeMenuItem(item.id)}
           >
             <DeleteIcon />
           </IconButton>
@@ -44,14 +42,4 @@ const BasketItem = ({ item, onDeleteRecipe }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
-
-// const mapDispatchToProps = (dispatch) =>
-//   bindActionCreators(
-//     {
-//       addMenuItem,
-//     },
-//     dispatch
-//   );
-
-export default connect(mapStateToProps, null)(BasketItem);
+export default BasketItem;

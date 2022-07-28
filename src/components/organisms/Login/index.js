@@ -11,9 +11,9 @@ import useStyles from './style';
 const Login = ({ logIn, user }) => {
   const classes = useStyles();
 
-  if (user) {
-    return <Redirect to="/recipes" />;
-  }
+  // if (user) {
+  //   return <Redirect to="/recipes" />;
+  // }
 
   return (
     <Paper className={classes.wrapper}>

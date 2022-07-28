@@ -1,19 +1,28 @@
 import { connect } from 'react-redux';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
+import { bindActionCreators } from 'redux';
 
+import { addMenuItem } from '../../../store/actions/menu';
 import {
   errorsSelector,
   recipesSelector,
   isRequestSelector,
+  filteredRecipesSelector,
 } from '../../../store/selectors/recipes';
 import { ErrorIndicator, Spinner } from '../../atoms';
 import { RecipeItem } from '../../molecules';
-import { Warning } from '../../modal';
 import useStyles from './style';
 
-const RecipeList = ({ recipes, loading, error }) => {
+const RecipeList = ({
+  recipes,
+  filteredRecipes,
+  loading,
+  error,
+  addMenuItem,
+}) => {
   const classes = useStyles();
 
+  const recipeItems = filteredRecipes.length > 0 ? filteredRecipes : recipes;
   if (loading) {
     return <Spinner />;
   }
@@ -25,18 +34,24 @@ const RecipeList = ({ recipes, loading, error }) => {
   return (
     <Container>
       <Grid container className={classes.wrapper} spacing={4}>
-        {recipes?.map((recipe) => (
-          <Grid
-            item
-            key={recipe.id}
-            xs={12}
-            sm={6}
-            md={4}
-            className={classes.recipeItem}
-          >
-            <RecipeItem recipe={recipe} />
-          </Grid>
-        ))}
+        {Array.isArray(recipeItems) ? (
+          recipeItems?.map((recipe) => (
+            <Grid
+              item
+              key={recipe.id}
+              xs={12}
+              sm={6}
+              md={4}
+              className={classes.recipeItem}
+            >
+              <RecipeItem addMenuItem={addMenuItem} recipe={recipe} />
+            </Grid>
+          ))
+        ) : (
+          <Typography className={classes.warning}>
+            По запросу {filteredRecipes} нечего не найдено
+          </Typography>
+        )}
       </Grid>
     </Container>
   );
@@ -46,6 +61,15 @@ const mapStateToProps = (state) => ({
   recipes: recipesSelector(state),
   loading: isRequestSelector(state),
   error: errorsSelector(state),
+  filteredRecipes: filteredRecipesSelector(state),
 });
 
-export default connect(mapStateToProps, null)(RecipeList);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addMenuItem,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);

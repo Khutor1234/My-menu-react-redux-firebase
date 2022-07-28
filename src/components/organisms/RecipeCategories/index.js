@@ -16,14 +16,17 @@ const data = [
   {
     id: 2,
     name: 'Завтраки',
+    nameFB: 'Завтрак',
   },
   {
     id: 3,
     name: 'Обеды',
+    nameFB: 'Обед',
   },
   {
     id: 4,
     name: 'Ужины',
+    nameFB: 'Ужин',
   },
 ];
 
@@ -38,7 +41,9 @@ const RecipeCategories = ({ getRecipes, categories }) => {
 
   const selectCategory = (id) => {
     setActive(id);
-    getRecipes();
+    const categoryName =
+      id === 1 ? '' : data?.find((el) => el.id === id)?.nameFB;
+    getRecipes(categoryName);
   };
 
   return (

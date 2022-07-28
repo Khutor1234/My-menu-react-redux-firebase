@@ -76,7 +76,36 @@ function* addMenuItemSaga({
   }
 }
 
+function* removeMenuItemSaga({
+  payload: { id, successCallback, failureCallback },
+}) {
+  try {
+    yield call(rsf.firestore.deleteDocument, `menu/${id}`);
+
+    yield put({
+      type: MENU.REMOVE_MENU_ITEM_SUCCESS,
+      payload: {
+        id: id,
+      },
+    });
+
+    successCallback && successCallback();
+  } catch (err) {
+    yield put({
+      type: MENU.REMOVE_MENU_ITEM_FAILURE,
+      payload: {
+        errors: {
+          status: err?.response?.status,
+          message: err?.response?.data?.message,
+        },
+      },
+    });
+    failureCallback && failureCallback(err);
+  }
+}
+
 export default function* root() {
   yield all([takeLatest(MENU.ADD_MENU_ITEM, addMenuItemSaga)]);
   yield all([takeLatest(MENU.GET_MENU, getMenuSaga)]);
+  yield all([takeLatest(MENU.REMOVE_MENU_ITEM, removeMenuItemSaga)]);
 }

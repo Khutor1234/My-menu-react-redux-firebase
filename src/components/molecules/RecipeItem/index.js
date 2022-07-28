@@ -14,12 +14,9 @@ import {
   ButtonGroup,
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
-import { connect } from 'react-redux';
 import { useState } from 'react';
-import { bindActionCreators } from 'redux';
 
 import { DefaultButton } from '../../atoms';
-import { addMenuItem } from '../../../store/actions/menu';
 import useStyles from './style';
 
 const RecipeItem = ({ recipe, addMenuItem }) => {
@@ -28,9 +25,18 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
 
   const [condition, setCondition] = useState('img');
   const [category, setCategory] = useState('');
+  const [warning, setWarning] = useState(null);
 
-  const changeCategory = (value) => {
-    setCategory(value);
+  const checkAdding = () => {
+    !category
+      ? setWarning('Добавте время прийома еды')
+      : addMenuItem({
+          category,
+          ingredients,
+          img,
+          title,
+          text,
+        });
   };
 
   const renderHeader = () => {
@@ -100,7 +106,10 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
           <Select
             className={classes.select}
             native
-            onChange={(e) => changeCategory(e.target.value)}
+            onChange={(e) => {
+              setWarning(null);
+              setCategory(e.target.value);
+            }}
             label="Прием еды"
             inputProps={{
               id: 'outlined-age-native-simple',
@@ -115,29 +124,14 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
         <DefaultButton
           text="Добавить"
           appearance="white"
-          onClick={() =>
-            addMenuItem({
-              category,
-              ingredients,
-              img,
-              title,
-              text,
-            })
-          }
+          onClick={checkAdding}
         />
       </CardActions>
+      {warning && (
+        <Typography className={classes.warning}>{warning}</Typography>
+      )}
     </Card>
   );
 };
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      addMenuItem,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeItem);
+export default RecipeItem;

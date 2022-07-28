@@ -1,11 +1,24 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
 
-import { reduxSagaFirebase as rsf } from '../../services/firebase';
+import { reduxSagaFirebase as rsf, db } from '../../services/firebase';
 import { RECIPES } from '../types';
 
-function* getRecipesSaga({ payload: { successCallback, failureCallback } }) {
+function* getRecipesSaga({
+  payload: { category, successCallback, failureCallback },
+}) {
   try {
-    const snapshot = yield call(rsf.firestore.getCollection, 'recipes');
+    let snapshot;
+    if (category) {
+      let menuRef = db.collection('recipes');
+
+      snapshot = yield call([
+        menuRef.where('category', '==', category),
+        menuRef.get,
+      ]);
+    } else {
+      snapshot = yield call(rsf.firestore.getCollection, 'recipes');
+    }
+
     let recipes = [];
     snapshot.forEach((user) => {
       recipes = [...recipes, { ...user.data(), id: user.id }];

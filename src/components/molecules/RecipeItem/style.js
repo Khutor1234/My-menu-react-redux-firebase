@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     height: '50px',
     color: '#000',
   },
+  warning: {
+    color: 'red',
+    textAlign: 'center',
+  },
 }));
 
 export default useStyles;

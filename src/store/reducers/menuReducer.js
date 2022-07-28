@@ -38,4 +38,18 @@ export default injectReducer(initialState.menuReducer, {
     isRequest: false,
     errors: errors,
   }),
+
+  [MENU.REMOVE_MENU_ITEM]: (state) => ({
+    ...state,
+    errors: null,
+  }),
+  [MENU.REMOVE_MENU_ITEM_SUCCESS]: (state, { payload: { id } }) => ({
+    ...state,
+    menu: state?.menu?.filter((el) => el?.id !== id),
+    errors: null,
+  }),
+  [MENU.REMOVE_MENU_ITEM_FAILURE]: (state, { payload: { errors } }) => ({
+    ...state,
+    errors: errors,
+  }),
 });

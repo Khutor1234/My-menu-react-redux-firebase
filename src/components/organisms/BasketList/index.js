@@ -7,7 +7,7 @@ import { Spinner, ErrorIndicator, DefaultButton } from '../../atoms';
 import { Counter, IngredientsList } from '../../molecules';
 import { BasketItem } from '../../molecules';
 import { countIngredients } from '../../../utils';
-import { getMenu } from '../../../store/actions/menu';
+import { getMenu, removeMenuItem } from '../../../store/actions/menu';
 import { menuSelector } from '../../../store/selectors/menu';
 import {
   errorsSelector,
@@ -16,7 +16,7 @@ import {
 
 import useStyles from './style';
 
-const BasketList = ({ onDeleteMenu, loading, error, getMenu, menu }) => {
+const BasketList = ({ removeMenuItem, loading, error, getMenu, menu }) => {
   const classes = useStyles();
   const [value, setValue] = useState(1);
   const [ingred, setIngred] = useState([]);
@@ -64,19 +64,19 @@ const BasketList = ({ onDeleteMenu, loading, error, getMenu, menu }) => {
                   <Grid item>
                     <BasketItem
                       item={breakfast[day]}
-                      // onDeleteRecipe={() => onDeleteRecipe(breakfast[day])}
+                      removeMenuItem={removeMenuItem}
                     />
                   </Grid>
                   <Grid item>
                     <BasketItem
                       item={lunch[day]}
-                      // onDeleteRecipe={() => onDeleteRecipe(lunch[day])}
+                      removeMenuItem={removeMenuItem}
                     />
                   </Grid>
                   <Grid item>
                     <BasketItem
                       item={diner[day]}
-                      // onDeleteRecipe={() => onDeleteRecipe(diner[day])}
+                      removeMenuItem={removeMenuItem}
                     />
                   </Grid>
                 </Grid>
@@ -110,6 +110,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       getMenu,
+      removeMenuItem,
     },
     dispatch
   );
