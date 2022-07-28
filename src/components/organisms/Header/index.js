@@ -31,7 +31,7 @@ const Header = ({ searchRecipes, logOut, search }) => {
       <Container fixed>
         <Toolbar>
           <Breadcrumbs className={classes.label}>
-            <DefaultLink href="/recipes">
+            <DefaultLink href="/">
               <HomeIcon className={classes.icon} />
               Рецепты
             </DefaultLink>

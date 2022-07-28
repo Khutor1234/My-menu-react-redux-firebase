@@ -46,6 +46,35 @@ function* getRecipesSaga({
   }
 }
 
+function* addRecipeItemSaga({
+  payload: { data, successCallback, failureCallback },
+}) {
+  try {
+    yield call(rsf.firestore.addDocument, 'recipes', data);
+
+    yield put({
+      type: RECIPES.ADD_RECIPE_ITEM_SUCCESS,
+      payload: {
+        response: data,
+      },
+    });
+
+    successCallback && successCallback();
+  } catch (err) {
+    yield put({
+      type: RECIPES.ADD_RECIPE_ITEM_FAILURE,
+      payload: {
+        errors: {
+          status: err?.response?.status,
+          message: err?.response?.data?.message,
+        },
+      },
+    });
+    failureCallback && failureCallback(err);
+  }
+}
+
 export default function* root() {
   yield all([takeLatest(RECIPES.GET_RECIPES, getRecipesSaga)]);
+  yield all([takeLatest(RECIPES.ADD_RECIPE_ITEM, addRecipeItemSaga)]);
 }

@@ -1,5 +1,3 @@
-import compose from './compose';
-
 const countIngredients = (menu, value, setIngred) => {
   const allIngredients = [];
 
@@ -32,4 +30,4 @@ const countIngredients = (menu, value, setIngred) => {
   setIngred(ingridients);
 };
 
-export { compose, countIngredients };
+export { countIngredients };

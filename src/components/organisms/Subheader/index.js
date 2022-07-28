@@ -1,10 +1,14 @@
 import { Container, Typography, Paper, Grid } from '@material-ui/core';
+import { useState } from 'react';
 
-import { AddNewRecipeModal } from '../../modal';
+// import { AddNewRecipeModal } from '../../modal';
+import { DefaultButton } from '../../atoms';
+import { RecipeModal } from '../index';
 import useStyles from './style';
 
 const Subheader = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
   return (
     <Paper
@@ -28,7 +32,13 @@ const Subheader = () => {
               </Typography>
               <Grid container>
                 <Grid item>
-                  <AddNewRecipeModal />
+                  <DefaultButton
+                    appearance="active"
+                    className={classes.button}
+                    text="Добавить новый рецепт"
+                    onClick={() => setOpen(true)}
+                  />
+                  <RecipeModal open={open} onClose={() => setOpen(false)} />
                 </Grid>
               </Grid>
             </div>
