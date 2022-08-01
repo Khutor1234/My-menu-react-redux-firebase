@@ -1,9 +1,8 @@
 import { Container, Typography, Paper, Grid } from '@material-ui/core';
 import { useState } from 'react';
 
-// import { AddNewRecipeModal } from '../../modal';
 import { DefaultButton } from '../../atoms';
-import { RecipeModal } from '../index';
+import { RecipeModal } from '../../organisms';
 import useStyles from './style';
 
 const Subheader = () => {

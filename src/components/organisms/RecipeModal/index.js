@@ -11,16 +11,25 @@ import {
   Grid,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { addRecipeItem } from '../../../store/actions/recipes';
 import { DefaultButton } from '../../atoms';
 import { SmallIngredientsList } from '../../molecules';
+import { addRecipeItem, editRecipe } from '../../../store/actions/recipes';
+import { recipesSelector } from '../../../store/selectors/recipes';
 import useStyles from './style';
 
-const RecipeModal = ({ open, onClose, id, addRecipeItem, updateRecipe }) => {
+const RecipeModal = ({
+  recipes,
+  open,
+  id,
+  onClose,
+  addRecipeItem,
+  editRecipe,
+}) => {
   const classes = useStyles();
 
   const [name, setName] = useState('');
@@ -36,31 +45,46 @@ const RecipeModal = ({ open, onClose, id, addRecipeItem, updateRecipe }) => {
     setError(false);
   }, [name, img, ingredName, ingredWeight, time, text]);
 
+  useEffect(() => {
+    if (id && recipes.length > 0) {
+      const recipe = recipes.find((el) => el.id === id);
+      const { text, title, img, ingredients, category } = recipe;
+      setText(text);
+      setImg(img);
+      setTime(category);
+      setName(title);
+      setIngredients(ingredients);
+    }
+  }, [id]);
+
   const deleteIngred = (id) => {
     setIngredients(ingredients.filter((el) => el.id !== id));
   };
 
-  const addToRecipe = () => {
-    console.log({
-      category: time,
-      img: img,
-      ingredients: ingredients,
-      text: text,
-      title: name,
-    });
+  const updateRecipe = () => {
+    if (!img || !name || !time || !text) {
+      setError(true);
+      return;
+    }
 
-    // if (!!img || !!name || !!time || !!text) {
-    //   setError(true);
-    //   return;
-    // }
+    id
+      ? editRecipe(id, {
+          category: time,
+          img: img,
+          ingredients: ingredients,
+          text: text,
+          title: name,
+        })
+      : addRecipeItem({
+          category: time,
+          img: img,
+          ingredients: ingredients,
+          text: text,
+          title: name,
+        });
 
-    addRecipeItem({
-      category: time,
-      img: img,
-      ingredients: ingredients,
-      text: text,
-      title: name,
-    });
+    onClose();
+    setError(false);
   };
 
   const addIngredient = () => {
@@ -104,12 +128,18 @@ const RecipeModal = ({ open, onClose, id, addRecipeItem, updateRecipe }) => {
               />
             </Grid>
             <Grid item sm={4}>
-              <Avatar
-                variant="square"
-                alt="Remy Sharp"
-                src="https://upload.wikimedia.org/wikipedia/commons/a/af/Bonsai_IMG_6426.jpg"
-                className={classes.recipeImg}
-              />
+              {img ? (
+                <Avatar
+                  variant="square"
+                  alt="Remy Sharp"
+                  src={img}
+                  className={classes.recipeImg}
+                />
+              ) : (
+                <div className={classes.imgWrapper}>
+                  <AddAPhotoIcon />
+                </div>
+              )}
             </Grid>
           </Grid>
 
@@ -181,8 +211,8 @@ const RecipeModal = ({ open, onClose, id, addRecipeItem, updateRecipe }) => {
           <DefaultButton
             className={classes.button}
             appearance="white"
-            text="Добавить рецепт"
-            onClick={addToRecipe}
+            text={id ? 'Сохранить' : 'Добавить рецепт'}
+            onClick={updateRecipe}
           />
         </form>
       </div>
@@ -190,12 +220,15 @@ const RecipeModal = ({ open, onClose, id, addRecipeItem, updateRecipe }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  recipes: recipesSelector(state),
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       addRecipeItem,
+      editRecipe,
     },
     dispatch
   );

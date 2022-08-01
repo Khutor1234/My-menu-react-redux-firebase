@@ -3,7 +3,7 @@ import { all, takeLatest, call, put, select } from 'redux-saga/effects';
 import { reduxSagaFirebase as rsf, db } from '../../services/firebase';
 import { MENU } from '../types';
 
-function* getMenuSaga({ payload: { successCallback, failureCallback } }) {
+function* getMenuSaga() {
   try {
     const {
       userReducer: {
@@ -29,8 +29,6 @@ function* getMenuSaga({ payload: { successCallback, failureCallback } }) {
         response: menu,
       },
     });
-
-    successCallback && successCallback();
   } catch (err) {
     yield put({
       type: MENU.GET_MENU_FAILURE,
@@ -41,13 +39,10 @@ function* getMenuSaga({ payload: { successCallback, failureCallback } }) {
         },
       },
     });
-    failureCallback && failureCallback(err);
   }
 }
 
-function* addMenuItemSaga({
-  payload: { data, successCallback, failureCallback },
-}) {
+function* addMenuItemSaga({ payload: { data } }) {
   try {
     const {
       userReducer: {
@@ -60,8 +55,6 @@ function* addMenuItemSaga({
     yield put({
       type: MENU.ADD_MENU_ITEM_SUCCESS,
     });
-
-    successCallback && successCallback();
   } catch (err) {
     yield put({
       type: MENU.ADD_MENU_ITEM_FAILURE,
@@ -72,13 +65,10 @@ function* addMenuItemSaga({
         },
       },
     });
-    failureCallback && failureCallback(err);
   }
 }
 
-function* removeMenuItemSaga({
-  payload: { id, successCallback, failureCallback },
-}) {
+function* removeMenuItemSaga({ payload: { id } }) {
   try {
     yield call(rsf.firestore.deleteDocument, `menu/${id}`);
 
@@ -88,8 +78,6 @@ function* removeMenuItemSaga({
         id: id,
       },
     });
-
-    successCallback && successCallback();
   } catch (err) {
     yield put({
       type: MENU.REMOVE_MENU_ITEM_FAILURE,
@@ -100,7 +88,39 @@ function* removeMenuItemSaga({
         },
       },
     });
-    failureCallback && failureCallback(err);
+  }
+}
+
+function* deleteMenuSaga() {
+  try {
+    const {
+      userReducer: {
+        user: { email },
+      },
+    } = yield select();
+
+    let menuRef = db.collection('menu');
+
+    const snapshot = yield call([
+      menuRef.where('user', '==', email),
+      menuRef.get,
+    ]);
+
+    snapshot.forEach((el) => el.ref.delete());
+
+    yield put({
+      type: MENU.DELETE_MENU_SUCCESS,
+    });
+  } catch (err) {
+    yield put({
+      type: MENU.DELETE_MENU_FAILURE,
+      payload: {
+        errors: {
+          status: err?.response?.status,
+          message: err?.response?.data?.message,
+        },
+      },
+    });
   }
 }
 
@@ -108,4 +128,5 @@ export default function* root() {
   yield all([takeLatest(MENU.ADD_MENU_ITEM, addMenuItemSaga)]);
   yield all([takeLatest(MENU.GET_MENU, getMenuSaga)]);
   yield all([takeLatest(MENU.REMOVE_MENU_ITEM, removeMenuItemSaga)]);
+  yield all([takeLatest(MENU.DELETE_MENU, deleteMenuSaga)]);
 }

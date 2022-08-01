@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Grid } from '@material-ui/core';
 
-import { recipeСategoriesSelector } from '../../../store/selectors/recipes';
-import { getRecipes } from '../../../store/actions/recipes';
 import { DefaultButton } from '../../atoms';
+import { getRecipes } from '../../../store/actions/recipes';
 import useStyles from './style';
 
 const data = [
@@ -30,7 +29,7 @@ const data = [
   },
 ];
 
-const RecipeCategories = ({ getRecipes, categories }) => {
+const RecipeCategories = ({ getRecipes }) => {
   const classes = useStyles();
 
   const [active, setActive] = useState(1);
@@ -63,10 +62,6 @@ const RecipeCategories = ({ getRecipes, categories }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  categories: recipeСategoriesSelector(state),
-});
-
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
@@ -75,4 +70,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeCategories);
+export default connect(null, mapDispatchToProps)(RecipeCategories);

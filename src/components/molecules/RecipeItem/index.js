@@ -12,20 +12,27 @@ import {
   ListItemText,
   Button,
   ButtonGroup,
+  IconButton,
+  Grid,
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import { useState } from 'react';
 
+import { RecipeModal } from '../../organisms';
 import { DefaultButton } from '../../atoms';
 import useStyles from './style';
 
-const RecipeItem = ({ recipe, addMenuItem }) => {
+const RecipeItem = ({ recipe, addMenuItem, deleteRecipeItem, email }) => {
   const classes = useStyles();
-  const { text, title, img, ingredients } = recipe;
+  const { text, title, img, ingredients, id } = recipe;
 
   const [condition, setCondition] = useState('img');
   const [category, setCategory] = useState('');
   const [warning, setWarning] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [modalId, setModalId] = useState(null);
 
   const checkAdding = () => {
     !category
@@ -98,7 +105,26 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
         </Button>
       </ButtonGroup>
       <CardContent>
-        <Typography variant="h5">{title}</Typography>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item xs={7}>
+            <Typography variant="h5">{title}</Typography>
+          </Grid>
+          {email === 'khutornaalexandra@gmail.com' && (
+            <Grid item xs="auto">
+              <IconButton onClick={() => deleteRecipeItem(id)}>
+                <DeleteIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setOpen(true);
+                  setModalId(id);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </Grid>
+          )}
+        </Grid>
       </CardContent>
       <CardActions>
         <FormControl variant="outlined" className={classes.form}>
@@ -127,9 +153,12 @@ const RecipeItem = ({ recipe, addMenuItem }) => {
           onClick={checkAdding}
         />
       </CardActions>
+
       {warning && (
         <Typography className={classes.warning}>{warning}</Typography>
       )}
+
+      <RecipeModal id={modalId} open={open} onClose={() => setOpen(false)} />
     </Card>
   );
 };

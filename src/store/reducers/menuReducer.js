@@ -52,4 +52,21 @@ export default injectReducer(initialState.menuReducer, {
     ...state,
     errors: errors,
   }),
+
+  [MENU.DELETE_MENU]: (state) => ({
+    ...state,
+    isRequest: true,
+    errors: null,
+  }),
+  [MENU.DELETE_MENU_SUCCESS]: (state) => ({
+    ...state,
+    isRequest: false,
+    menu: [],
+    errors: null,
+  }),
+  [MENU.DELETE_MENU_FAILURE]: (state, { payload: { errors } }) => ({
+    ...state,
+    isRequest: false,
+    errors: errors,
+  }),
 });

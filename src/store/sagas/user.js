@@ -6,7 +6,7 @@ import {
 } from '../../services/firebase';
 import { USER } from '../types';
 
-function* getUserSaga({ payload: { successCallback, failureCallback } }) {
+function* getUserSaga() {
   try {
     const authChannel = yield call(rsf.auth.channel);
 
@@ -20,8 +20,6 @@ function* getUserSaga({ payload: { successCallback, failureCallback } }) {
             response: user,
           },
         });
-
-        successCallback && successCallback();
       } else {
         yield put({
           type: USER.GET_USER_SUCCESS,
@@ -29,8 +27,6 @@ function* getUserSaga({ payload: { successCallback, failureCallback } }) {
             response: null,
           },
         });
-
-        successCallback && successCallback();
       }
     }
   } catch (err) {
@@ -43,12 +39,10 @@ function* getUserSaga({ payload: { successCallback, failureCallback } }) {
         },
       },
     });
-
-    failureCallback && failureCallback(err);
   }
 }
 
-function* logInSaga({ payload: { successCallback, failureCallback } }) {
+function* logInSaga() {
   try {
     const response = yield call(rsf.auth.signInWithPopup, ap);
 
@@ -58,8 +52,6 @@ function* logInSaga({ payload: { successCallback, failureCallback } }) {
         response,
       },
     });
-
-    successCallback && successCallback();
   } catch (err) {
     yield put({
       type: USER.LOG_IN_FAILURE,
@@ -70,20 +62,16 @@ function* logInSaga({ payload: { successCallback, failureCallback } }) {
         },
       },
     });
-
-    failureCallback && failureCallback(err);
   }
 }
 
-function* logOutSaga({ payload: { successCallback, failureCallback } }) {
+function* logOutSaga() {
   try {
     yield call(rsf.auth.signOut, ap);
 
     yield put({
       type: USER.LOG_OUT_SUCCESS,
     });
-
-    successCallback && successCallback();
   } catch (err) {
     yield put({
       type: USER.LOG_OUT_FAILURE,
@@ -94,8 +82,6 @@ function* logOutSaga({ payload: { successCallback, failureCallback } }) {
         },
       },
     });
-
-    failureCallback && failureCallback(err);
   }
 }
 

@@ -12,16 +12,15 @@ import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutline
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { DefaultLink, DefaultButton } from '../../atoms';
 import { searchRecipes } from '../../../store/actions/recipes';
 import { logOut } from '../../../store/actions/user';
-import { DefaultLink, DefaultButton } from '../../atoms';
 import useStyles from './style';
 
 const Header = ({ searchRecipes, logOut, search }) => {
   const classes = useStyles();
   const [value, setValue] = useState('');
 
-  console.log(value, 'val');
   useEffect(() => {
     searchRecipes(value);
   }, [value]);

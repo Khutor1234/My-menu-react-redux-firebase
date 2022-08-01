@@ -80,6 +80,13 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: 130,
   },
+  imgWrapper: {
+    width: '100%',
+    height: 130,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
   error: {
     color: 'red',

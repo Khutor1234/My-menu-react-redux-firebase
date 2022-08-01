@@ -3,27 +3,36 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Spinner, ErrorIndicator, DefaultButton } from '../../atoms';
-import { Counter, IngredientsList } from '../../molecules';
-import { BasketItem } from '../../molecules';
 import { countIngredients } from '../../../utils';
-import { getMenu, removeMenuItem } from '../../../store/actions/menu';
-import { menuSelector } from '../../../store/selectors/menu';
+import { Spinner, ErrorIndicator, DefaultButton } from '../../atoms';
+import { Counter, IngredientsList, BasketItem } from '../../molecules';
 import {
+  getMenu,
+  removeMenuItem,
+  deleteMenu,
+} from '../../../store/actions/menu';
+import {
+  menuSelector,
   errorsSelector,
   isRequestSelector,
 } from '../../../store/selectors/menu';
-
 import useStyles from './style';
 
-const BasketList = ({ removeMenuItem, loading, error, getMenu, menu }) => {
+const BasketList = ({
+  loading,
+  error,
+  menu,
+  removeMenuItem,
+  getMenu,
+  deleteMenu,
+}) => {
   const classes = useStyles();
   const [value, setValue] = useState(1);
   const [ingred, setIngred] = useState([]);
 
   useEffect(() => {
     getMenu();
-  }, []);
+  });
 
   const days = [0, 1, 2, 3, 4, 5, 6];
   const breakfast = menu?.filter((item) => item.category === 'Завтрак') || [];
@@ -88,7 +97,7 @@ const BasketList = ({ removeMenuItem, loading, error, getMenu, menu }) => {
       <DefaultButton
         text="Удалить это меню"
         appearance="black"
-        onClick={() => {}}
+        onClick={() => deleteMenu()}
       />
       <Counter
         value={value}
@@ -111,6 +120,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       getMenu,
       removeMenuItem,
+      deleteMenu,
     },
     dispatch
   );

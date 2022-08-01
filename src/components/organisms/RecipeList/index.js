@@ -2,15 +2,17 @@ import { connect } from 'react-redux';
 import { Container, Grid, Typography } from '@material-ui/core';
 import { bindActionCreators } from 'redux';
 
+import { ErrorIndicator, Spinner } from '../../atoms';
+import { RecipeItem } from '../../molecules';
 import { addMenuItem } from '../../../store/actions/menu';
+import { deleteRecipeItem } from '../../../store/actions/recipes';
 import {
   errorsSelector,
   recipesSelector,
   isRequestSelector,
   filteredRecipesSelector,
 } from '../../../store/selectors/recipes';
-import { ErrorIndicator, Spinner } from '../../atoms';
-import { RecipeItem } from '../../molecules';
+import { userSelector } from '../../../store/selectors/user';
 import useStyles from './style';
 
 const RecipeList = ({
@@ -19,10 +21,14 @@ const RecipeList = ({
   loading,
   error,
   addMenuItem,
+  user,
+  deleteRecipeItem,
 }) => {
   const classes = useStyles();
 
-  const recipeItems = filteredRecipes.length > 0 ? filteredRecipes : recipes;
+  let recipeItems =
+    filteredRecipes && filteredRecipes.length > 0 ? filteredRecipes : recipes;
+
   if (loading) {
     return <Spinner />;
   }
@@ -44,7 +50,12 @@ const RecipeList = ({
               md={4}
               className={classes.recipeItem}
             >
-              <RecipeItem addMenuItem={addMenuItem} recipe={recipe} />
+              <RecipeItem
+                deleteRecipeItem={deleteRecipeItem}
+                addMenuItem={addMenuItem}
+                recipe={recipe}
+                email={user?.email}
+              />
             </Grid>
           ))
         ) : (
@@ -62,12 +73,14 @@ const mapStateToProps = (state) => ({
   loading: isRequestSelector(state),
   error: errorsSelector(state),
   filteredRecipes: filteredRecipesSelector(state),
+  user: userSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       addMenuItem,
+      deleteRecipeItem,
     },
     dispatch
   );
