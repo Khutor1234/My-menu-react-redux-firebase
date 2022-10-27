@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Grid, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
