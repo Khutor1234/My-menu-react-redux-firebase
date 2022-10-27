@@ -34,7 +34,7 @@ const BasketItem = ({ item, removeMenuItem }) => {
           </IconButton>
         </Badge>
       ) : (
-        <Badge className={classes.badge}>
+        <Badge overlap="rectangular" className={classes.badge}>
           <Avatar className={classes.avatar}>Не выбрано</Avatar>
         </Badge>
       )}

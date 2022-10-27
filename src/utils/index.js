@@ -5,7 +5,7 @@ const countIngredients = (menu, value, setIngred) => {
     allIngredients.push(...menu[i].ingredients);
   }
 
-  const uniqueIngredients = allIngredients.filter(
+  const uniqueIngredients = allIngredients?.filter(
     (
       (set) => (item) =>
         !set.has(item.name) && set.add(item.name)

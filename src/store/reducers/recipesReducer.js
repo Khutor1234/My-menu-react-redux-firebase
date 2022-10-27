@@ -26,7 +26,7 @@ export default injectReducer(initialState.recipesReducer, {
   }),
 
   [RECIPES.SEARCH_RECIPES]: (state, { payload: { text } }) => {
-    const filteredRecipes = state.recipes.filter((el) => {
+    const filteredRecipes = state?.recipes?.filter((el) => {
       return el.title.toLowerCase().indexOf(text.toLowerCase()) !== -1;
     });
     return {
@@ -70,7 +70,7 @@ export default injectReducer(initialState.recipesReducer, {
     isRequest: false,
     recipes: [
       { ...data, id: id },
-      ...state.recipes.filter((el) => el.id !== id),
+      ...state.recipes?.filter((el) => el.id !== id),
     ],
     errors: null,
   }),
@@ -96,7 +96,7 @@ export default injectReducer(initialState.recipesReducer, {
   ) => ({
     ...state,
     isRequest: false,
-    recipes: state.recipes.filter((el) => el.id !== id),
+    recipes: state?.recipes?.filter((el) => el.id !== id),
     errors: null,
   }),
   [RECIPES.DELETE_RECIPE_ITEM_FAILURE]: (state, { payload: { errors } }) => ({

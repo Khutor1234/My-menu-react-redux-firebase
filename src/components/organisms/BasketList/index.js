@@ -32,7 +32,7 @@ const BasketList = ({
 
   useEffect(() => {
     getMenu();
-  });
+  }, []);
 
   const days = [0, 1, 2, 3, 4, 5, 6];
   const breakfast = menu?.filter((item) => item.category === 'Завтрак') || [];
