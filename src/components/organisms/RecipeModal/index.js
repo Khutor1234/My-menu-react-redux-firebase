@@ -55,7 +55,7 @@ const RecipeModal = ({
       setName(title);
       setIngredients(ingredients);
     }
-  }, [id]);
+  }, [id, recipes]);
 
   const deleteIngred = (id) => {
     setIngredients(ingredients?.filter((el) => el.id !== id));
